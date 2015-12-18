@@ -1,1 +1,1 @@
-My config files for i3wm environment
+config files for i3wm environment
