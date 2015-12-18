@@ -217,7 +217,8 @@ exec --no-startup-id urxvtd -q -f -o
 exec --no-startup-id xset -dpms
 exec --no-startup-id xset s off
 exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 181818'
-exec --no-startup-id hsetroot -solid '#7a7a7a'
+# exec --no-startup-id hsetroot -solid '#7a7a7a'
+exec --no-startup-id hsetroot -solid '#988f80'
 exec --no-startup-id compton --backend glx --config ~/.compton.conf
 
 # sets border colors
