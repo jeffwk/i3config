@@ -1,0 +1,4 @@
+Source Code Pro patched with Font Awesome and more
+
+Source:
+https://github.com/ryanoasis/nerd-fonts

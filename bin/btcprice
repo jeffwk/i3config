@@ -1,0 +1,36 @@
+#!/usr/bin/python3
+
+from urllib.request import urlopen
+import json
+import time
+from os.path import expanduser
+
+def fetchprice():
+    r = urlopen('https://www.bitstamp.net/api/ticker/')
+    j = json.loads(r.read().decode(encoding='UTF-8'))
+    p = round(float(j['last']))
+    t = round(time.time())
+    o = {'price':p, 'time':t}
+    f = open(expanduser('~/.btcprice'),'w')
+    f.write( json.dumps(o) )
+    f.close()
+    return p
+
+def getcachedprice():
+    try:
+        f = open(expanduser('~/.btcprice'),'r')
+        s = f.read()
+        f.close()
+        j = json.loads(s)
+        t = round(time.time())
+        if t < j['time'] + 30:
+            return j['price']
+        else:
+            return None
+    except:
+        return None
+
+p = getcachedprice()
+if p is None:
+    p = fetchprice()
+print(p,end="")

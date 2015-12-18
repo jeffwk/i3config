@@ -1,0 +1,55 @@
+!Moe
+#define t_background        #303030
+#define t_current_line      #101010
+#define t_selection      	#505050
+#define t_foreground      	#c6c6c6
+#define t_comment	     	#8a8a8a
+#define t_red		     	#ef2929
+#define t_red_bright		#ff4b4b
+#define t_orange	     	#ff5d17
+#define t_yellow        	#ffd700
+#define t_green	        	#5faf00
+#define t_green_bright		#a1db00
+#define t_aqua	        	#77ddff
+#define t_aqua_bright        	#77ddff
+#define t_blue	        	#33a8e8
+#define t_blue_bright        	#0088ff
+#define t_purple        	#9a08ff
+#define t_magenta_bright	#ff1f8b
+
+
+*.foreground:   t_foreground
+*.background:   t_background
+*.cursorColor:  #d8d8d8
+
+! Black / Grey
+*.color0:       #000000
+*.color8:       t_comment
+
+! Red / Bright Red
+*.color1:       t_red
+*.color9:       t_red_bright
+
+! Green + Bright Green
+*.color2:       t_green
+*.color10:      t_green_bright
+
+! Yellow (Orange) + Bright Yellow (Yellow)
+*.color3:       t_orange
+*.color11:      t_yellow
+
+! Blue + Bright Blue
+*.color4:       t_blue
+*.color12:      t_blue_bright
+
+! Magenta (Purple) + Bright Magenta
+*.color5:       t_purple
+*.color13:      t_magenta_bright
+
+! Cyan (Aqua) + Bright Cyan
+*.color6:       t_aqua
+*.color14:      t_aqua_bright
+
+! Light Grey (Selection) + White (Current Line)
+*.color7:       t_selection
+*.color15:      t_current_line
