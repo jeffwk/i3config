@@ -11,14 +11,15 @@ override_utf8_locale yes
 cpu_avg_samples 2
 
 TEXT
-   ${cpu cpu0}%     ||     \
-   ${hwmon 0 temp 1}°     ||     \
-   ${diskio_read}   ${diskio_write}      ||     \
-   ${downspeedf wlp4s0}K  ${upspeedf wlp4s0}K      ||     \
-   ${mem} / ${memmax}     ||     \
-   ${fs_used} / ${fs_size}     ||     \
-   ${execpi 30 btcprice}     ||     \
-   ${exec amixer get Master | grep -oE '[[:digit:]]*%' | head -n1 }     ||     \
-   ${execpi 120 check-packages.sh}     ||     \
-   ${time %a %b %d}     ||     \
+   ${cpu cpu0}%    ||    \
+   ${hwmon 0 temp 1}°    ||    \
+   ${diskio_read}   ${diskio_write}     ||    \
+   ${downspeedf wlp4s0}K  ${upspeedf wlp4s0}K     ||    \
+   ${mem} / ${memmax}    ||    \
+   ${fs_used} / ${fs_size}    ||    \
+   ${execpi 30 btcprice}    ||    \
+   ${exec amixer get Master | grep -oE '[[:digit:]]*%' | head -n1 }    ||    \
+   ${battery_percent}%    ||    \
+   ${execpi 120 check-packages.sh}    ||    \
+   ${time %a %b %d}    ||    \
    ${time %_I:%M %p}  
