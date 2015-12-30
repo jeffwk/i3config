@@ -203,14 +203,14 @@ bar {
     # inactive_workspace #ebdbb2 #ebdbb2 #777777
     # urgent_workspace #ebdbb2 #ebdbb2 #c81178
 
-    background #303030
+    background #282828
     # statusline #22aaff
-    statusline #a1db00
+    statusline #ebdbb2
     # statusline #77ddff
-    focused_workspace #a1db00 #a1db00 #303030
-    active_workspace #a1db00 #a1db00 #303030
-    inactive_workspace #303030 #303030 #a1db00
-    urgent_workspace #303030 #303030 #c81178
+    focused_workspace #282828 #282828 #ebdbb2
+    active_workspace #282828 #282828 #ebdbb2
+    inactive_workspace #282828 #282828 #8f7f6f
+    urgent_workspace #282828 #282828 #c81178
 }
 }
 
@@ -238,9 +238,9 @@ exec --no-startup-id compton --backend glx --config ~/.compton.conf
 # client.focused_inactive #303030 #303030 #22aaff #c6c6c6
 # client.unfocused #303030 #303030 #22aaff #c6c6c6
 
-client.focused #808080 #808080 #aaaaaa #aaaaaa
-client.focused_inactive #303030 #303030 #aaaaaa #aaaaaa
-client.unfocused #303030 #303030 #aaaaaa #aaaaaa
+client.focused #9f8f7f #9f8f7f #aaaaaa #aaaaaa
+client.focused_inactive #282828 #282828 #aaaaaa #aaaaaa
+client.unfocused #282828 #282828 #aaaaaa #aaaaaa
 
 # sets border width
 new_window pixel 1
