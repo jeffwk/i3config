@@ -190,26 +190,13 @@ bar {
     # separator_symbol " | "
     strip_workspace_numbers yes
     colors {
-        # background #1f1f1f
-	# background #303030
-    
-    #background #282828
-    #statusline #ebdbb2
-
-    # background #ebdbb2
-    # statusline #282828
-    # focused_workspace #ebdbb2 #ebdbb2 #000000
-    # active_workspace #ebdbb2 #ebdbb2 #000000
-    # inactive_workspace #ebdbb2 #ebdbb2 #777777
-    # urgent_workspace #ebdbb2 #ebdbb2 #c81178
-
     background #303030
-    # statusline #22aaff
-    statusline #a1db00
-    # statusline #77ddff
-    focused_workspace #a1db00 #a1db00 #303030
-    active_workspace #a1db00 #a1db00 #303030
-    inactive_workspace #303030 #303030 #a1db00
+    statusline #0098bf
+    # focused_workspace #0078af #0078af #eeeeee
+    # active_workspace #0078af #0078af #eeeeee
+    focused_workspace #303030 #303030 #0098bf
+    active_workspace #303030 #303030 #0098bf
+    inactive_workspace #303030 #303030 #205f70
     urgent_workspace #303030 #303030 #c81178
 }
 }
