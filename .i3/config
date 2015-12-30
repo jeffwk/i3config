@@ -44,9 +44,9 @@ bindsym Control+q kill
 # bindsym $mod+p exec --no-startup-id dmenu_run -fn 'Droid Sans Mono:pixelsize=17'
 
 # start rofi run (a program launcher)
-# bindsym $mod+p exec --no-startup-id rofi -show run -font "inconsolata 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-bindsym $mod+p exec --no-startup-id rofi -show run -font "dejavu sans mono 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -font "dejavu sans mono 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+# bindsym $mod+p exec --no-startup-id rofi -show run -font "inconsolata medium 14" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+bindsym $mod+p exec --no-startup-id rofi -show run -font "dejavu sans mono medium 11" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -font "dejavu sans mono medium 11" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
 # bindsym $mod+p exec --no-startup-id rofi -show run -font "source code pro 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -196,13 +196,22 @@ bar {
     #background #282828
     #statusline #ebdbb2
 
-    background #ebdbb2
-    statusline #282828
-    focused_workspace #ebdbb2 #ebdbb2 #000000
-    active_workspace #ebdbb2 #ebdbb2 #000000
-    inactive_workspace #ebdbb2 #ebdbb2 #777777
-    urgent_workspace #ebdbb2 #ebdbb2 #c81178
-    }
+    # background #ebdbb2
+    # statusline #282828
+    # focused_workspace #ebdbb2 #ebdbb2 #000000
+    # active_workspace #ebdbb2 #ebdbb2 #000000
+    # inactive_workspace #ebdbb2 #ebdbb2 #777777
+    # urgent_workspace #ebdbb2 #ebdbb2 #c81178
+
+    background #303030
+    # statusline #22aaff
+    statusline #a1db00
+    # statusline #77ddff
+    focused_workspace #a1db00 #a1db00 #303030
+    active_workspace #a1db00 #a1db00 #303030
+    inactive_workspace #303030 #303030 #a1db00
+    urgent_workspace #303030 #303030 #c81178
+}
 }
 
 # exec --no-startup-id dex -e GNOME -a
@@ -230,9 +239,15 @@ exec --no-startup-id compton --backend glx --config ~/.compton.conf
 
 # client.focused #bbab94 #bbab94 #000000 #888888
 # client.focused #ebdbb2 #282828 #ebdbb2 #282828
-client.focused #ebdbb2 #ebdbb2 #282828 #8f8f8f
-client.focused_inactive #282828 #282828 #ebdbb2 #8f8f8f
-client.unfocused #282828 #282828 #ebdbb2 #8f8f8f
+
+# client.focused #ebdbb2 #ebdbb2 #282828 #8f8f8f
+# client.focused_inactive #282828 #282828 #ebdbb2 #8f8f8f
+# client.unfocused #282828 #282828 #ebdbb2 #8f8f8f
+
+# client.focused #5abbff #5abbff #282828 #bbbbbb
+client.focused #22aaff #22aaff #303030 #c6c6c6
+client.focused_inactive #303030 #303030 #22aaff #c6c6c6
+client.unfocused #303030 #303030 #22aaff #c6c6c6
 
 # sets border width
 new_window pixel 2

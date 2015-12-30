@@ -1,6 +1,6 @@
 !Moe
-! #define t_background        #303030 ! original color
-#define t_background        #393735
+#define t_background        #303030
+! #define t_background        #393735
 #define t_current_line      #101010
 #define t_selection      	#505050
 #define t_foreground      	#c6c6c6
