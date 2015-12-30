@@ -226,31 +226,24 @@ exec --no-startup-id urxvtd -q -f -o
 exec --no-startup-id xset -dpms
 exec --no-startup-id xset s off
 exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 181818'
-# exec --no-startup-id hsetroot -solid '#7a7a7a'
-exec --no-startup-id hsetroot -solid '#988f80'
+# exec --no-startup-id hsetroot -solid '#988f80'
+exec --no-startup-id hsetroot -solid '#222222'
 exec --no-startup-id compton --backend glx --config ~/.compton.conf
 
 # sets border colors
 # client.focused  #000000 #d4d4d4 #000000
 # client.unfocused  #000000 #555555 #000000
 
-# client.focused #ebdbb2 #ebdbb2 #000000 #83a598
-# client.focused #c8b89f #c8b89f #000000 #888888
+# client.focused #22aaff #22aaff #303030 #c6c6c6
+# client.focused_inactive #303030 #303030 #22aaff #c6c6c6
+# client.unfocused #303030 #303030 #22aaff #c6c6c6
 
-# client.focused #bbab94 #bbab94 #000000 #888888
-# client.focused #ebdbb2 #282828 #ebdbb2 #282828
-
-# client.focused #ebdbb2 #ebdbb2 #282828 #8f8f8f
-# client.focused_inactive #282828 #282828 #ebdbb2 #8f8f8f
-# client.unfocused #282828 #282828 #ebdbb2 #8f8f8f
-
-# client.focused #5abbff #5abbff #282828 #bbbbbb
-client.focused #22aaff #22aaff #303030 #c6c6c6
-client.focused_inactive #303030 #303030 #22aaff #c6c6c6
-client.unfocused #303030 #303030 #22aaff #c6c6c6
+client.focused #808080 #808080 #aaaaaa #aaaaaa
+client.focused_inactive #303030 #303030 #aaaaaa #aaaaaa
+client.unfocused #303030 #303030 #aaaaaa #aaaaaa
 
 # sets border width
-new_window pixel 2
+new_window pixel 1
 # for_window [class="^.*"] border pixel 0
 
 set $default_gaps_inner 20
