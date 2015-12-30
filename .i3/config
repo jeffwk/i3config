@@ -45,8 +45,8 @@ bindsym Control+q kill
 
 # start rofi run (a program launcher)
 # bindsym $mod+p exec --no-startup-id rofi -show run -font "inconsolata 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-bindsym $mod+p exec --no-startup-id rofi -show run -font "dejavu sans mono 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -font "dejavu sans mono 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+bindsym $mod+p exec --no-startup-id rofi -show run -font "dejavu sans mono 14" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -font "dejavu sans mono 14" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
 # bindsym $mod+p exec --no-startup-id rofi -show run -font "source code pro 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -178,9 +178,10 @@ bar {
     status_command conky -c $HOME/.i3/conky/conkyrc
     mode dock
     position top
+    tray_output none
     # font pango:Sauce Code Pro Medium 11
     # font pango:Liberation Sans, FontAwesome Semibold 10
-    font pango:Lato, FontAwesome Medium 10
+    font pango:Lato, FontAwesome Medium 14
     
     # font pango:Droid Sans Mono Medium 11
     # font pango:Liberation Mono Semibold 14
