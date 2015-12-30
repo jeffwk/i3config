@@ -180,7 +180,7 @@ bar {
     position top
     # font pango:Sauce Code Pro Medium 11
     # font pango:Liberation Sans, FontAwesome Semibold 10
-    font pango:Lato, FontAwesome Semibold 10
+    font pango:Lato, FontAwesome Medium 10
     
     # font pango:Droid Sans Mono Medium 11
     # font pango:Liberation Mono Semibold 14
