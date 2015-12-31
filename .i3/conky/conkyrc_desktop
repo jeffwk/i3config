@@ -2,6 +2,7 @@ background no
 out_to_x no
 own_window no
 out_to_console yes
+max_text_width 0
 update_interval 2
 total_run_times 0
 use_spacer none
@@ -10,16 +11,20 @@ use_spacer left
 override_utf8_locale yes
 cpu_avg_samples 2
 
+#      
+
+# { "full_text" : "    ", "color" : "\#ffd700"}
 TEXT
-  \
-   ${cpu cpu0}%        \
-   ${hwmon 1 temp 1}°        \
-   ${diskio_read}   ${diskio_write}         \
-   ${downspeedf eno1}K  ${upspeedf eno1}K         \
-   ${mem} / ${memmax}        \
-   ${fs_used} / ${fs_size}        \
-   ${execpi 30 btcprice}        \
-   ${exec amixer get Master | grep -oE '[[:digit:]]*%' | head -n1 }        \
-   ${execpi 120 check-packages.sh}        \
-   ${time %a %b %d}        \
-   ${time %_I:%M %p}  
+[
+ { "full_text" : "   ${cpu cpu0}%", "color" : "\#a1db00"},
+ { "full_text" : "   ${hwmon 1 temp 1}°", "color" : "\#ff5d17"},
+ { "full_text" : "   ${mem} / ${memmax}", "color" : "\#ffd700"},
+ { "full_text" : "   ${diskio_read}   ${diskio_write} ", "color" : "\#22ccff"},
+ { "full_text" : "   ${downspeedf eno1}K  ${upspeedf eno1}K ", "color" : "\#2290ff"},
+ { "full_text" : "   ${fs_used} / ${fs_size}", "color" : "\#ff1f8b"},
+ { "full_text" : "   ${execpi 30 btcprice}", "color" : "\#a1db00"},
+ { "full_text" : "   ${exec amixer get Master | grep -oE '[[:digit:]]*%' | head -n1 }", "color" : "\#ff5d17"},
+ { "full_text" : "   ${execpi 120 check-packages.sh}", "color" : "\#22ccff"},
+ { "full_text" : "   ${time %a %b %d}", "color" : "\#2290ff"},
+ { "full_text" : "   ${time %_I:%M %p}", "color" : "\#ff1f8b"}
+ ],
