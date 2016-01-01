@@ -194,9 +194,9 @@ bar {
     # separator #ffd700
     # focused_workspace #0078af #0078af #eeeeee
     # active_workspace #0078af #0078af #eeeeee
-    focused_workspace #303030 #303030 #22ccff
-    active_workspace #303030 #303030 #22ccff
-    inactive_workspace #303030 #303030 #205f70
+    focused_workspace #303030 #303030 #a1db00
+    active_workspace #303030 #303030 #a1db00
+    inactive_workspace #303030 #303030 #587733
     urgent_workspace #303030 #303030 #c81178
 }
 }
