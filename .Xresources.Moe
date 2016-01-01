@@ -11,7 +11,7 @@
 #define t_yellow        	#ffd700
 #define t_green	        	#5faf00
 #define t_green_bright		#a1db00
-#define t_aqua	        	#77ddff
+#define t_aqua	        	#33a8e8
 #define t_aqua_bright        	#77ddff
 #define t_blue	        	#33a8e8
 #define t_blue_bright        	#0088ff

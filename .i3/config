@@ -191,12 +191,13 @@ bar {
     colors {
     background #303030
     statusline #0098bf
-    # separator #ffd700
+    separator #666666
     # focused_workspace #0078af #0078af #eeeeee
     # active_workspace #0078af #0078af #eeeeee
     focused_workspace #303030 #303030 #a1db00
     active_workspace #303030 #303030 #a1db00
-    inactive_workspace #303030 #303030 #587733
+    # inactive_workspace #303030 #303030 #587733
+    inactive_workspace #303030 #303030 #666666
     urgent_workspace #303030 #303030 #c81178
 }
 }
@@ -233,7 +234,7 @@ client.unfocused #303030 #303030 #aaaaaa #aaaaaa
 new_window pixel 1
 # for_window [class="^.*"] border pixel 0
 
-set $default_gaps_inner 20
+set $default_gaps_inner 28
 set $default_gaps_outer 6
 
 gaps inner $default_gaps_inner
