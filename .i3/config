@@ -19,7 +19,7 @@ set $mod Mod1
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 # font pango:DejaVu Sans Mono 8
 # font pango:Droid Sans Mono 8
-font pango:Sauce Code Pro Semibold 11
+font pango:Sauce Code Pro Medium 11
 # font pango:Ubuntu Mono 10
 
 # Before i3 v4.8, we used to recommend this one as the default:
@@ -45,8 +45,8 @@ bindsym Control+q kill
 
 # start rofi run (a program launcher)
 # bindsym $mod+p exec --no-startup-id rofi -show run -font "inconsolata medium 14" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-bindsym $mod+p exec --no-startup-id rofi -show run -font "dejavu sans mono medium 14" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -font "dejavu sans mono medium 14" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+bindsym $mod+p exec --no-startup-id rofi -show run -font "dejavu sans mono medium 17" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -font "dejavu sans mono medium 17" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
 # bindsym $mod+p exec --no-startup-id rofi -show run -font "source code pro 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -178,28 +178,28 @@ bar {
     status_command ~/bin/i3conky.sh
     mode dock
     position top
-    # font pango:Source Code Pro, FontAwesome Bold 16
-    # font pango:Liberation Sans, FontAwesome Semibold 10
-    font pango:Lato, FontAwesome Semibold 10
+    # font pango:Source Code Pro, FontAwesome Medium 11
+    # font pango:Sauce Code Pro Medium 12
+    # font pango:Liberation Sans, FontAwesome 11
+    font pango:Lato, FontAwesome 11
     
-    # font pango:Droid Sans Mono, FontAwesome Semibold 15
-    # font pango:Liberation Mono, FontAwesome Semibold 15
+    # font pango:Droid Sans Mono, FontAwesome Medium 11
+    # font pango:Liberation Mono, FontAwesome 11
     # font pango:DejaVu Sans Mono, FontAwesome Semibold 16
-    # font pango:Inconsolata, FontAwesome Semibold 18
+    # font pango:Inconsolata, FontAwesome Semibold 12
     separator_symbol "  "
     strip_workspace_numbers yes
     colors {
-    background #303030
-    statusline #0098bf
-    separator #666666
-    # focused_workspace #0078af #0078af #eeeeee
-    # active_workspace #0078af #0078af #eeeeee
-    focused_workspace #303030 #303030 #a1db00
-    active_workspace #303030 #303030 #a1db00
-    # inactive_workspace #303030 #303030 #587733
-    inactive_workspace #303030 #303030 #666666
-    urgent_workspace #303030 #303030 #c81178
-}
+    background #1d1f21
+    # background #ebdbb2
+    statusline #c5c8c6
+    # statusline #282828
+    separator #969896
+    focused_workspace #1d1f21 #1d1f21 #c5c8c6
+    active_workspace #1d1f21 #1d1f21 #c5c8c6
+    inactive_workspace #1d1f21 #1d1f21 #666666
+    urgent_workspace #1d1f21 #1d1f21 #c81178
+    }
 }
 
 # exec --no-startup-id dex -e GNOME -a
@@ -215,7 +215,7 @@ exec --no-startup-id xset -dpms
 exec --no-startup-id xset s off
 exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 181818'
 # exec --no-startup-id hsetroot -solid '#988f80'
-exec --no-startup-id hsetroot -solid '#222222'
+exec --no-startup-id hsetroot -solid '#181818'
 exec --no-startup-id compton --backend glx --config ~/.compton.conf
 
 # sets border colors
@@ -226,9 +226,13 @@ exec --no-startup-id compton --backend glx --config ~/.compton.conf
 # client.focused_inactive #303030 #303030 #22aaff #c6c6c6
 # client.unfocused #303030 #303030 #22aaff #c6c6c6
 
-client.focused #808080 #808080 #aaaaaa #aaaaaa
-client.focused_inactive #303030 #303030 #aaaaaa #aaaaaa
-client.unfocused #303030 #303030 #aaaaaa #aaaaaa
+# client.focused #808080 #808080 #aaaaaa #aaaaaa
+# client.focused_inactive #303030 #303030 #aaaaaa #aaaaaa
+# client.unfocused #303030 #303030 #aaaaaa #aaaaaa
+
+client.focused #969896 #969896 #1d1f21 #8f8f8f
+client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #8f8f8f
+client.unfocused #1d1f21 #1d1f21 #c5c8c6 #8f8f8f
 
 # sets border width
 new_window pixel 1

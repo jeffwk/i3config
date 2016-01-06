@@ -16,16 +16,16 @@ cpu_avg_samples 2
 # { "full_text" : "    ", "color" : "\#ffd700"}
 TEXT
 [
- { "full_text" : "   ${cpu cpu0}%", "color" : "\#a1db00"},
- { "full_text" : "   ${hwmon 0 temp 1}°", "color" : "\#ff5d17"},
- { "full_text" : "   ${mem} / ${memmax}", "color" : "\#ffd700"},
- { "full_text" : "   ${diskio_read}   ${diskio_write} ", "color" : "\#22ccff"},
- { "full_text" : "   ${downspeedf wlp4s0}K  ${upspeedf wlp4s0}K ", "color" : "\#2290ff"},
- { "full_text" : "   ${fs_used} / ${fs_size}", "color" : "\#c552ff"},
- { "full_text" : "   ${execpi 30 btcprice}", "color" : "\#a1db00"},
- { "full_text" : "   ${exec amixer get Master | grep -oE '[[:digit:]]*%' | head -n1 }", "color" : "\#ff5d17"},
- { "full_text" : "   ${battery_percent}%", "color" : "\#ffd700"},
- { "full_text" : "   ${execpi 120 check-packages.sh}", "color" : "\#22ccff"},
- { "full_text" : "   ${time %a %b %d}", "color" : "\#2290ff"},
- { "full_text" : "   ${time %_I:%M %p}", "color" : "\#c552ff"}
+ { "full_text" : "   ${cpu cpu0}%", "color" : "\#b5bd68"},
+ { "full_text" : "   ${hwmon 0 temp 1}°", "color" : "\#de935f"},
+ { "full_text" : "   ${mem} / ${memmax}", "color" : "\#f0c674"},
+ { "full_text" : "   ${diskio_read}   ${diskio_write} ", "color" : "\#8abeb7"},
+ { "full_text" : "   ${downspeedf wlp4s0}K  ${upspeedf wlp4s0}K ", "color" : "\#81a2be"},
+ { "full_text" : "   ${fs_used} / ${fs_size}", "color" : "\#b294bb"},
+ { "full_text" : "   ${execpi 30 btcprice}", "color" : "\#b5bd68"},
+ { "full_text" : "   ${exec amixer get Master | grep -oE '[[:digit:]]*%' | head -n1 }", "color" : "\#de935f"},
+ { "full_text" : "   ${battery_percent}%", "color" : "\#f0c674"},
+ { "full_text" : "   ${execpi 120 check-packages.sh}", "color" : "\#8abeb7"},
+ { "full_text" : "   ${time %a %b %d}", "color" : "\#81a2be"},
+ { "full_text" : "   ${time %_I:%M %p}", "color" : "\#b294bb"}
  ],

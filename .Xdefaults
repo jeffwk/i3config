@@ -9,9 +9,9 @@ URxvt.internalBorder:  6
 
 !! select font
 ! URxvt*font: xft:DejaVu Sans Mono:pixelsize=17
-! URxvt*font: xft:Droid Sans Mono:pixelsize=17
-! URxvt*font: xft:Inconsolata:pixelsize=20
+! URxvt*font: xft:Droid Sans Mono:pixelsize=22
+! URxvt*font: xft:Inconsolata:pixelsize=27
 ! URxvt*font: xft:Source Code Pro Semibold:pixelsize=15,FontAwesome
-URxvt*font: xft:Sauce Code Pro Semibold:pixelsize=15
+URxvt*font: xft:Sauce Code Pro Medium:pixelsize=25
 ! URxvt*font: xft:Ubuntu Mono:pixelsize=20
 ! URxvt*font: xft:Monaco:pixelsize=17
