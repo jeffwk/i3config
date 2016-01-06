@@ -179,8 +179,8 @@ bar {
     mode dock
     position top
     # font pango:Source Code Pro, FontAwesome Bold 16
-    font pango:Liberation Sans, FontAwesome Semibold 15
-    # font pango:Lato, FontAwesome Semibold 15
+    # font pango:Liberation Sans, FontAwesome Semibold 10
+    font pango:Lato, FontAwesome Semibold 10
     
     # font pango:Droid Sans Mono, FontAwesome Semibold 15
     # font pango:Liberation Mono, FontAwesome Semibold 15
