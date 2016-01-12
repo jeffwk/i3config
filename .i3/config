@@ -178,10 +178,10 @@ bar {
     status_command ~/bin/i3conky.sh
     mode dock
     position top
-    # font pango:Source Code Pro, FontAwesome Medium 11
+    font pango:Source Code Pro, FontAwesome Medium 11
     # font pango:Sauce Code Pro Medium 12
     # font pango:Liberation Sans, FontAwesome 11
-    font pango:Lato, FontAwesome 11
+    # font pango:Lato, FontAwesome 11
     
     # font pango:Droid Sans Mono, FontAwesome Medium 11
     # font pango:Liberation Mono, FontAwesome 11
@@ -217,6 +217,7 @@ exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 181818'
 # exec --no-startup-id hsetroot -solid '#988f80'
 exec --no-startup-id hsetroot -solid '#181818'
 exec --no-startup-id compton --backend glx --config ~/.compton.conf
+exec --no-startup-id emacs-reload
 
 # sets border colors
 # client.focused  #000000 #d4d4d4 #000000
