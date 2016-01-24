@@ -178,15 +178,16 @@ bar {
     status_command ~/bin/i3conky.sh
     mode dock
     position top
-    font pango:Source Code Pro, FontAwesome Semibold 14
+
+    font pango:Source Code Pro, FontAwesome Medium 11
     # font pango:Sauce Code Pro Medium 12
     # font pango:Liberation Sans, FontAwesome 11
-    # font pango:Lato, FontAwesome 14
-    
+    # font pango:Lato, FontAwesome 11
     # font pango:Droid Sans Mono, FontAwesome Medium 11
     # font pango:Liberation Mono, FontAwesome 11
     # font pango:DejaVu Sans Mono, FontAwesome Semibold 16
     # font pango:Inconsolata, FontAwesome Semibold 12
+
     separator_symbol "  "
     strip_workspace_numbers yes
     colors {
@@ -217,6 +218,7 @@ exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 080808'
 # exec --no-startup-id hsetroot -solid '#988f80'
 exec --no-startup-id hsetroot -solid '#181818'
 exec --no-startup-id compton --backend glx --config ~/.compton.conf
+exec --no-startup-id emacs-reload
 
 # sets border colors
 # client.focused  #000000 #d4d4d4 #000000
@@ -230,9 +232,9 @@ exec --no-startup-id compton --backend glx --config ~/.compton.conf
 # client.focused_inactive #303030 #303030 #aaaaaa #aaaaaa
 # client.unfocused #303030 #303030 #aaaaaa #aaaaaa
 
-client.focused #808080 #808080 #1d1f21 #8f8f8f
-client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #8f8f8f
-client.unfocused #1d1f21 #1d1f21 #c5c8c6 #8f8f8f
+client.focused #969896 #969896 #1d1f21 #585858
+client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #585858
+client.unfocused #1d1f21 #1d1f21 #c5c8c6 #585858
 
 # sets border width
 new_window pixel 1
