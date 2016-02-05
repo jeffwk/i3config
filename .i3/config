@@ -212,9 +212,11 @@ exec --no-startup-id urxvtd -q -f -o
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
 # exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
 # exec --no-startup-id xset m
-exec --no-startup-id xset -dpms
-exec --no-startup-id xset s off
-exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 181818'
+# exec --no-startup-id xset -dpms
+# exec --no-startup-id xset s off
+exec --no-startup-id xset s on +dpms
+exec --no-startup-id xset s 1200 1200
+exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 101010'
 # exec --no-startup-id hsetroot -solid '#988f80'
 exec --no-startup-id hsetroot -solid '#222222'
 exec --no-startup-id compton
