@@ -164,8 +164,18 @@ mode $resize {
 
 bindsym $mod+r mode $resize
 
-bindsym $mod+Control+Up exec --no-startup-id ~/bin/volume-up.sh
-bindsym $mod+Control+Down exec --no-startup-id ~/bin/volume-down.sh
+bindsym $mod+Control+Up exec --no-startup-id pamixer -i 3
+bindsym $mod+Control+Down exec --no-startup-id pamixer -d 3
+bindsym $mod+Control+m exec --no-startup-id pamixer -t
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 1
+bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 1
+bindsym XF86AudioMute exec --no-startup-id pamixer -t
+
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioStop exec --no-startup-id playerctl stop
 
 bindsym $mod+Control+l exec --no-startup-id xautolock -locknow
 
@@ -208,6 +218,7 @@ bar {
 # exec --no-startup-id dex /etc/xdg/autostart/pulseaudio.desktop
 exec --no-startup-id start-pulseaudio-x11
 exec --no-startup-id xrdb -merge ~/.Xresources
+exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id urxvtd -q -f -o
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
 # exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
