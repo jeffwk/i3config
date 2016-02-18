@@ -2,6 +2,11 @@ URxvt.iso14755: false
 URxvt*scrollBar: false
 URxvt.internalBorder:  6
 
+Emacs*toolBar: off
+Emacs*menuBar: off
+Emacs*font: Sauce Code Pro Medium:pixelsize=25
+Emacs*verticalScrollBars: off
+
 !! background transparency
 ! URxvt*depth: 32
 ! URxvt*foreground: white
