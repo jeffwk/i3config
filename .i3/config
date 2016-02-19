@@ -104,7 +104,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+d focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -241,9 +241,9 @@ exec --no-startup-id compton
 # client.focused_inactive #303030 #303030 #22aaff #c6c6c6
 # client.unfocused #303030 #303030 #22aaff #c6c6c6
 
-client.focused #808080 #808080 #aaaaaa #aaaaaa
-client.focused_inactive #303030 #303030 #aaaaaa #aaaaaa
-client.unfocused #303030 #303030 #aaaaaa #aaaaaa
+client.focused #909090 #909090 #000000 #aaaaaa
+client.focused_inactive #707070 #303030 #cccccc #aaaaaa
+client.unfocused #707070 #303030 #cccccc #aaaaaa
 
 # sets border width
 new_window pixel 1
