@@ -4,7 +4,8 @@ URxvt.internalBorder:  6
 
 Emacs*toolBar: off
 Emacs*menuBar: off
-Emacs*font: Sauce Code Pro Medium:pixelsize=25
+! Emacs*font: Sauce Code Pro Medium:pixelsize=25
+Emacs*font: Inconsolata for Powerline:pixelsize=30
 Emacs*verticalScrollBars: off
 
 !! background transparency
