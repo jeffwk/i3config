@@ -44,9 +44,11 @@ bindsym Control+q kill
 # bindsym $mod+p exec --no-startup-id dmenu_run -fn 'Droid Sans Mono:pixelsize=17'
 
 # start rofi run (a program launcher)
-# bindsym $mod+p exec --no-startup-id rofi -show run -font "inconsolata 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-bindsym $mod+p exec --no-startup-id rofi -show run -font "dejavu sans mono 14" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -font "dejavu sans mono 14" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+# bindsym $mod+p exec --no-startup-id rofi -show run -font "inconsolata medium 14" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+bindsym $mod+p exec --no-startup-id rofi -show run -width 1400 -font "dejavu sans mono medium 20" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -width 1400 -font "dejavu sans mono medium 20" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+# bindsym $mod+p exec rofi -show run -lines 10 -eh 2 -width 1600 -padding 10 -opacity "90" -bg "#444444" -fg "#ffffff" -bw 0 -hlfg "#ddddff" -font "inconsolata medium 22"
+# bindsym $mod+shift+p exec sudo rofi -show run -lines 10 -eh 2 -width 1600 -padding 10 -opacity "90" -bg "#444444" -fg "#ffffff" -bw 0 -hlfg "#000000" -font "inconsolata medium 22"
 # bindsym $mod+p exec --no-startup-id rofi -show run -font "source code pro 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -104,7 +106,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+d focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -164,8 +166,22 @@ mode $resize {
 
 bindsym $mod+r mode $resize
 
+# bindsym $mod+Control+Up exec --no-startup-id pamixer -i 3
+# bindsym $mod+Control+Down exec --no-startup-id pamixer -d 3
 bindsym $mod+Control+Up exec --no-startup-id ~/bin/volume-up.sh
 bindsym $mod+Control+Down exec --no-startup-id ~/bin/volume-down.sh
+bindsym $mod+Control+m exec --no-startup-id pamixer -t
+
+#bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 1
+#bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 1
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/bin/volume-up.sh
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/bin/volume-down.sh
+bindsym XF86AudioMute exec --no-startup-id pamixer -t
+
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioStop exec --no-startup-id playerctl stop
 
 bindsym $mod+Control+l exec --no-startup-id xautolock -locknow
 
@@ -175,71 +191,71 @@ bindsym $mod+Control+l exec --no-startup-id xautolock -locknow
 bar {
     # status_command i3blocks
     # status_command py3status
-    status_command conky -c $HOME/.i3/conky/conkyrc
+    status_command ~/bin/i3conky.sh
     mode dock
     position top
-    tray_output none
-    # font pango:Sauce Code Pro Medium 11
+    # font pango:Source Code Pro, FontAwesome Medium 15
     # font pango:Liberation Sans, FontAwesome Semibold 10
-    font pango:Lato, FontAwesome Medium 14
+    font pango:Lato, FontAwesome Semibold 15
     
-    # font pango:Droid Sans Mono Medium 11
-    # font pango:Liberation Mono Semibold 14
-    # font pango:DejaVu Sans Mono 12
-    # font pango:Inconsolata Medium 13
-    # font pango:Droid Sans Mono 15
-    # separator_symbol " | "
+    # font pango:Droid Sans Mono, FontAwesome Semibold 15
+    # font pango:Liberation Mono, FontAwesome Semibold 15
+    # font pango:DejaVu Sans Mono, FontAwesome Semibold 16
+    # font pango:Inconsolata, FontAwesome Semibold 18
+    separator_symbol "  "
     strip_workspace_numbers yes
     colors {
-        # background #1f1f1f
-	# background #303030
-    
-    #background #282828
-    #statusline #ebdbb2
-
-    background #ebdbb2
-    statusline #282828
-    focused_workspace #ebdbb2 #ebdbb2 #000000
-    active_workspace #ebdbb2 #ebdbb2 #000000
-    inactive_workspace #ebdbb2 #ebdbb2 #777777
-    urgent_workspace #ebdbb2 #ebdbb2 #c81178
-    }
+    background #303030
+    statusline #0098bf
+    separator #666666
+    # focused_workspace #0078af #0078af #eeeeee
+    # active_workspace #0078af #0078af #eeeeee
+    focused_workspace #303030 #303030 #a1db00
+    active_workspace #303030 #303030 #a1db00
+    # inactive_workspace #303030 #303030 #587733
+    inactive_workspace #303030 #303030 #666666
+    urgent_workspace #303030 #303030 #c81178
+}
 }
 
 # exec --no-startup-id dex -e GNOME -a
 # exec /usr/lib/gnome-settings-daemon/gnome-settings-daemon
-exec --no-startup-id dex /etc/xdg/autostart/gnome-settings-daemon.desktop
-exec --no-startup-id dex /etc/xdg/autostart/pulseaudio.desktop
-exec --no-startup-id xrdb -load ~/.Xresources
+# exec --no-startup-id dex /etc/xdg/autostart/gnome-settings-daemon.desktop
+# exec --no-startup-id dex /etc/xdg/autostart/pulseaudio.desktop
+exec --no-startup-id start-pulseaudio-x11
+exec --no-startup-id xrdb -merge ~/.Xresources
+exec --no-startup-id xrdb -merge ~/.Xdefaults
+exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id urxvtd -q -f -o
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
 # exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
 # exec --no-startup-id xset m
-exec --no-startup-id xset -dpms
-exec --no-startup-id xset s off
-exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 181818'
-# exec --no-startup-id hsetroot -solid '#7a7a7a'
-exec --no-startup-id hsetroot -solid '#988f80'
-exec --no-startup-id compton --backend glx --config ~/.compton.conf
+# exec --no-startup-id xset -dpms
+# exec --no-startup-id xset s off
+exec --no-startup-id xset s on +dpms
+exec --no-startup-id xset s 1200 1200
+exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 101010'
+# exec --no-startup-id hsetroot -solid '#988f80'
+exec --no-startup-id hsetroot -solid '#222222'
+exec --no-startup-id compton
 
 # sets border colors
 # client.focused  #000000 #d4d4d4 #000000
 # client.unfocused  #000000 #555555 #000000
 
-# client.focused #ebdbb2 #ebdbb2 #000000 #83a598
-# client.focused #c8b89f #c8b89f #000000 #888888
+# client.focused #22aaff #22aaff #303030 #c6c6c6
+# client.focused_inactive #303030 #303030 #22aaff #c6c6c6
+# client.unfocused #303030 #303030 #22aaff #c6c6c6
 
-# client.focused #bbab94 #bbab94 #000000 #888888
-# client.focused #ebdbb2 #282828 #ebdbb2 #282828
-client.focused #ebdbb2 #ebdbb2 #282828 #8f8f8f
-client.focused_inactive #282828 #282828 #ebdbb2 #8f8f8f
-client.unfocused #282828 #282828 #ebdbb2 #8f8f8f
+client.focused #909090 #909090 #000000 #aaaaaa
+client.focused_inactive #707070 #303030 #cccccc #aaaaaa
+client.unfocused #707070 #303030 #cccccc #aaaaaa
 
 # sets border width
-new_window pixel 2
+new_window pixel 1
 # for_window [class="^.*"] border pixel 0
 
-set $default_gaps_inner 20
+set $default_gaps_inner 28
 set $default_gaps_outer 6
 
 gaps inner $default_gaps_inner
