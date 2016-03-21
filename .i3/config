@@ -45,8 +45,12 @@ bindsym Control+q kill
 
 # start rofi run (a program launcher)
 # bindsym $mod+p exec --no-startup-id rofi -show run -font "inconsolata medium 14" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-bindsym $mod+p exec --no-startup-id rofi -show run -font "dejavu sans mono medium 17" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -font "dejavu sans mono medium 17" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+# bindsym $mod+p exec --no-startup-id rofi -show run -font "dejavu sans mono medium 17" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+# bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -font "dejavu sans mono medium 17" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+bindsym $mod+p exec --no-startup-id rofi -show run -width 1400 -font "dejavu sans mono medium 20" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -width 1400 -font "dejavu sans mono medium 20" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+# bindsym $mod+p exec rofi -show run -lines 10 -eh 2 -width 1600 -padding 10 -opacity "90" -bg "#444444" -fg "#ffffff" -bw 0 -hlfg "#ddddff" -font "inconsolata medium 22"
+# bindsym $mod+shift+p exec sudo rofi -show run -lines 10 -eh 2 -width 1600 -padding 10 -opacity "90" -bg "#444444" -fg "#ffffff" -bw 0 -hlfg "#000000" -font "inconsolata medium 22"
 # bindsym $mod+p exec --no-startup-id rofi -show run -font "source code pro 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -104,7 +108,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+d focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -164,8 +168,22 @@ mode $resize {
 
 bindsym $mod+r mode $resize
 
+# bindsym $mod+Control+Up exec --no-startup-id pamixer -i 3
+# bindsym $mod+Control+Down exec --no-startup-id pamixer -d 3
 bindsym $mod+Control+Up exec --no-startup-id ~/bin/volume-up.sh
 bindsym $mod+Control+Down exec --no-startup-id ~/bin/volume-down.sh
+bindsym $mod+Control+m exec --no-startup-id pamixer -t
+
+#bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 1
+#bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 1
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/bin/volume-up.sh
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/bin/volume-down.sh
+bindsym XF86AudioMute exec --no-startup-id pamixer -t
+
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioStop exec --no-startup-id playerctl stop
 
 bindsym $mod+Control+l exec --no-startup-id xautolock -locknow
 
@@ -178,13 +196,12 @@ bar {
     status_command ~/bin/i3conky.sh
     mode dock
     position top
-
-    font pango:Source Code Pro, FontAwesome Medium 11
-    # font pango:Sauce Code Pro Medium 12
-    # font pango:Liberation Sans, FontAwesome 11
-    # font pango:Lato, FontAwesome 11
-    # font pango:Droid Sans Mono, FontAwesome Medium 11
-    # font pango:Liberation Mono, FontAwesome 11
+    # font pango:Source Code Pro, FontAwesome Medium 15
+    # font pango:Liberation Sans, FontAwesome Semibold 10
+    font pango:Lato, FontAwesome Semibold 10
+    
+    # font pango:Droid Sans Mono, FontAwesome Semibold 15
+    # font pango:Liberation Mono, FontAwesome Semibold 15
     # font pango:DejaVu Sans Mono, FontAwesome Semibold 16
     # font pango:Inconsolata, FontAwesome Semibold 12
 
@@ -205,20 +222,24 @@ bar {
 
 # exec --no-startup-id dex -e GNOME -a
 # exec /usr/lib/gnome-settings-daemon/gnome-settings-daemon
-exec --no-startup-id dex /etc/xdg/autostart/gnome-settings-daemon.desktop
-exec --no-startup-id dex /etc/xdg/autostart/pulseaudio.desktop
-exec --no-startup-id xrdb -load ~/.Xresources
+# exec --no-startup-id dex /etc/xdg/autostart/gnome-settings-daemon.desktop
+# exec --no-startup-id dex /etc/xdg/autostart/pulseaudio.desktop
+exec --no-startup-id start-pulseaudio-x11
+exec --no-startup-id xrdb -merge ~/.Xresources
+exec --no-startup-id xrdb -merge ~/.Xdefaults
+exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id urxvtd -q -f -o
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
 # exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
 # exec --no-startup-id xset m
-exec --no-startup-id xset -dpms
-exec --no-startup-id xset s off
+# exec --no-startup-id xset -dpms
+# exec --no-startup-id xset s off
+exec --no-startup-id xset s on +dpms
+exec --no-startup-id xset s 1200 1200
 exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 080808'
 # exec --no-startup-id hsetroot -solid '#988f80'
 exec --no-startup-id hsetroot -solid '#181818'
-exec --no-startup-id compton --backend glx --config ~/.compton.conf
-exec --no-startup-id emacs-reload
+exec --no-startup-id compton
 
 # sets border colors
 # client.focused  #000000 #d4d4d4 #000000

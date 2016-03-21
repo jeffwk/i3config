@@ -3,7 +3,7 @@ out_to_x no
 own_window no
 out_to_console yes
 max_text_width 0
-update_interval 2
+update_interval 1.2
 total_run_times 0
 use_spacer none
 short_units yes
