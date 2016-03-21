@@ -23,7 +23,7 @@ TEXT
  { "full_text" : "   ${downspeedf eno1}K  ${upspeedf eno1}K ", "color" : "\#81a2be"},
  { "full_text" : "   ${fs_used} / ${fs_size}", "color" : "\#b294bb"},
  { "full_text" : "   ${execpi 30 btcprice}", "color" : "\#b5bd68"},
- { "full_text" : "   ${exec amixer get Master | grep -oE '[[:digit:]]*%' | head -n1 }", "color" : "\#de935f"},
+ { "full_text" : "   ${exec amixer -c 0 get Master | grep -oE '[[:digit:]]*%' | head -n1 }", "color" : "\#de935f"},
  { "full_text" : "   ${execpi 120 check-packages.sh}", "color" : "\#8abeb7"},
  { "full_text" : "   ${time %a %b %d}", "color" : "\#81a2be"},
  { "full_text" : "   ${time %_I:%M %p}", "color" : "\#b294bb"}
