@@ -16,8 +16,16 @@ Emacs*verticalScrollBars: off
 !! select font
 ! URxvt*font: xft:DejaVu Sans Mono:pixelsize=17
 ! URxvt*font: xft:Droid Sans Mono:pixelsize=17
-! URxvt*font: xft:Inconsolata:pixelsize=20
+! URxvt*font: xft:Inconsolata:pixelsize=30
+URxvt*font: xft:Inconsolata for Powerline:pixelsize=30
 ! URxvt*font: xft:Source Code Pro Semibold:pixelsize=15,FontAwesome
-URxvt*font: xft:Sauce Code Pro Semibold:pixelsize=15
+! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=25
+! URxvt*font: xft:Input Mono:pixelsize=19
 ! URxvt*font: xft:Ubuntu Mono:pixelsize=20
 ! URxvt*font: xft:Monaco:pixelsize=17
+
+! Xcursor.theme: ArchCursorTheme
+! Xcursor.size: 32
+
+! Xcursor.theme: Adwaita
+! Xcursor.size: 32
