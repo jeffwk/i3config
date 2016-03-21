@@ -45,8 +45,10 @@ bindsym Control+q kill
 
 # start rofi run (a program launcher)
 # bindsym $mod+p exec --no-startup-id rofi -show run -font "inconsolata medium 14" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-bindsym $mod+p exec --no-startup-id rofi -show run -font "dejavu sans mono medium 17" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -font "dejavu sans mono medium 17" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+bindsym $mod+p exec --no-startup-id rofi -show run -width 1400 -font "dejavu sans mono medium 20" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -width 1400 -font "dejavu sans mono medium 20" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
+# bindsym $mod+p exec rofi -show run -lines 10 -eh 2 -width 1600 -padding 10 -opacity "90" -bg "#444444" -fg "#ffffff" -bw 0 -hlfg "#ddddff" -font "inconsolata medium 22"
+# bindsym $mod+shift+p exec sudo rofi -show run -lines 10 -eh 2 -width 1600 -padding 10 -opacity "90" -bg "#444444" -fg "#ffffff" -bw 0 -hlfg "#000000" -font "inconsolata medium 22"
 # bindsym $mod+p exec --no-startup-id rofi -show run -font "source code pro 12" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
