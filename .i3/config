@@ -198,14 +198,14 @@ bar {
     position top
     # font pango:Source Code Pro, FontAwesome Medium 15
     # font pango:Liberation Sans, FontAwesome Semibold 10
-    font pango:Lato, FontAwesome Semibold 10
+    # font pango:Lato, FontAwesome Semibold 10
     
-    # font pango:Droid Sans Mono, FontAwesome Semibold 15
-    # font pango:Liberation Mono, FontAwesome Semibold 15
-    # font pango:DejaVu Sans Mono, FontAwesome Semibold 16
-    # font pango:Inconsolata, FontAwesome Semibold 12
+    # font pango:Droid Sans Mono, FontAwesome Semibold 11
+    # font pango:Liberation Mono, FontAwesome Semibold 13
+    # font pango:DejaVu Sans Mono, FontAwesome Semibold 12
+    font pango:Inconsolata, FontAwesome Semibold 13
 
-    separator_symbol "  "
+    separator_symbol "    "
     strip_workspace_numbers yes
     colors {
     background #1d1f21
@@ -224,9 +224,8 @@ bar {
 # exec /usr/lib/gnome-settings-daemon/gnome-settings-daemon
 # exec --no-startup-id dex /etc/xdg/autostart/gnome-settings-daemon.desktop
 # exec --no-startup-id dex /etc/xdg/autostart/pulseaudio.desktop
-exec --no-startup-id start-pulseaudio-x11
-exec --no-startup-id xrdb -merge ~/.Xresources
-exec --no-startup-id xrdb -merge ~/.Xdefaults
+# exec --no-startup-id start-pulseaudio-x11
+exec --no-startup-id 'xrdb -merge ~/.Xresources; xrdb -merge ~/.Xdefaults'
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id urxvtd -q -f -o
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
