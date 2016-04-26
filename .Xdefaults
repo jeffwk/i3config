@@ -27,3 +27,16 @@ URxvt*font: xft:Inconsolata for Powerline:pixelsize=22
 
 ! Xcursor.theme: Adwaita
 ! Xcursor.size: 32
+
+rofi.color-window: #222222,#eeeeee
+rofi.color-normal: #222222,#eeeeee,#222222,#eeeeee,#222222
+
+rofi.bw: 0
+rofi.font: inconsolata bold 24
+rofi.lines: 12
+rofi.line-margin: 5
+rofi.width: 33
+rofi.padding: 80
+rofi.separator-style: none
+rofi.hide-scrollbar: true
+rofi.opacity: 85

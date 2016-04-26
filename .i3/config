@@ -44,20 +44,8 @@ bindsym Control+q kill
 # bindsym $mod+p exec --no-startup-id dmenu_run -fn 'Droid Sans Mono:pixelsize=17'
 
 # start rofi run (a program launcher)
-# bindsym $mod+p exec --no-startup-id rofi -show run -font "inconsolata medium 14" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-
-# bindsym $mod+p exec --no-startup-id rofi -show run -font "dejavu sans mono medium 17" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-# bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -font "dejavu sans mono medium 17" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-
-## bindsym $mod+p exec --no-startup-id rofi -show run -width 1400 -font "dejavu sans mono medium 20" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-## bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -width 1400 -font "dejavu sans mono medium 20" -fg "#ecedee" -bg "#121212" -hlfg "#95C7AE" -hlbg "#000000" -o 100
-
-# bindsym $mod+p exec rofi -show run -lines 10 -eh 2 -width 1600 -padding 10 -opacity "90" -bg "#444444" -fg "#ffffff" -bw 0 -hlfg "#ddddff" -font "inconsolata medium 22"
-# bindsym $mod+shift+p exec sudo rofi -show run -lines 10 -eh 2 -width 1600 -padding 10 -opacity "90" -bg "#444444" -fg "#ffffff" -bw 0 -hlfg "#000000" -font "inconsolata medium 22"
-
-# bindsym $mod+p exec --no-startup-id rofi -show run -fg "#eeeeee" -bg "#222222" -hlbg "#eeeeee" -hlfg "#222222" -bc "#111111" -location 0 -lines 8 -bw 0 -font "inconsolata bold 22" -padding 600 -separator-style none -opacity 85
-bindsym $mod+p exec --no-startup-id rofi -show run -fg "#eeeeee" -bg "#222222" -hlbg "#eeeeee" -hlfg "#222222" -lines 12 -bw 0 -font "inconsolata bold 24" -line-margin 5 -width 33 -padding 80 -separator-style none -hide-scrollbar -opacity "85"
-bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run -fg "#eeeeee" -bg "#222222" -hlbg "#eeeeee" -hlfg "#222222" -lines 12 -bw 0 -font "inconsolata bold 24" -line-margin 5 -width 33 -padding 80 -separator-style none -hide-scrollbar -opacity "85"
+bindsym $mod+p exec --no-startup-id rofi -show run
+bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
