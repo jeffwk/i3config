@@ -5,20 +5,21 @@ URxvt.internalBorder:  6
 Emacs*toolBar: off
 Emacs*menuBar: off
 ! Emacs*font: Sauce Code Pro Medium:pixelsize=19
-Emacs*font: Inconsolata for Powerline:pixelsize=22
+! Emacs*font: Inconsolata for Powerline:pixelsize=33
+Emacs*font: Sauce Code Pro Medium:pixelsize=30
 Emacs*verticalScrollBars: off
 
 !! background transparency
 ! URxvt*depth: 32
 ! URxvt*foreground: white
-! URxvt*background: rgba:1212/1212/1212/eeee
+! URxvt*background: rgba:1212/1212/1212/aaaa
 
 !! select font
 ! URxvt*font: xft:DejaVu Sans Mono:pixelsize=17
 ! URxvt*font: xft:Droid Sans Mono:pixelsize=17
-URxvt*font: xft:Inconsolata for Powerline:pixelsize=22
+! URxvt*font: xft:Inconsolata for Powerline:pixelsize=33
 ! URxvt*font: xft:Source Code Pro Semibold:pixelsize=15,FontAwesome
-! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=19
+URxvt*font: xft:Sauce Code Pro:pixelsize=30
 ! URxvt*font: xft:Ubuntu Mono:pixelsize=20
 ! URxvt*font: xft:Monaco:pixelsize=17
 
