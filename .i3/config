@@ -205,16 +205,13 @@ bar {
     separator_symbol "    "
     strip_workspace_numbers yes
     colors {
-    background #1d1f21
-    # background #ebdbb2
-    statusline #c5c8c6
-    # statusline #282828
-    # separator #969896
+    background #181818
+    statusline #d8d8d8
     separator #666866
-    focused_workspace #1d1f21 #1d1f21 #c5c8c6
-    active_workspace #1d1f21 #1d1f21 #c5c8c6
-    inactive_workspace #1d1f21 #1d1f21 #666666
-    urgent_workspace #1d1f21 #1d1f21 #c81178
+    focused_workspace #181818 #181818 #d8d8d8
+    active_workspace #181818 #181818 #d8d8d8
+    inactive_workspace #181818 #181818 #666666
+    urgent_workspace #181818 #181818 #c81178
     }
 }
 
@@ -236,30 +233,13 @@ exec --no-startup-id urxvtd -q -f -o
 exec --no-startup-id xset s on +dpms
 exec --no-startup-id xset s 1200 1200
 exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 080808'
-# exec --no-startup-id hsetroot -solid '#988f80'
-# exec --no-startup-id hsetroot -solid '#181818'
-exec --no-startup-id hsetroot -solid '#0d0f12'
+exec --no-startup-id hsetroot -solid '#999999'
 exec --no-startup-id compton
 
 # sets border colors
-# client.focused  #000000 #d4d4d4 #000000
-# client.unfocused  #000000 #555555 #000000
-
-# client.focused #22aaff #22aaff #303030 #c6c6c6
-# client.focused_inactive #303030 #303030 #22aaff #c6c6c6
-# client.unfocused #303030 #303030 #22aaff #c6c6c6
-
-# client.focused #808080 #808080 #aaaaaa #aaaaaa
-# client.focused_inactive #303030 #303030 #aaaaaa #aaaaaa
-# client.unfocused #303030 #303030 #aaaaaa #aaaaaa
-
-# client.focused #969896 #969896 #1d1f21 #585858
-# client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #585858
-# client.unfocused #1d1f21 #1d1f21 #c5c8c6 #585858
-
-client.focused #484a48 #484a48 #1d1f21 #585858
-client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #585858
-client.unfocused #1d1f21 #1d1f21 #c5c8c6 #585858
+client.focused #d8d8d8 #d8d8d8 #181818 #777777
+client.focused_inactive #181818 #181818 #d8d8d8 #777777
+client.unfocused #181818 #181818 #d8d8d8 #777777
 
 # sets border width
 new_window pixel 1
