@@ -17,7 +17,8 @@ cpu_avg_samples 2
 TEXT
 [
  { "full_text" : "   ${cpu cpu0}%", "color" : "\#b5bd68"},
- { "full_text" : "   ${hwmon 2 temp 1}°", "color" : "\#de935f"},
+ # { "full_text" : "   ${hwmon 2 temp 1}°", "color" : "\#de935f"},
+ { "full_text" : "   ${exec cputemp.sh}°", "color" : "\#de935f"}
  { "full_text" : "   ${mem} / ${memmax}", "color" : "\#f0c674"},
  { "full_text" : "   ${diskio_read}   ${diskio_write} ", "color" : "\#8abeb7"},
  { "full_text" : "   ${downspeedf wlp4s0}K  ${upspeedf wlp4s0}K ", "color" : "\#81a2be"},
