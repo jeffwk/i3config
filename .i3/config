@@ -257,7 +257,7 @@ exec --no-startup-id compton
 # client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #585858
 # client.unfocused #1d1f21 #1d1f21 #c5c8c6 #585858
 
-client.focused #484a48 #484a48 #1d1f21 #585858
+client.focused #484a48 #484a48 #e5e8e6 #585858
 client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #585858
 client.unfocused #1d1f21 #1d1f21 #c5c8c6 #585858
 
