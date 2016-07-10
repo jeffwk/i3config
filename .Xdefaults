@@ -19,7 +19,7 @@ Emacs*verticalScrollBars: off
 ! URxvt*font: xft:Droid Sans Mono:pixelsize=17
 ! URxvt*font: xft:Inconsolata for Powerline:pixelsize=33
 ! URxvt*font: xft:Source Code Pro Semibold:pixelsize=15,FontAwesome
-URxvt*font: xft:Sauce Code Pro:pixelsize=30
+URxvt*font: xft:Sauce Code Pro Medium:pixelsize=30
 ! URxvt*font: xft:Ubuntu Mono:pixelsize=20
 ! URxvt*font: xft:Monaco:pixelsize=17
 
