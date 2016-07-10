@@ -200,7 +200,7 @@ bar {
     # font pango:Droid Sans Mono, FontAwesome Semibold 11
     # font pango:Liberation Mono, FontAwesome Semibold 13
     # font pango:DejaVu Sans Mono, FontAwesome Semibold 12
-    font pango:Inconsolata, FontAwesome Semibold 13
+    font pango:Lato, FontAwesome Semibold 9.5
 
     separator_symbol "    "
     strip_workspace_numbers yes
@@ -224,7 +224,7 @@ bar {
 # exec --no-startup-id dex /etc/xdg/autostart/pulseaudio.desktop
 # exec --no-startup-id start-pulseaudio-x11
 # exec --no-startup-id 'xrdb -merge ~/.Xresources; xrdb -merge ~/.Xdefaults'
-exec --no-startup-id xrandr --dpi 162
+exec --no-startup-id xrandr --dpi 142
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
 exec --no-startup-id urxvtd -q -f -o
@@ -240,6 +240,10 @@ exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 080808'
 # exec --no-startup-id hsetroot -solid '#181818'
 exec --no-startup-id hsetroot -solid '#0d0f12'
 exec --no-startup-id compton
+## restart emacs daemons to connect with X for clipboard operations
+exec --no-startup-id emacs-reload
+
+exec --no-startup-id cat /sys/class/backlight/intel_backlight/max_brightness | sudo tee /sys/class/backlight/intel_backlight/brightness
 
 # sets border colors
 # client.focused  #000000 #d4d4d4 #000000
@@ -265,8 +269,8 @@ client.unfocused #1d1f21 #1d1f21 #c5c8c6 #585858
 new_window pixel 1
 # for_window [class="^.*"] border pixel 0
 
-set $default_gaps_inner 28
-set $default_gaps_outer 6
+set $default_gaps_inner 21
+set $default_gaps_outer 0
 
 gaps inner $default_gaps_inner
 gaps outer $default_gaps_outer

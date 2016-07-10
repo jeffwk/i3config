@@ -1,25 +1,29 @@
 URxvt.iso14755: false
 URxvt*scrollBar: false
 URxvt.internalBorder:  6
+URxvt.perl-ext:
+URxvt.perl-ext-common:
 
 Emacs*toolBar: off
 Emacs*menuBar: off
-! Emacs*font: Sauce Code Pro Medium:pixelsize=19
-! Emacs*font: Inconsolata for Powerline:pixelsize=33
-Emacs*font: Sauce Code Pro Medium:pixelsize=30
+Emacs*font: Sauce Code Pro Medium:pixelsize=21
+! Emacs*font: Inconsolata for Powerline:pixelsize=26
+! Emacs*font: Sauce Code Pro Medium:pixelsize=23
 Emacs*verticalScrollBars: off
 
 !! background transparency
 ! URxvt*depth: 32
 ! URxvt*foreground: white
 ! URxvt*background: rgba:1212/1212/1212/aaaa
+! URxvt*background: rgba:1212/1212/1212/8888
 
 !! select font
 ! URxvt*font: xft:DejaVu Sans Mono:pixelsize=17
 ! URxvt*font: xft:Droid Sans Mono:pixelsize=17
-! URxvt*font: xft:Inconsolata for Powerline:pixelsize=33
+! URxvt*font: xft:Inconsolata for Powerline:pixelsize=26
 ! URxvt*font: xft:Source Code Pro Semibold:pixelsize=15,FontAwesome
-URxvt*font: xft:Sauce Code Pro:pixelsize=30
+! URxvt*font: xft:Sauce Code Pro:pixelsize=23
+URxvt*font: xft:Sauce Code Pro Medium:pixelsize=21
 ! URxvt*font: xft:Ubuntu Mono:pixelsize=20
 ! URxvt*font: xft:Monaco:pixelsize=17
 
@@ -36,7 +40,7 @@ rofi.bw: 0
 rofi.font: inconsolata bold 24
 rofi.lines: 12
 rofi.line-margin: 5
-rofi.width: 33
+rofi.width: 45
 rofi.padding: 80
 rofi.separator-style: none
 rofi.hide-scrollbar: true
