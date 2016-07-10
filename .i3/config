@@ -181,7 +181,7 @@ bindsym XF86AudioStop exec --no-startup-id playerctl stop
 
 bindsym $mod+Control+l exec --no-startup-id xautolock -locknow
 
-bindsym $mod+Shift+Control+q exec --no-startup-id toggle-service qemu-win10
+bindsym $mod+Shift+Control+q exec --no-startup-id toggle-qemu win10
 bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -226,6 +226,7 @@ bar {
 # exec --no-startup-id 'xrdb -merge ~/.Xresources; xrdb -merge ~/.Xdefaults'
 exec --no-startup-id xrandr --dpi 142
 exec --no-startup-id xmodmap ~/.Xmodmap
+# exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
 exec --no-startup-id urxvtd -q -f -o
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
@@ -244,6 +245,9 @@ exec --no-startup-id compton
 exec --no-startup-id emacs-reload
 
 exec --no-startup-id cat /sys/class/backlight/intel_backlight/max_brightness | sudo tee /sys/class/backlight/intel_backlight/brightness
+exec --no-startup-id mount /insilica
+exec --no-startup-id systemctl --user start synergys
+exec --no-startup-id sudo systemctl start qemu-win10
 
 # sets border colors
 # client.focused  #000000 #d4d4d4 #000000
