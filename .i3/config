@@ -210,8 +210,8 @@ bar {
     separator #666666
     # focused_workspace #0078af #0078af #eeeeee
     # active_workspace #0078af #0078af #eeeeee
-    focused_workspace #303030 #303030 #a1db00
-    active_workspace #303030 #303030 #a1db00
+    focused_workspace #303030 #303030 #b0b0b0
+    active_workspace #303030 #303030 #b0b0b0
     # inactive_workspace #303030 #303030 #587733
     inactive_workspace #303030 #303030 #666666
     urgent_workspace #303030 #303030 #c81178
