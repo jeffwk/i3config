@@ -205,17 +205,29 @@ bar {
     separator_symbol "    "
     strip_workspace_numbers yes
     colors {
-    background #1d1f21
-    # background #ebdbb2
-    statusline #c5c8c6
-    # statusline #282828
-    # separator #969896
-    separator #666866
-    focused_workspace #1d1f21 #1d1f21 #c5c8c6
-    active_workspace #1d1f21 #1d1f21 #c5c8c6
-    inactive_workspace #1d1f21 #1d1f21 #666666
-    urgent_workspace #1d1f21 #1d1f21 #c81178
-    }
+    background #303030
+    statusline #0098bf
+    separator #666666
+    # focused_workspace #0078af #0078af #eeeeee
+    # active_workspace #0078af #0078af #eeeeee
+    focused_workspace #303030 #303030 #a1db00
+    active_workspace #303030 #303030 #a1db00
+    # inactive_workspace #303030 #303030 #587733
+    inactive_workspace #303030 #303030 #666666
+    urgent_workspace #303030 #303030 #c81178
+}
+    # colors {
+    # background #1d1f21
+    # # background #ebdbb2
+    # statusline #c5c8c6
+    # # statusline #282828
+    # # separator #969896
+    # separator #666866
+    # focused_workspace #1d1f21 #1d1f21 #c5c8c6
+    # active_workspace #1d1f21 #1d1f21 #c5c8c6
+    # inactive_workspace #1d1f21 #1d1f21 #666666
+    # urgent_workspace #1d1f21 #1d1f21 #c81178
+    # }
 }
 
 # exec --no-startup-id dex -e GNOME -a
@@ -239,7 +251,8 @@ exec --no-startup-id xset s 1200 1200
 exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 080808'
 # exec --no-startup-id hsetroot -solid '#988f80'
 # exec --no-startup-id hsetroot -solid '#181818'
-exec --no-startup-id hsetroot -solid '#0d0f12'
+# exec --no-startup-id hsetroot -solid '#0d0f12'
+exec --no-startup-id hsetroot -solid '#222222'
 exec --no-startup-id compton
 ## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id emacs-reload
@@ -265,9 +278,13 @@ exec --no-startup-id sudo systemctl start qemu-win10
 # client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #585858
 # client.unfocused #1d1f21 #1d1f21 #c5c8c6 #585858
 
-client.focused #484a48 #484a48 #e5e8e6 #585858
-client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #585858
-client.unfocused #1d1f21 #1d1f21 #c5c8c6 #585858
+# client.focused #484a48 #484a48 #e5e8e6 #585858
+# client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #585858
+# client.unfocused #1d1f21 #1d1f21 #c5c8c6 #585858
+
+client.focused #909090 #909090 #000000 #aaaaaa
+client.focused_inactive #707070 #303030 #cccccc #aaaaaa
+client.unfocused #707070 #303030 #cccccc #aaaaaa
 
 # sets border width
 new_window pixel 1
