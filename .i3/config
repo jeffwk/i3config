@@ -179,7 +179,7 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioStop exec --no-startup-id playerctl stop
 
-bindsym $mod+Control+l exec --no-startup-id xautolock -locknow
+bindsym $mod+Control+l exec --no-startup-id killall xautolock && xautolock -time 20 -locker 'i3lock -e -c 080808' & sleep 0.25 && xautolock -locknow
 
 bindsym $mod+Shift+Control+q exec --no-startup-id toggle-qemu win10
 bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
