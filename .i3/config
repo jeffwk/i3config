@@ -206,16 +206,16 @@ bar {
     separator_symbol "    "
     strip_workspace_numbers yes
     colors {
-    background #282828
+    background #222222
     statusline #0098bf
     separator #606060
     # focused_workspace #0078af #0078af #eeeeee
     # active_workspace #0078af #0078af #eeeeee
-    focused_workspace #282828 #282828 #a4a4a4
-    active_workspace #282828 #282828 #a4a4a4
-    # inactive_workspace #282828 #282828 #587733
-    inactive_workspace #282828 #282828 #555555
-    urgent_workspace #282828 #282828 #c81178
+    focused_workspace #222222 #222222 #a4a4a4
+    active_workspace #222222 #222222 #a4a4a4
+    # inactive_workspace #222222 #222222 #587733
+    inactive_workspace #222222 #222222 #555555
+    urgent_workspace #222222 #222222 #c81178
 }
     # colors {
     # background #1d1f21
@@ -252,7 +252,7 @@ exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 080808'
 # exec --no-startup-id hsetroot -solid '#988f80'
 # exec --no-startup-id hsetroot -solid '#181818'
 # exec --no-startup-id hsetroot -solid '#0d0f12'
-exec --no-startup-id hsetroot -solid '#222222'
+exec --no-startup-id hsetroot -solid '#383838'
 exec --no-startup-id compton
 ## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id emacs-reload
@@ -288,7 +288,8 @@ client.focused_inactive #707070 #303030 #cccccc #aaaaaa
 client.unfocused #707070 #303030 #cccccc #aaaaaa
 
 # sets border width
-new_window pixel 1
+# new_window pixel 1
+new_window pixel 0
 # for_window [class="^.*"] border pixel 0
 
 set $default_gaps_inner 21
