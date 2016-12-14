@@ -206,16 +206,16 @@ bar {
     separator_symbol "    "
     strip_workspace_numbers yes
     colors {
-    background #303030
+    background #282828
     statusline #0098bf
-    separator #666666
+    separator #606060
     # focused_workspace #0078af #0078af #eeeeee
     # active_workspace #0078af #0078af #eeeeee
-    focused_workspace #303030 #303030 #b0b0b0
-    active_workspace #303030 #303030 #b0b0b0
-    # inactive_workspace #303030 #303030 #587733
-    inactive_workspace #303030 #303030 #666666
-    urgent_workspace #303030 #303030 #c81178
+    focused_workspace #282828 #282828 #a4a4a4
+    active_workspace #282828 #282828 #a4a4a4
+    # inactive_workspace #282828 #282828 #587733
+    inactive_workspace #282828 #282828 #555555
+    urgent_workspace #282828 #282828 #c81178
 }
     # colors {
     # background #1d1f21
