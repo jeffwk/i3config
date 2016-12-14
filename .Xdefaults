@@ -7,7 +7,7 @@ URxvt.perl-ext-common:
 Emacs*toolBar: off
 Emacs*menuBar: off
 ! Emacs*font: Sauce Code Pro Medium:pixelsize=29
-Emacs*font: Inconsolata for Powerline:pixelsize=42
+Emacs*font: Inconsolata for Powerline:pixelsize=40
 ! Emacs*font: Sauce Code Pro Medium:pixelsize=23
 Emacs*verticalScrollBars: off
 

@@ -193,10 +193,10 @@ bar {
     status_command ~/bin/i3conky.sh
     mode dock
     position top
-    font pango:Source Code Pro, FontAwesome Semibold 12
-    # font pango:Inconsolata, FontAwesome Semibold 14
-    # font pango:Liberation Sans, FontAwesome Semibold 10
-    # font pango:Lato, FontAwesome Semibold 12.5
+    # font pango:Source Code Pro, FontAwesome Semibold 12
+    font pango:Inconsolata, FontAwesome Semibold 13.5
+    # font pango:Liberation Sans, FontAwesome 13
+    # font pango:Lato, FontAwesome Semibold 12
     
     # font pango:Droid Sans Mono, FontAwesome Semibold 11
     # font pango:Liberation Mono, FontAwesome Semibold 13
