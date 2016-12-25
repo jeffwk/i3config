@@ -256,10 +256,12 @@ exec --no-startup-id hsetroot -solid '#383838'
 exec --no-startup-id compton
 ## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id emacs-reload
+exec --no-startup-id SVPManager
 
 # exec --no-startup-id cat /sys/class/backlight/intel_backlight/max_brightness | sudo tee /sys/class/backlight/intel_backlight/brightness
 exec --no-startup-id mount /insilica
 exec --no-startup-id mount /mnt/insilica
+exec --no-startup-id mount /mnt/insilica-data
 # exec --no-startup-id systemctl --user start synergys
 # exec --no-startup-id sudo virsh start win10
 
