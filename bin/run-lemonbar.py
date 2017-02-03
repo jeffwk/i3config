@@ -97,6 +97,7 @@ cache = {
         'qemu': '',
         'synergy': '',
         'cpu': '',
+        'mem': '',
         'diskio': '',
         'netspeed': '',
         'fsusage': '',
@@ -105,12 +106,14 @@ cache = {
         'packages': '',
         'date': '',
         'time': '',
-        'battery': ''
+        'battery': '',
+        'cputemp': ''
     },
     'blocks': {
         'qemu': '',
         'synergy': '',
         'cpu': '',
+        'mem': '',
         'diskio': '',
         'netspeed': '',
         'fsusage': '',
@@ -119,7 +122,8 @@ cache = {
         'packages': '',
         'date': '',
         'time': '',
-        'battery': ''
+        'battery': '',
+        'cputemp': ''
     },
     'main': '',
     'output': '',
@@ -133,6 +137,11 @@ def get_packages_status():
 
 def get_volume():
     p = Popen(["pamixer", "--get-volume"], encoding='utf8', stdout=PIPE)
+    result = p.communicate()[0].strip()
+    return result
+
+def get_cputemp():
+    p = Popen(['cputemp.sh'], shell=True, encoding='utf8', stdout=PIPE)
     result = p.communicate()[0].strip()
     return result
 
@@ -166,6 +175,8 @@ def write_main_output():
     blocks = ['qemu',
               'synergy',
               'cpu',
+              'cputemp',
+              'mem',
               'diskio',
               'netspeed',
               'fsusage',
@@ -229,6 +240,15 @@ def render_block(name, vals):
         return write_simple_block(
             write_icon(''),
             'green', 'fg', 4, '%s%%' % cpu)
+    elif name == 'mem':
+        [memused, memmax] = vals
+        return write_multi_block(
+            'yellow',
+            [['yellow', write_icon(''), 0],
+             ['fg', memused, 6],
+             ['yellow', ' /', 0],
+             ['fg', memmax, 6]]
+        )
     elif name == 'diskio':
         [diskread, diskwrite] = vals
         return write_multi_block(
@@ -271,7 +291,7 @@ def render_block(name, vals):
     elif name == 'packages':
         pstatus = vals
         return write_simple_block(
-            write_icon(''), 'cyan', 'fg', 3, pstatus)
+            write_icon(''), 'cyan', 'fg', 2, pstatus)
     elif name == 'date':
         datestr = vals
         return write_simple_block(
@@ -284,6 +304,11 @@ def render_block(name, vals):
         percent = vals
         return write_simple_block(
             write_icon(''), 'yellow', 'fg', 4, percent+'%'
+        )
+    elif name == 'cputemp':
+        temp = vals
+        return write_simple_block(
+            write_icon(''), 'orange', 'fg', 4, temp+'°'
         )
     else:
         return ''
@@ -302,6 +327,7 @@ def update_from_conky(conkyline):
         conkyline.strip().split(';')
     )
     update_block('cpu', cpu)
+    update_block('mem', [memused, memmax])
     update_block('diskio', [diskread, diskwrite])
     update_block('netspeed', [netdown, netup])
     update_block('fsusage', [fsused, fssize])
@@ -446,6 +472,7 @@ class misc_Thread(Thread):
         while True:
             update_block('qemu', qemu_status(), True)
             update_block('synergy', synergy_status(), True)
+            update_block('cputemp', get_cputemp(), True)
             time.sleep(0.5)
 
 class packages_Thread(Thread):
