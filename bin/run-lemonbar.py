@@ -10,16 +10,44 @@ colors = {
     'fg': '#c8c8c8',
     'bg': '#282828',
     'fg-dim': '#777777',
-    'bg-light': '#aaaaaa',
-    'fg-dark': '#101010',
+    'bg-light': '#888888',
+    'fg-dark': '#000000',
     'green': '#b5bd68',
     'purple': '#b294bb',
     'blue': '#81a2be',
     'cyan': '#8abeb7',
-    'orange': '#de935f'
+    'orange': '#de935f',
+    'yellow': '#f0c674'
 }
 bmargin = 6
 bpadding = 5
+
+ws_aliases = {
+    'home': {
+        '1': 'shell',
+        '2': 'media',
+        '3': 'web',
+        '4': 'work'
+    },
+    'sysrev': {
+        '1': 'web',
+        '2': 'server',
+        '3': 'client',
+        '4': 'shell',
+        '5': 'shell'
+    },
+    'i3': {
+        '1': 'shell',
+        '2': 'emacs'
+    }
+}
+
+def get_ws_alias(wname):
+    pname = cache['active_project'][1:]
+    if pname in ws_aliases.keys():
+        if wname in ws_aliases[pname].keys():
+            return ws_aliases[pname][wname]
+    return None
 
 def write_icon(s):
     return ('%{T2}' + s + '%{T-}')
@@ -76,7 +104,8 @@ cache = {
         'volume': '',
         'packages': '',
         'date': '',
-        'time': ''
+        'time': '',
+        'battery': ''
     },
     'blocks': {
         'qemu': '',
@@ -89,7 +118,8 @@ cache = {
         'volume': '',
         'packages': '',
         'date': '',
-        'time': ''
+        'time': '',
+        'battery': ''
     },
     'main': '',
     'output': '',
@@ -141,6 +171,7 @@ def write_main_output():
               'fsusage',
               'btcprice',
               'volume',
+              'battery',
               'packages',
               'date',
               'time']
@@ -240,7 +271,7 @@ def render_block(name, vals):
     elif name == 'packages':
         pstatus = vals
         return write_simple_block(
-            write_icon(''), 'cyan', 'fg', 0, pstatus)
+            write_icon(''), 'cyan', 'fg', 3, pstatus)
     elif name == 'date':
         datestr = vals
         return write_simple_block(
@@ -249,6 +280,11 @@ def render_block(name, vals):
         timestr = vals
         return write_simple_block(
             write_icon(''), 'purple', 'fg', 8, timestr)
+    elif name == 'battery':
+        percent = vals
+        return write_simple_block(
+            write_icon(''), 'yellow', 'fg', 4, percent+'%'
+        )
     else:
         return ''
 
@@ -262,7 +298,7 @@ def update_block(name, vals, redraw=False):
 
 def update_from_conky(conkyline):
     [cpu, memused, memmax, diskread, diskwrite, netdown, netup,
-     fsused, fssize, datestr, timestr] = (
+     fsused, fssize, datestr, timestr, battery] = (
         conkyline.strip().split(';')
     )
     update_block('cpu', cpu)
@@ -271,6 +307,7 @@ def update_from_conky(conkyline):
     update_block('fsusage', [fsused, fssize])
     update_block('date', datestr)
     update_block('time', timestr)
+    update_block('battery', battery)
 
 ck = Popen(['conky -c ~/.i3/conky/conkyrc_raw'], shell=True, encoding='utf8', stdout=PIPE)
 lb = subprocess.Popen(["lemonbar -g 3840x55 -o 0 -u 2 -B" + colors['bg'] + " -f 'sauce code pro medium:size=12' -f 'fontawesome:size=13'"], shell=True, encoding='utf8', stdin=PIPE)
@@ -288,7 +325,7 @@ def ws_order(ws):
     else:
         return int(wname[0])
 
-def write_project_block(name, active):
+def write_project_block(name, active, wscount):
     if active:
         fg = colors['fg-dark']
         bg = colors['bg-light']
@@ -300,7 +337,12 @@ def write_project_block(name, active):
     s += '%{F' + fg + '}'
     s += '%{B' + bg + '}'
     s += write_offset(bpadding)
-    s += name
+    if active:
+        s += name
+    else:
+        s += name[:1]
+    if not active:
+        s += '[%d]' % wscount
     s += write_offset(bpadding)
     s += '%{B-}%{F-}'
     s += write_offset(bmargin)
@@ -308,17 +350,26 @@ def write_project_block(name, active):
 
 def write_projects_section(all_ws):
     pactive = cache['active_project'][1:]
+    
     pnames = []
     for ws in all_ws:
         pname = ws['name'].split('_')[0][1:]
         if pname not in pnames:
             pnames += [pname]
+            
+    pcounts = {}
+    for pname in pnames:
+        pcounts[pname] = 0
+    for ws in all_ws:
+        pname = ws['name'].split('_')[0][1:]
+        pcounts[pname] += 1
+    
     s = ''
     s += '%{-u}'
     for name in pnames:
         if name != pactive:
-            s += write_project_block(name, False)
-    s += write_project_block(pactive, True)
+            s += write_project_block(name, False, pcounts[name])
+    s += write_project_block(pactive, True, pcounts[pactive])
     return s
     
 def update_workspaces(all_ws_str):
@@ -335,7 +386,10 @@ def update_workspaces(all_ws_str):
 
     if update:
         s = ''
-        all_ws = json.loads(all_ws_str)
+        try:
+            all_ws = json.loads(all_ws_str)
+        except:
+            all_ws = []
         pactive = cache['active_project'][1:]
         s += write_projects_section(all_ws)
         s += write_offset(bmargin)
@@ -344,12 +398,17 @@ def update_workspaces(all_ws_str):
             raw_name = ws['name']
             pname = ws['name'].split('_')[0][1:]
             wname = '_'.join(ws['name'].split('_')[1:])
+            walias = get_ws_alias(wname)
+            if walias == None:
+                wdisplay = wname
+            else:
+                wdisplay = wname + '[' + walias + ']'
             wactive = (pname == pactive)
             if wactive:
                 color = {True: 'fg', False: 'fg-dim'}[ws['visible']]
                 s += write_multi_block(
                     color,
-                    [[color, wname, 0]]
+                    [[color, wdisplay, 0]]
                 )
         cache['i3_ws']['lemonbar'] = s
         update_output()

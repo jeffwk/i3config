@@ -125,6 +125,8 @@ bindsym $mod+Shift+Control+p exec ~/bin/i3wm-create-project.sh
 # bindsym $mod+Shift+Control+o exec "wmctrl -c 'Delete Space Name:' || pname=$(zenity --title 'Delete Space Name:' --entry);sed -i /\"$pname\"$/d i3pslist"
 bindsym $mod+Shift+Control+o exec ~/bin/i3wm-remove-project.sh
 
+bindsym $mod+Control+t exec ~/bin/i3wm-transfer-to-project.py
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
