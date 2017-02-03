@@ -1,7 +1,7 @@
 background no
 out_to_console yes
 max_text_width 0
-update_interval 0.75
+update_interval 1.2
 total_run_times 0
 use_spacer none
 short_units yes
@@ -9,4 +9,4 @@ use_spacer left
 cpu_avg_samples 2
 
 TEXT
-${cpu cpu0};${mem};${memmax};${diskio_read};${diskio_write};${downspeedf enp0s31f6};${upspeedf enp0s31f6};${fs_used};${fs_size};${time %a %b %d};${time %_I:%M %p};${execpi 30 btcprice};${execpi 120 check-packages.sh};${exec pamixer --get-volume}
+${cpu cpu0};${mem};${memmax};${diskio_read};${diskio_write};${downspeedf enp0s31f6};${upspeedf enp0s31f6};${fs_used};${fs_size};${time %a %b %d};${time %_I:%M %p}

@@ -1,35 +1,23 @@
 #!/usr/bin/python3
 
-import sys, time
+import sys, time, os
 import subprocess
 from subprocess import Popen, PIPE, run
-from itertools import takewhile
+from threading import Thread
+import json
 
-
-def qemu_status():
-    p = Popen(['qemu-status win10'], shell=True, encoding='utf8', stdout=PIPE)
-    result = p.communicate()[0].strip()
-    if result == 'on':
-        return True
-    else:
-        return False
-
-def synergy_status():
-    p = Popen(['user-service-status synergys'], shell=True, encoding='utf8', stdout=PIPE)
-    result = p.communicate()[0].strip()
-    if result == 'on':
-        return True
-    else:
-        return False
-
-colors = {'fg': '#c8c8c8',
-          'green': '#b5bd68',
-          'purple': '#b294bb',
-          'blue': '#81a2be',
-          'cyan': '#8abeb7',
-          'orange': '#de935f'
+colors = {
+    'fg': '#c8c8c8',
+    'bg': '#282828',
+    'fg-dim': '#777777',
+    'bg-light': '#aaaaaa',
+    'fg-dark': '#101010',
+    'green': '#b5bd68',
+    'purple': '#b294bb',
+    'blue': '#81a2be',
+    'cyan': '#8abeb7',
+    'orange': '#de935f'
 }
-
 bmargin = 6
 bpadding = 5
 
@@ -72,90 +60,359 @@ def write_multi_block(color, sections):
     s += write_offset(bmargin)
     return s
 
-def write_cpu_block(cpu):
-    return write_simple_block(
-        write_icon(''),
-        'green', 'fg', 4, '%s%%' % cpu)
+cache = {
+    'active_project': '',
+    'i3_ws': {
+        'result': '',
+        'lemonbar': ''},
+    'values': {
+        'qemu': '',
+        'synergy': '',
+        'cpu': '',
+        'diskio': '',
+        'netspeed': '',
+        'fsusage': '',
+        'btcprice': '',
+        'volume': '',
+        'packages': '',
+        'date': '',
+        'time': ''
+    },
+    'blocks': {
+        'qemu': '',
+        'synergy': '',
+        'cpu': '',
+        'diskio': '',
+        'netspeed': '',
+        'fsusage': '',
+        'btcprice': '',
+        'volume': '',
+        'packages': '',
+        'date': '',
+        'time': ''
+    },
+    'main': '',
+    'output': '',
+    'current': ''
+}
 
-def write_diskio_block(diskread, diskwrite):
-    return write_multi_block(
-        'cyan',
-        [['cyan', write_icon(''), 0],
-         ['fg', diskread, 7],
-         ['cyan', ' ' + write_icon(''), 0],
-         ['fg', diskwrite, 7],
-         ['cyan', ' ' + write_icon(''), 0]]
+def get_packages_status():
+    p = Popen(["check-packages.sh"], shell=True, encoding='utf8', stdout=PIPE)
+    result = p.communicate()[0].strip()
+    return result
+
+def get_volume():
+    p = Popen(["pamixer", "--get-volume"], encoding='utf8', stdout=PIPE)
+    result = p.communicate()[0].strip()
+    return result
+
+def qemu_status():
+    p = Popen(['qemu-status win10'], shell=True, encoding='utf8', stdout=PIPE)
+    result = p.communicate()[0].strip()
+    if result == 'on':
+        return True
+    else:
+        return False
+
+def synergy_status():
+    p = Popen(['user-service-status synergys'], shell=True, encoding='utf8', stdout=PIPE)
+    result = p.communicate()[0].strip()
+    if result == 'on':
+        return True
+    else:
+        return False
+
+def i3_msg(mtype, marg):
+    p = Popen(['i3-msg -t %s %s' % (mtype, marg)],
+              shell=True, encoding='utf8', stdout=PIPE)
+    result = p.communicate()[0].strip()
+    return result
+    
+def i3_get_workspaces():
+    return i3_msg('get_workspaces', '')
+
+def write_main_output():
+    s = ''
+    blocks = ['qemu',
+              'synergy',
+              'cpu',
+              'diskio',
+              'netspeed',
+              'fsusage',
+              'btcprice',
+              'volume',
+              'packages',
+              'date',
+              'time']
+    for name in blocks:
+        s += cache['blocks'][name]
+    return s
+
+def write_full_output():
+    return ''.join(
+        ['%{l}',
+         cache['i3_ws']['lemonbar'],
+         '%{r}',
+         cache['main']]
     )
 
-def write_netspeed_block(netdown, netup):
-    return write_multi_block(
-        'blue',
-        [['blue', write_icon(''), 0],
-         ['fg', netdown, 7],
-         ['blue', ' ' + write_icon(''), 0],
-         ['fg', netup, 7],
-         ['blue', ' ' + write_icon(''), 0]]
-    )
+def update_main_output():
+    cache['main'] = write_main_output()
+    
+def update_output():
+    cache['output'] = write_full_output()
 
-def write_fsusage_block(fsused, fssize):
-    return write_multi_block(
-        'purple',
-        [['purple', write_icon(''), 0],
-         ['fg', ' ' + fsused, 0],
-         ['purple', ' /', 0],
-         ['fg', fssize, 0]]
-    )
+def update_output_all():
+    update_main_output()
+    update_output()
 
-def write_btcprice_block(btcprice):
-    return write_simple_block(
-        write_icon(''),
-        'green', 'fg', 4, btcprice)
+def render_block(name, vals):
+    if name == 'qemu':
+        status = vals
+        if status == True:
+            icon = ''
+            color = 'green'
+        else:
+            icon = ''
+            color = 'fg-dim'
+        return write_multi_block(
+            color,
+            [[color, write_icon(icon), 0],
+             ['fg', ' qemu', 0]]
+        )
+    elif name == 'synergy':
+        status = vals
+        if status == True:
+            icon = ''
+            color = 'green'
+        else:
+            icon = ''
+            color = 'fg-dim'
+        return write_multi_block(
+            color,
+            [[color, write_icon(icon), 0],
+             ['fg', ' synergy', 0]]
+        )
+    elif name == 'cpu':
+        cpu = vals
+        return write_simple_block(
+            write_icon(''),
+            'green', 'fg', 4, '%s%%' % cpu)
+    elif name == 'diskio':
+        [diskread, diskwrite] = vals
+        return write_multi_block(
+            'cyan',
+            [['cyan', write_icon(''), 0],
+             ['fg', diskread, 7],
+             ['cyan', ' ' + write_icon(''), 0],
+             ['fg', diskwrite, 7],
+             ['cyan', ' ' + write_icon(''), 0]]
+        )
+    elif name == 'netspeed':
+        [netdown, netup] = vals
+        return write_multi_block(
+            'blue',
+            [['blue', write_icon(''), 0],
+             ['fg', netdown, 7],
+             ['blue', ' ' + write_icon(''), 0],
+             ['fg', netup, 7],
+             ['blue', ' ' + write_icon(''), 0]]
+        )
+    elif name == 'fsusage':
+        [fsused, fssize] = vals
+        return write_multi_block(
+            'purple',
+            [['purple', write_icon(''), 0],
+             ['fg', ' ' + fsused, 0],
+             ['purple', ' /', 0],
+             ['fg', fssize, 0]]
+        )
+    elif name == 'btcprice':
+        btcprice = vals
+        return write_simple_block(
+            write_icon(''),
+            'green', 'fg', 4, btcprice)
+    elif name == 'volume':
+        volume = vals
+        return write_simple_block(
+            write_icon(''),
+            'orange', 'fg', 4, volume+'%')
+    elif name == 'packages':
+        pstatus = vals
+        return write_simple_block(
+            write_icon(''), 'cyan', 'fg', 0, pstatus)
+    elif name == 'date':
+        datestr = vals
+        return write_simple_block(
+            write_icon(''), 'blue', 'fg', 10, datestr)
+    elif name == 'time':
+        timestr = vals
+        return write_simple_block(
+            write_icon(''), 'purple', 'fg', 8, timestr)
+    else:
+        return ''
 
-def write_audio_volume(volume):
-    return write_simple_block(
-        write_icon(''),
-        'orange', 'fg', 4, volume+'%')
+def update_block(name, vals, redraw=False):
+    prev = cache['values'][name]
+    if prev != vals:
+        cache['values'][name] = vals
+        cache['blocks'][name] = render_block(name, vals)
+        if redraw:
+            update_output_all()
 
-def write_package_status(pstatus):
-    return write_simple_block(
-        write_icon(''), 'cyan', 'fg', 0, pstatus)
-
-def write_date_block(datestr):
-    return write_simple_block(
-        write_icon(''), 'blue', 'fg', 10, datestr)
-
-def write_time_block(timestr):
-    return write_simple_block(
-        write_icon(''), 'purple', 'fg', 8, timestr)
-
-def write_lemonbar_output(conkyline):
+def update_from_conky(conkyline):
     [cpu, memused, memmax, diskread, diskwrite, netdown, netup,
-     fsused, fssize, datestr, timestr, btcprice, pstatus,
-     volume] = (
+     fsused, fssize, datestr, timestr] = (
         conkyline.strip().split(';')
     )
-    return ''.join(
-        ['%{r}',
-         write_cpu_block(cpu),
-         write_diskio_block(diskread, diskwrite),
-         write_netspeed_block(netdown+'K', netup+'K'),
-         write_fsusage_block(fsused, fssize),
-         write_btcprice_block(btcprice),
-         write_audio_volume(volume),
-         write_package_status(pstatus),
-         write_date_block(datestr),
-         write_time_block(timestr)
-        ])
+    update_block('cpu', cpu)
+    update_block('diskio', [diskread, diskwrite])
+    update_block('netspeed', [netdown, netup])
+    update_block('fsusage', [fsused, fssize])
+    update_block('date', datestr)
+    update_block('time', timestr)
 
 ck = Popen(['conky -c ~/.i3/conky/conkyrc_raw'], shell=True, encoding='utf8', stdout=PIPE)
-# lb = subprocess.Popen(["lemonbar -g 3840x55 -o -2 -u 2 -B\#282828 -f 'Lato Semibold:pixelsize=24' -f 'FontAwesome:pixelsize=27' -f 'Source Code Pro Medium:pixelsize=26'"], shell=True, encoding='utf8', stdin=PIPE)
-# lb = subprocess.Popen(["lemonbar -g 3840x55 -o -2 -u 2 -B\#282828 -f 'Sauce Code Pro Semibold:pixelsize=26' -f 'FontAwesome:pixelsize=27'"], shell=True, encoding='utf8', stdin=PIPE)
-# lb = subprocess.Popen(["lemonbar -g 3840x55 -o 0 -u 2 -B\#282828 -f 'Inconsolata Bold:pixelsize=30' -f 'FontAwesome:pixelsize=27'"], shell=True, encoding='utf8', stdin=PIPE)
-lb = subprocess.Popen(["lemonbar -g 3840x55 -o 0 -u 2 -B\#282828 -f 'sauce code pro medium:size=12' -f 'fontawesome:size=13'"], shell=True, encoding='utf8', stdin=PIPE)
+lb = subprocess.Popen(["lemonbar -g 3840x55 -o 0 -u 2 -B" + colors['bg'] + " -f 'sauce code pro medium:size=12' -f 'fontawesome:size=13'"], shell=True, encoding='utf8', stdin=PIPE)
 
-while True:
-    s = str(ck.stdout.readline())
-    # print( write_lemonbar_output(s) )
-    print('%s' % write_lemonbar_output(s), end='\n', file=lb.stdin)
-    lb.stdin.flush()
-    # print("%s ; %s ; %s" % (cpu, qemu_status(), synergy_status()))
+def get_active_project():
+    return open(os.path.expanduser('~/i3pwsvar')).readlines()[0].strip()
+
+def update_active_project():
+    cache['active_project'] = get_active_project()
+
+def ws_order(ws):
+    wname = '_'.join(ws['name'].split('_')[1:])
+    if wname[:2] == '10':
+        return 10
+    else:
+        return int(wname[0])
+
+def write_project_block(name, active):
+    if active:
+        fg = colors['fg-dark']
+        bg = colors['bg-light']
+    else:
+        fg = colors['fg-dim']
+        bg = colors['bg']
+    s = ''
+    s += '%{-u}'
+    s += '%{F' + fg + '}'
+    s += '%{B' + bg + '}'
+    s += write_offset(bpadding)
+    s += name
+    s += write_offset(bpadding)
+    s += '%{B-}%{F-}'
+    s += write_offset(bmargin)
+    return s
+
+def write_projects_section(all_ws):
+    pactive = cache['active_project'][1:]
+    pnames = []
+    for ws in all_ws:
+        pname = ws['name'].split('_')[0][1:]
+        if pname not in pnames:
+            pnames += [pname]
+    s = ''
+    s += '%{-u}'
+    for name in pnames:
+        if name != pactive:
+            s += write_project_block(name, False)
+    s += write_project_block(pactive, True)
+    return s
+    
+def update_workspaces(all_ws_str):
+    update = False
+
+    prev_active = cache['active_project']
+    update_active_project()
+    if prev_active != cache['active_project']:
+        update = True
+        
+    if cache['i3_ws']['result'] != all_ws_str:
+        update = True
+        cache['i3_ws']['result'] = all_ws_str
+
+    if update:
+        s = ''
+        all_ws = json.loads(all_ws_str)
+        pactive = cache['active_project'][1:]
+        s += write_projects_section(all_ws)
+        s += write_offset(bmargin)
+        all_ws_sorted = sorted(all_ws, key=ws_order)
+        for ws in all_ws_sorted:
+            raw_name = ws['name']
+            pname = ws['name'].split('_')[0][1:]
+            wname = '_'.join(ws['name'].split('_')[1:])
+            wactive = (pname == pactive)
+            if wactive:
+                color = {True: 'fg', False: 'fg-dim'}[ws['visible']]
+                s += write_multi_block(
+                    color,
+                    [[color, wname, 0]]
+                )
+        cache['i3_ws']['lemonbar'] = s
+        update_output()
+
+class i3ws_Thread(Thread):
+    def run(self):
+        while True:
+            update_workspaces( i3_get_workspaces() )
+            time.sleep(0.05)
+
+class conky_Thread(Thread):
+    def run(self):
+        while True:
+            result = str(ck.stdout.readline())
+            update_from_conky(result)
+            update_output_all()
+
+class volume_Thread(Thread):
+    def run(self):
+        while True:
+            update_block('volume', get_volume(), True)
+            time.sleep(0.1)
+
+class output_Thread(Thread):
+    def run(self):
+        while True:
+            if cache['output'] != cache['current']:
+                print(cache['output'], end='\n', file=lb.stdin)
+                lb.stdin.flush()
+                cache['current'] = cache['output']
+            time.sleep(0.05)
+
+class misc_Thread(Thread):
+    def run(self):
+        while True:
+            update_block('qemu', qemu_status(), True)
+            update_block('synergy', synergy_status(), True)
+            time.sleep(0.5)
+
+class packages_Thread(Thread):
+    def run(self):
+        while True:
+            update_block('packages', get_packages_status(), True)
+            time.sleep(120)
+
+update_active_project()
+
+i3ws = i3ws_Thread()
+i3ws.start()
+
+conky = conky_Thread()
+conky.start()
+
+volume = volume_Thread()
+volume.start()
+
+packages = packages_Thread()
+packages.start()
+
+misc = misc_Thread()
+misc.start()
+
+output = output_Thread()
+output.start()
+
+output.join()
