@@ -181,7 +181,7 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioStop exec --no-startup-id playerctl stop
 
-bindsym $mod+Control+l exec --no-startup-id killall xautolock && xautolock -time 20 -locker 'i3lock -e -c 080808' & sleep 0.25 && xautolock -locknow
+bindsym $mod+Control+l exec --no-startup-id killall xautolock && xautolock -time 20 -locker 'i3lock -e -c 282828' & sleep 0.25 && xautolock -locknow
 
 bindsym $mod+Shift+Control+q exec --no-startup-id toggle-qemu win10
 bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
@@ -189,49 +189,49 @@ bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 
-bar {
-    # status_command i3blocks
-    # status_command py3status
-    status_command ~/bin/i3conky.sh
-    mode dock
-    position top
-    # font pango:Source Code Pro, FontAwesome Semibold 12
-    # font pango:Inconsolata, FontAwesome Semibold 13.5
-    # font pango:Liberation Sans, FontAwesome 13
-    font pango:Lato, FontAwesome Semibold 12
+# bar {
+#     # status_command i3blocks
+#     # status_command py3status
+#     status_command ~/bin/i3conky.sh
+#     mode dock
+#     position top
+#     # font pango:Source Code Pro, FontAwesome Semibold 12
+#     # font pango:Inconsolata, FontAwesome Semibold 13.5
+#     # font pango:Liberation Sans, FontAwesome 13
+#     font pango:Lato, FontAwesome Semibold 12
     
-    # font pango:Droid Sans Mono, FontAwesome Semibold 11
-    # font pango:Liberation Mono, FontAwesome Semibold 13
-    # font pango:DejaVu Sans Mono, FontAwesome Semibold 12
-    # font pango:Lato, FontAwesome Semibold 9.5
+#     # font pango:Droid Sans Mono, FontAwesome Semibold 11
+#     # font pango:Liberation Mono, FontAwesome Semibold 13
+#     # font pango:DejaVu Sans Mono, FontAwesome Semibold 12
+#     # font pango:Lato, FontAwesome Semibold 9.5
 
-    separator_symbol "    "
-    strip_workspace_numbers yes
-    colors {
-    background #222222
-    statusline #0098bf
-    separator #606060
-    # focused_workspace #0078af #0078af #eeeeee
-    # active_workspace #0078af #0078af #eeeeee
-    focused_workspace #222222 #222222 #a4a4a4
-    active_workspace #222222 #222222 #a4a4a4
-    # inactive_workspace #222222 #222222 #587733
-    inactive_workspace #222222 #222222 #555555
-    urgent_workspace #222222 #222222 #c81178
-}
-    # colors {
-    # background #1d1f21
-    # # background #ebdbb2
-    # statusline #c5c8c6
-    # # statusline #282828
-    # # separator #969896
-    # separator #666866
-    # focused_workspace #1d1f21 #1d1f21 #c5c8c6
-    # active_workspace #1d1f21 #1d1f21 #c5c8c6
-    # inactive_workspace #1d1f21 #1d1f21 #666666
-    # urgent_workspace #1d1f21 #1d1f21 #c81178
-    # }
-}
+#     separator_symbol "    "
+#     strip_workspace_numbers yes
+#     colors {
+#     background #222222
+#     statusline #0098bf
+#     separator #606060
+#     # focused_workspace #0078af #0078af #eeeeee
+#     # active_workspace #0078af #0078af #eeeeee
+#     focused_workspace #222222 #222222 #a4a4a4
+#     active_workspace #222222 #222222 #a4a4a4
+#     # inactive_workspace #222222 #222222 #587733
+#     inactive_workspace #222222 #222222 #555555
+#     urgent_workspace #222222 #222222 #c81178
+# }
+#     # colors {
+#     # background #1d1f21
+#     # # background #ebdbb2
+#     # statusline #c5c8c6
+#     # # statusline #282828
+#     # # separator #969896
+#     # separator #666866
+#     # focused_workspace #1d1f21 #1d1f21 #c5c8c6
+#     # active_workspace #1d1f21 #1d1f21 #c5c8c6
+#     # inactive_workspace #1d1f21 #1d1f21 #666666
+#     # urgent_workspace #1d1f21 #1d1f21 #c81178
+#     # }
+# }
 
 # exec /usr/lib/gnome-settings-daemon/gnome-settings-daemon
 # exec --no-startup-id dex /etc/xdg/autostart/gnome-settings-daemon.desktop
@@ -250,11 +250,11 @@ exec --no-startup-id urxvtd -q -f -o
 # exec --no-startup-id xset s off
 exec --no-startup-id xset s on +dpms
 exec --no-startup-id xset s 1200 1200
-exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 080808'
+exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 282828'
 # exec --no-startup-id hsetroot -solid '#988f80'
 # exec --no-startup-id hsetroot -solid '#181818'
 # exec --no-startup-id hsetroot -solid '#0d0f12'
-exec --no-startup-id hsetroot -solid '#383838'
+exec --no-startup-id hsetroot -solid '#555555'
 exec --no-startup-id compton
 ## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id emacs-reload
@@ -264,6 +264,9 @@ exec --no-startup-id SVPManager
 exec --no-startup-id mount /insilica
 exec --no-startup-id mount /mnt/insilica
 exec --no-startup-id mount /mnt/insilica-data
+
+exec --no-startup-id ~/bin/run-lemonbar.py
+
 # exec --no-startup-id systemctl --user start synergys
 # exec --no-startup-id sudo virsh start win10
 
@@ -287,16 +290,16 @@ exec --no-startup-id mount /mnt/insilica-data
 # client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #585858
 # client.unfocused #1d1f21 #1d1f21 #c5c8c6 #585858
 
-client.focused #909090 #909090 #000000 #aaaaaa
-client.focused_inactive #707070 #303030 #cccccc #aaaaaa
-client.unfocused #707070 #303030 #cccccc #aaaaaa
+client.focused #b0b0b0 #b0b0b0 #000000 #aaaaaa
+client.focused_inactive #909090 #666666 #cccccc #aaaaaa
+client.unfocused #909090 #666666 #cccccc #aaaaaa
 
 # sets border width
 # new_window pixel 1
-new_window pixel 0
+new_window pixel 1
 # for_window [class="^.*"] border pixel 0
 
-set $default_gaps_inner 21
+set $default_gaps_inner 24
 set $default_gaps_outer 0
 
 gaps inner $default_gaps_inner
