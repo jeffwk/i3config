@@ -3,6 +3,7 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod1
+set $super Mod4
 
 font pango:Sauce Code Pro Medium 11
 
@@ -112,10 +113,14 @@ bindsym $mod+Shift+8 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/
 bindsym $mod+Shift+9 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP9
 bindsym $mod+Shift+0 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP10
 
-bindsym $mod+Control+p exec --no-startup-id ~/bin/i3proj switch-project
-bindsym $mod+Shift+Control+p exec --no-startup-id ~/bin/i3proj create-project
-bindsym $mod+Shift+Control+o exec --no-startup-id ~/bin/i3proj delete-project
-bindsym $mod+Control+t exec --no-startup-id ~/bin/i3proj transfer-project
+bindsym $super+Return exec --no-startup-id python3 ~/bin/i3proj.py switch-project
+bindsym $super+space exec --no-startup-id python3 ~/bin/i3proj.py recent-project
+bindsym $super+Left exec --no-startup-id python3 ~/bin/i3proj.py prev-project
+bindsym $super+Right exec --no-startup-id python3 ~/bin/i3proj.py next-project
+bindsym $super+n exec --no-startup-id python3 ~/bin/i3proj.py create-project
+bindsym $super+d exec --no-startup-id python3 ~/bin/i3proj.py delete-project
+bindsym $super+x exec --no-startup-id python3 ~/bin/i3proj.py transfer-project
+bindsym $super+l exec --no-startup-id python3 ~/bin/i3proj.py set-ws-label
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -175,116 +180,39 @@ bindsym $mod+Control+l exec --no-startup-id killall xautolock && xautolock -time
 bindsym $mod+Shift+Control+q exec --no-startup-id toggle-qemu win10
 bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-
 # bar {
-#     # status_command i3blocks
-#     # status_command py3status
-#     status_command ~/bin/i3conky.sh
-#     mode dock
-#     position top
-#     # font pango:Source Code Pro, FontAwesome Semibold 12
-#     # font pango:Inconsolata, FontAwesome Semibold 13.5
-#     # font pango:Liberation Sans, FontAwesome 13
-#     font pango:Lato, FontAwesome Semibold 12
-    
-#     # font pango:Droid Sans Mono, FontAwesome Semibold 11
-#     # font pango:Liberation Mono, FontAwesome Semibold 13
-#     # font pango:DejaVu Sans Mono, FontAwesome Semibold 12
-#     # font pango:Lato, FontAwesome Semibold 9.5
+#}
 
-#     separator_symbol "    "
-#     strip_workspace_numbers yes
-#     colors {
-#     background #222222
-#     statusline #0098bf
-#     separator #606060
-#     # focused_workspace #0078af #0078af #eeeeee
-#     # active_workspace #0078af #0078af #eeeeee
-#     focused_workspace #222222 #222222 #a4a4a4
-#     active_workspace #222222 #222222 #a4a4a4
-#     # inactive_workspace #222222 #222222 #587733
-#     inactive_workspace #222222 #222222 #555555
-#     urgent_workspace #222222 #222222 #c81178
-# }
-#     # colors {
-#     # background #1d1f21
-#     # # background #ebdbb2
-#     # statusline #c5c8c6
-#     # # statusline #282828
-#     # # separator #969896
-#     # separator #666866
-#     # focused_workspace #1d1f21 #1d1f21 #c5c8c6
-#     # active_workspace #1d1f21 #1d1f21 #c5c8c6
-#     # inactive_workspace #1d1f21 #1d1f21 #666666
-#     # urgent_workspace #1d1f21 #1d1f21 #c81178
-#     # }
-# }
-
-# exec /usr/lib/gnome-settings-daemon/gnome-settings-daemon
-# exec --no-startup-id dex /etc/xdg/autostart/gnome-settings-daemon.desktop
-# exec --no-startup-id dex /etc/xdg/autostart/pulseaudio.desktop
-# exec --no-startup-id start-pulseaudio-x11
-# exec --no-startup-id 'xrdb -merge ~/.Xresources; xrdb -merge ~/.Xdefaults'
 exec --no-startup-id xrandr --dpi 162
 exec --no-startup-id xmodmap ~/.Xmodmap
-# exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
 exec --no-startup-id urxvtd -q -f -o
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
 # exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
-# exec --no-startup-id xset m
-# exec --no-startup-id xset -dpms
-# exec --no-startup-id xset s off
 exec --no-startup-id xset s on +dpms
 exec --no-startup-id xset s 1200 1200
 exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 282828'
-# exec --no-startup-id hsetroot -solid '#988f80'
-# exec --no-startup-id hsetroot -solid '#181818'
-# exec --no-startup-id hsetroot -solid '#0d0f12'
 exec --no-startup-id hsetroot -solid '#555555'
 exec --no-startup-id compton
 ## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id emacs-reload
 exec --no-startup-id SVPManager
 
-# exec --no-startup-id cat /sys/class/backlight/intel_backlight/max_brightness | sudo tee /sys/class/backlight/intel_backlight/brightness
 exec --no-startup-id mount /insilica
 exec --no-startup-id mount /mnt/insilica
 exec --no-startup-id mount /mnt/insilica-data
 
-exec --no-startup-id ~/bin/i3proj run > ~/i3proj.out 2> ~/i3proj.err
+exec --no-startup-id python3 ~/bin/i3proj.py run > ~/i3proj.out 2> ~/i3proj.err
 
 # exec --no-startup-id systemctl --user start synergys
 # exec --no-startup-id sudo virsh start win10
 
 # sets border colors
-# client.focused  #000000 #d4d4d4 #000000
-# client.unfocused  #000000 #555555 #000000
-
-# client.focused #22aaff #22aaff #303030 #c6c6c6
-# client.focused_inactive #303030 #303030 #22aaff #c6c6c6
-# client.unfocused #303030 #303030 #22aaff #c6c6c6
-
-# client.focused #808080 #808080 #aaaaaa #aaaaaa
-# client.focused_inactive #303030 #303030 #aaaaaa #aaaaaa
-# client.unfocused #303030 #303030 #aaaaaa #aaaaaa
-
-# client.focused #969896 #969896 #1d1f21 #585858
-# client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #585858
-# client.unfocused #1d1f21 #1d1f21 #c5c8c6 #585858
-
-# client.focused #484a48 #484a48 #e5e8e6 #585858
-# client.focused_inactive #1d1f21 #1d1f21 #c5c8c6 #585858
-# client.unfocused #1d1f21 #1d1f21 #c5c8c6 #585858
-
 client.focused #b0b0b0 #b0b0b0 #000000 #aaaaaa
 client.focused_inactive #909090 #666666 #cccccc #aaaaaa
 client.unfocused #909090 #666666 #cccccc #aaaaaa
 
 # sets border width
-# new_window pixel 1
 new_window pixel 1
 # for_window [class="^.*"] border pixel 0
 
