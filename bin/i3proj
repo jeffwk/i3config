@@ -5,6 +5,11 @@ import subprocess
 from subprocess import Popen, PIPE, run
 from threading import Thread
 import json
+import argparse
+
+parser = argparse.ArgumentParser(description='Workspace group manager for i3wm')
+parser.add_argument('action', nargs=1, choices=[
+    'run','next-project','prev-project'])
 
 colors = {
     'fg': '#c8c8c8',
@@ -129,6 +134,12 @@ cache = {
     'output': '',
     'current': ''
 }
+
+def get_screen_width():
+    p = Popen(["xwininfo -root | egrep 'Width:'"],
+              shell=True, encoding='utf8', stdout=PIPE)
+    result = p.communicate()[0].strip()
+    return int(result.split(' ')[-1])
 
 def get_packages_status():
     p = Popen(["check-packages.sh"], shell=True, encoding='utf8', stdout=PIPE)
@@ -335,8 +346,8 @@ def update_from_conky(conkyline):
     update_block('time', timestr)
     update_block('battery', battery)
 
-ck = Popen(['conky -c ~/.i3/conky/conkyrc_raw'], shell=True, encoding='utf8', stdout=PIPE)
-lb = subprocess.Popen(["lemonbar -g 3840x55 -o 0 -u 2 -B" + colors['bg'] + " -f 'sauce code pro medium:size=12' -f 'fontawesome:size=13'"], shell=True, encoding='utf8', stdin=PIPE)
+
+
 
 def get_active_project():
     return open(os.path.expanduser('~/i3pwsvar')).readlines()[0].strip()
@@ -446,9 +457,13 @@ class i3ws_Thread(Thread):
             time.sleep(0.05)
 
 class conky_Thread(Thread):
+    def __init__(self):
+        self.ck = Popen(['conky -c ~/.i3/i3proj/conkyrc'],
+                        shell=True, encoding='utf8', stdout=PIPE)
+
     def run(self):
         while True:
-            result = str(ck.stdout.readline())
+            result = str(self.ck.stdout.readline())
             update_from_conky(result)
             update_output_all()
 
@@ -459,11 +474,20 @@ class volume_Thread(Thread):
             time.sleep(0.1)
 
 class output_Thread(Thread):
+    def __init__(self):
+        width = get_screen_width()
+        self.lb = subprocess.Popen(
+            ['lemonbar -g %dx40 -o 0 -u 2' % width +
+             ' -B' + colors['bg'] +
+             ' -f \'sauce code pro medium:size=10\'' +
+             ' -f \'fontawesome:size=11\''],
+            shell=True, encoding='utf8', stdin=PIPE)
+
     def run(self):
         while True:
             if cache['output'] != cache['current']:
-                print(cache['output'], end='\n', file=lb.stdin)
-                lb.stdin.flush()
+                print(cache['output'], end='\n', file=self.lb.stdin)
+                self.lb.stdin.flush()
                 cache['current'] = cache['output']
             time.sleep(0.05)
 
@@ -481,24 +505,29 @@ class packages_Thread(Thread):
             update_block('packages', get_packages_status(), True)
             time.sleep(120)
 
-update_active_project()
+def run():
+    update_active_project()
 
-i3ws = i3ws_Thread()
-i3ws.start()
+    i3ws = i3ws_Thread()
+    i3ws.start()
 
-conky = conky_Thread()
-conky.start()
+    conky = conky_Thread()
+    conky.start()
 
-volume = volume_Thread()
-volume.start()
+    volume = volume_Thread()
+    volume.start()
 
-packages = packages_Thread()
-packages.start()
+    packages = packages_Thread()
+    packages.start()
 
-misc = misc_Thread()
-misc.start()
+    misc = misc_Thread()
+    misc.start()
 
-output = output_Thread()
-output.start()
+    output = output_Thread()
+    output.start()
 
-output.join()
+    output.join()
+
+if __name__ == '__main__':
+    args=parser.parse_args()
+    run()
