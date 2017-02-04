@@ -521,10 +521,10 @@ class output_Thread(Thread):
     def run(self):
         width = get_screen_width()
         self.lb = subprocess.Popen(
-            ['lemonbar -g %dx46 -o 0 -u 2' % width +
+            ['INFINALITY_FT="ultimate" lemonbar -g %dx45 -o 0 -u 2' % width +
              ' -B' + colors['bg'] +
-             ' -f \'sauce code pro medium:size=11\'' +
-             ' -f \'fontawesome:size=12\''],
+             ' -f \'sauce code pro semibold:pixelsize=25\'' +
+             ' -f \'fontawesome:pixelsize=26\''],
             shell=True, encoding='utf8', stdin=PIPE)
         while True:
             if cache['output'] != cache['current']:
