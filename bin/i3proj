@@ -9,7 +9,11 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Workspace group manager for i3wm')
 parser.add_argument('action', nargs=1, choices=[
-    'run','next-project','prev-project'])
+    'run',
+    'active-project',
+    'create-project','delete-project',
+    'switch-project','next-project','prev-project',
+    'transfer-project'])
 
 colors = {
     'fg': '#c8c8c8',
@@ -48,7 +52,7 @@ ws_aliases = {
 }
 
 def get_ws_alias(wname):
-    pname = cache['active_project'][1:]
+    pname = cache['active_project']
     if pname in ws_aliases.keys():
         if wname in ws_aliases[pname].keys():
             return ws_aliases[pname][wname]
@@ -135,6 +139,15 @@ cache = {
     'current': ''
 }
 
+def rofi_select(options, message):
+    p = Popen(['rofi', '-dmenu', '-mesg', message],
+              encoding='utf8', stdin=PIPE, stdout=PIPE)
+    print('\n'.join(options), end='\n', file=p.stdin)
+    p.stdin.flush()
+    result = p.communicate()[0].strip()
+    p.stdin.close()
+    return result
+
 def get_screen_width():
     p = Popen(["xwininfo -root | egrep 'Width:'"],
               shell=True, encoding='utf8', stdout=PIPE)
@@ -180,6 +193,9 @@ def i3_msg(mtype, marg):
     
 def i3_get_workspaces():
     return i3_msg('get_workspaces', '')
+
+def i3_goto_workspace(pname, wname):
+    return i3_msg('command', 'workspace %s_%s' % (pname,str(wname)))
 
 def write_main_output():
     s = ''
@@ -312,10 +328,13 @@ def render_block(name, vals):
         return write_simple_block(
             write_icon(''), 'purple', 'fg', 8, timestr)
     elif name == 'battery':
-        percent = vals
-        return write_simple_block(
-            write_icon(''), 'yellow', 'fg', 4, percent+'%'
-        )
+        try:
+            percent = int(vals)
+            return write_simple_block(
+                write_icon(''), 'yellow', 'fg', 4, percent+'%'
+            )
+        except:
+            return ''
     elif name == 'cputemp':
         temp = vals
         return write_simple_block(
@@ -333,30 +352,49 @@ def update_block(name, vals, redraw=False):
             update_output_all()
 
 def update_from_conky(conkyline):
-    [cpu, memused, memmax, diskread, diskwrite, netdown, netup,
-     fsused, fssize, datestr, timestr, battery] = (
-        conkyline.strip().split(';')
-    )
-    update_block('cpu', cpu)
-    update_block('mem', [memused, memmax])
-    update_block('diskio', [diskread, diskwrite])
-    update_block('netspeed', [netdown, netup])
-    update_block('fsusage', [fsused, fssize])
-    update_block('date', datestr)
-    update_block('time', timestr)
-    update_block('battery', battery)
+    j = json.loads(conkyline.strip())
+    for k in j.keys():
+        update_block(k, j[k])
 
+def i3proj_path(fname):
+    return os.path.expanduser('~/.i3/i3proj/%s' % fname)
 
-
+paths = {'active': i3proj_path('active'),
+         'prev': i3proj_path('prev'),
+         'projects': i3proj_path('projects')}
 
 def get_active_project():
-    return open(os.path.expanduser('~/i3pwsvar')).readlines()[0].strip()
+    return open(paths['active']).readlines()[0].strip()
+
+def write_active_project(pname):
+    f = open(paths['active'],'w')
+    print(pname, end='\n', file=f)
+    f.close()
+
+def get_last_project():
+    return open(paths['prev']).readlines()[0].strip()
+
+def write_last_project(pname):
+    f = open(paths['prev'],'w')
+    print(pname, end='\n', file=f)
+    f.close()
+
+def get_project_list():
+    return [s.strip() for s in open(paths['projects']).readlines()]
+
+def write_project_list(pnames):
+    f = open(paths['projects'],'w')
+    print('\n'.join(pnames), end='\n', file=f)
+    f.close()
 
 def update_active_project():
     cache['active_project'] = get_active_project()
 
 def ws_order(ws):
     wname = '_'.join(ws['name'].split('_')[1:])
+    if len(wname) == 0:
+        print('ws_order: empty name, returning -1')
+        return -1
     if wname[:2] == '10':
         return 10
     else:
@@ -385,30 +423,39 @@ def write_project_block(name, active, wscount):
     s += write_offset(bmargin)
     return s
 
+def parse_ws_name(raw_name):
+    pname = raw_name.split('_')[0]
+    wname = '_'.join(raw_name.split('_')[1:])
+    return [pname, wname]
+
+def update_all_ws():
+    cache['i3_ws']['list'] = json.loads(i3_get_workspaces())
+
+def project_active_workspaces(all_ws=None):
+    if all_ws == None:
+        all_ws = cache['i3_ws']['list']
+    result = {}
+    for ws in all_ws:
+        [pname, wname] = parse_ws_name(ws['name'])
+        if pname in result.keys():
+            result[pname] += [wname]
+        else:
+            result[pname] = [wname]
+    return result
+
 def write_projects_section(all_ws):
-    pactive = cache['active_project'][1:]
-    
-    pnames = []
-    for ws in all_ws:
-        pname = ws['name'].split('_')[0][1:]
-        if pname not in pnames:
-            pnames += [pname]
-            
-    pcounts = {}
-    for pname in pnames:
-        pcounts[pname] = 0
-    for ws in all_ws:
-        pname = ws['name'].split('_')[0][1:]
-        pcounts[pname] += 1
-    
+    pactive = cache['active_project']
+    proj_aws = project_active_workspaces(all_ws)
+    pnames = proj_aws.keys()
+
     s = ''
     s += '%{-u}'
-    for name in pnames:
-        if name != pactive:
-            s += write_project_block(name, False, pcounts[name])
-    s += write_project_block(pactive, True, pcounts[pactive])
+    for pname in proj_aws.keys():
+        if pname != pactive:
+            s += write_project_block(pname, False, len(proj_aws[pname]))
+    s += write_project_block(pactive, True, None)
     return s
-    
+
 def update_workspaces(all_ws_str):
     update = False
 
@@ -425,30 +472,29 @@ def update_workspaces(all_ws_str):
         s = ''
         try:
             all_ws = json.loads(all_ws_str)
-        except:
-            all_ws = []
-        pactive = cache['active_project'][1:]
-        s += write_projects_section(all_ws)
-        s += write_offset(bmargin)
-        all_ws_sorted = sorted(all_ws, key=ws_order)
-        for ws in all_ws_sorted:
-            raw_name = ws['name']
-            pname = ws['name'].split('_')[0][1:]
-            wname = '_'.join(ws['name'].split('_')[1:])
-            walias = get_ws_alias(wname)
-            if walias == None:
-                wdisplay = wname
-            else:
-                wdisplay = wname + '[' + walias + ']'
-            wactive = (pname == pactive)
-            if wactive:
-                color = {True: 'fg', False: 'fg-dim'}[ws['visible']]
-                s += write_multi_block(
-                    color,
-                    [[color, wdisplay, 0]]
-                )
-        cache['i3_ws']['lemonbar'] = s
-        update_output()
+            cache['i3_ws']['list'] = all_ws
+            pactive = cache['active_project']
+            s += write_projects_section(all_ws)
+            s += write_offset(bmargin)
+            all_ws_sorted = sorted(all_ws, key=ws_order)
+            for ws in all_ws_sorted:
+                [pname,wname] = parse_ws_name(ws['name'])
+                walias = get_ws_alias(wname)
+                if walias == None:
+                    wdisplay = wname
+                else:
+                    wdisplay = wname + '[' + walias + ']'
+                wactive = (pname == pactive)
+                if wactive:
+                    color = {True: 'fg', False: 'fg-dim'}[ws['visible']]
+                    s += write_multi_block(
+                        color,
+                        [[color, wdisplay, 0]]
+                    )
+            cache['i3_ws']['lemonbar'] = s
+            update_output()
+        except e:
+            print(e)
 
 class i3ws_Thread(Thread):
     def run(self):
@@ -457,11 +503,9 @@ class i3ws_Thread(Thread):
             time.sleep(0.05)
 
 class conky_Thread(Thread):
-    def __init__(self):
+    def run(self):
         self.ck = Popen(['conky -c ~/.i3/i3proj/conkyrc'],
                         shell=True, encoding='utf8', stdout=PIPE)
-
-    def run(self):
         while True:
             result = str(self.ck.stdout.readline())
             update_from_conky(result)
@@ -474,16 +518,14 @@ class volume_Thread(Thread):
             time.sleep(0.1)
 
 class output_Thread(Thread):
-    def __init__(self):
+    def run(self):
         width = get_screen_width()
         self.lb = subprocess.Popen(
-            ['lemonbar -g %dx40 -o 0 -u 2' % width +
+            ['lemonbar -g %dx46 -o 0 -u 2' % width +
              ' -B' + colors['bg'] +
-             ' -f \'sauce code pro medium:size=10\'' +
-             ' -f \'fontawesome:size=11\''],
+             ' -f \'sauce code pro medium:size=11\'' +
+             ' -f \'fontawesome:size=12\''],
             shell=True, encoding='utf8', stdin=PIPE)
-
-    def run(self):
         while True:
             if cache['output'] != cache['current']:
                 print(cache['output'], end='\n', file=self.lb.stdin)
@@ -505,8 +547,10 @@ class packages_Thread(Thread):
             update_block('packages', get_packages_status(), True)
             time.sleep(120)
 
-def run():
+def run(args=None):
+    write_active_project('home')
     update_active_project()
+    i3_goto_workspace('home',1)
 
     i3ws = i3ws_Thread()
     i3ws.start()
@@ -528,6 +572,74 @@ def run():
 
     output.join()
 
+def get_visible_ws():
+    return [ws for ws in cache['i3_ws']['list']
+            if ws['visible']][0]
+
+def transfer_project(pname=None):
+    plist = get_project_list()
+    if pname == None:
+        pname = rofi_select(plist, 'Transfer window to project:')
+    if pname not in plist:
+        print('invalid project name: %s' % pname)
+    else:
+        update_all_ws()
+        active_ws = get_visible_ws()
+        if pname != None and active_ws != None:
+            wname = pname + '_' + str(ws_order(active_ws))
+            i3_msg('command',
+                   'move container to workspace ' + wname)
+
+def switch_project(pname=None):
+    plist = get_project_list()
+    active = get_active_project()
+    if pname == None:
+        pname = rofi_select(plist, 'Switch to project:')
+    if pname in plist:
+        write_last_project(get_active_project())
+        write_active_project(pname)
+        i3_goto_workspace(pname, 1)
+    else:
+        print('invalid project name: %s' % pname)
+
+def create_project(args=None):
+    plist = get_project_list()
+    pname = rofi_select([], 'Enter name for new project:')
+    if pname not in plist:
+        plist += [pname]
+        write_project_list(plist)
+    switch_project(pname)
+
+def delete_project(pdelete=None):
+    update_all_ws()
+    proj_aws = project_active_workspaces()
+    plist = get_project_list()
+    plist_empty = [pname for pname in plist if pname not in proj_aws.keys()]
+    if pdelete == None:
+        pdelete = rofi_select(plist_empty, 'Delete project:')
+    if pdelete not in plist_empty:
+        print('\'%s\' is not a valid empty project' % pname)
+    else:
+        new_plist = [pname for pname in plist if pname != pdelete]
+        if len(new_plist) == 0:
+            print('unable to delete, project list would be empty')
+        else:
+            write_project_list(new_plist)
+
 if __name__ == '__main__':
     args=parser.parse_args()
-    run()
+    action = args.action[0]
+    if action == 'run':
+        run(args)
+    elif action == 'transfer-project':
+        transfer_project()
+    elif action == 'switch-project':
+        switch_project()
+    elif action == 'create-project':
+        create_project(args)
+    elif action == 'delete-project':
+        delete_project()
+    elif action == 'active-project':
+        print(get_active_project())
+    else:
+        print('invalid command-line arguments')

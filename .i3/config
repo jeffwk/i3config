@@ -65,7 +65,6 @@ set $WSP7 "7"
 set $WSP8 "8"
 set $WSP9 "9"
 set $WSP10 "10"
-# exec rm -f i3pwsvar ; echo home > i3pwsvar
 
 # switch to workspace
 # bindsym $mod+1 workspace 1
@@ -79,16 +78,16 @@ set $WSP10 "10"
 # bindsym $mod+9 workspace 9
 # bindsym $mod+0 workspace 10
 
-bindsym $mod+1 exec i3-msg workspace $(cat i3pwsvar)_$WSP1
-bindsym $mod+2 exec i3-msg workspace $(cat i3pwsvar)_$WSP2
-bindsym $mod+3 exec i3-msg workspace $(cat i3pwsvar)_$WSP3
-bindsym $mod+4 exec i3-msg workspace $(cat i3pwsvar)_$WSP4
-bindsym $mod+5 exec i3-msg workspace $(cat i3pwsvar)_$WSP5
-bindsym $mod+6 exec i3-msg workspace $(cat i3pwsvar)_$WSP6
-bindsym $mod+7 exec i3-msg workspace $(cat i3pwsvar)_$WSP7
-bindsym $mod+8 exec i3-msg workspace $(cat i3pwsvar)_$WSP8
-bindsym $mod+9 exec i3-msg workspace $(cat i3pwsvar)_$WSP9
-bindsym $mod+0 exec i3-msg workspace $(cat i3pwsvar)_$WSP10
+bindsym $mod+1 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP1
+bindsym $mod+2 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP2
+bindsym $mod+3 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP3
+bindsym $mod+4 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP4
+bindsym $mod+5 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP5
+bindsym $mod+6 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP6
+bindsym $mod+7 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP7
+bindsym $mod+8 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP8
+bindsym $mod+9 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP9
+bindsym $mod+0 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP10
 
 # move focused container to workspace
 # bindsym $mod+Shift+1 move container to workspace 1
@@ -102,30 +101,21 @@ bindsym $mod+0 exec i3-msg workspace $(cat i3pwsvar)_$WSP10
 # bindsym $mod+Shift+9 move container to workspace 9
 # bindsym $mod+Shift+0 move container to workspace 10
 
-bindsym $mod+Shift+1 exec i3-msg move container to workspace $(cat i3pwsvar)_$WSP1
-bindsym $mod+Shift+2 exec i3-msg move container to workspace $(cat i3pwsvar)_$WSP2
-bindsym $mod+Shift+3 exec i3-msg move container to workspace $(cat i3pwsvar)_$WSP3
-bindsym $mod+Shift+4 exec i3-msg move container to workspace $(cat i3pwsvar)_$WSP4
-bindsym $mod+Shift+5 exec i3-msg move container to workspace $(cat i3pwsvar)_$WSP5
-bindsym $mod+Shift+6 exec i3-msg move container to workspace $(cat i3pwsvar)_$WSP6
-bindsym $mod+Shift+7 exec i3-msg move container to workspace $(cat i3pwsvar)_$WSP7
-bindsym $mod+Shift+8 exec i3-msg move container to workspace $(cat i3pwsvar)_$WSP8
-bindsym $mod+Shift+9 exec i3-msg move container to workspace $(cat i3pwsvar)_$WSP9
-bindsym $mod+Shift+0 exec i3-msg move container to workspace $(cat i3pwsvar)_$WSP10
+bindsym $mod+Shift+1 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP1
+bindsym $mod+Shift+2 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP2
+bindsym $mod+Shift+3 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP3
+bindsym $mod+Shift+4 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP4
+bindsym $mod+Shift+5 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP5
+bindsym $mod+Shift+6 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP6
+bindsym $mod+Shift+7 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP7
+bindsym $mod+Shift+8 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP8
+bindsym $mod+Shift+9 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP9
+bindsym $mod+Shift+0 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP10
 
-# switch active project
-# bindsym $mod+Control+p exec wmctrl -c 'Select Project' || echo "$(zenity --title 'Select Project' --list --column 'Project Name' $(cat i3pslist))" > i3pwsvar
-bindsym $mod+Control+p exec ~/bin/i3wm-switch-project.sh
-
-# create project
-# bindsym $mod+Shift+Control+p exec "wmctrl -c 'Add Space Name:' || pname=$(zenity --title 'Add Space Name:' --entry);[[ -z $pname ]] || egrep -q ''\"$pname\"'$' i3pslist || echo \"$pname\" | sed 's/ /_/g'>> i3pslist;echo \"$(sort i3pslist)\" > i3pslist"
-bindsym $mod+Shift+Control+p exec ~/bin/i3wm-create-project.sh
-
-# remove project
-# bindsym $mod+Shift+Control+o exec "wmctrl -c 'Delete Space Name:' || pname=$(zenity --title 'Delete Space Name:' --entry);sed -i /\"$pname\"$/d i3pslist"
-bindsym $mod+Shift+Control+o exec ~/bin/i3wm-remove-project.sh
-
-bindsym $mod+Control+t exec ~/bin/i3wm-transfer-to-project.py
+bindsym $mod+Control+p exec --no-startup-id ~/bin/i3proj switch-project
+bindsym $mod+Shift+Control+p exec --no-startup-id ~/bin/i3proj create-project
+bindsym $mod+Shift+Control+o exec --no-startup-id ~/bin/i3proj delete-project
+bindsym $mod+Control+t exec --no-startup-id ~/bin/i3proj transfer-project
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -264,7 +254,7 @@ exec --no-startup-id mount /insilica
 exec --no-startup-id mount /mnt/insilica
 exec --no-startup-id mount /mnt/insilica-data
 
-exec --no-startup-id ~/bin/run-lemonbar.py
+exec --no-startup-id ~/bin/i3proj run > ~/i3proj.out 2> ~/i3proj.err
 
 # exec --no-startup-id systemctl --user start synergys
 # exec --no-startup-id sudo virsh start win10
