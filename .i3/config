@@ -219,7 +219,7 @@ client.unfocused #909090 #666666 #cccccc #aaaaaa
 new_window pixel 1
 # for_window [class="^.*"] border pixel 0
 
-set $default_gaps_inner 24
+set $default_gaps_inner 21
 set $default_gaps_outer 0
 
 gaps inner $default_gaps_inner
