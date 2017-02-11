@@ -9,4 +9,4 @@ use_spacer left
 cpu_avg_samples 2
 
 TEXT
-{"cpu": "${cpu cpu0}", "mem": ["${mem}", "${memmax}"], "diskio": ["${diskio_read}", "${diskio_write}"], "netspeed": ["${downspeedf enp0s31f6}", "${upspeedf enp0s31f6}"], "fsusage": ["${fs_used}", "${fs_size}"], "date": "${time %a %b %d}", "time": "${time %_I:%M %p}", "battery": ${battery_percent}}
+{"cpu": "${cpu cpu0}", "mem": ["${mem}", "${memmax}"], "diskio": ["${diskio_read}", "${diskio_write}"], "netspeed": ["${downspeedf wlp4s0}K", "${upspeedf wlp4s0}K"], "fsusage": ["${fs_used}", "${fs_size}"], "date": "${time %a %b %d}", "time": "${time %_I:%M %p}", "battery": "${battery_percent}"}

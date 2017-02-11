@@ -685,7 +685,7 @@ class i3p_App:
             def run(self):
                 width = app.util.get_screen_width()
                 self.lb = subprocess.Popen(
-                    ['INFINALITY_FT="osx" lemonbar -g %dx42 -o 0 -u 2' % width +
+                    ['INFINALITY_FT="osx" lemonbar -g %dx35 -o -1 -u 2' % width +
                      ' -B' + app.cfg.colors['bg'] +
                      ' -f \'sauce code pro medium:size=10\'' +
                      ' -f \'fontawesome:size=10\''],
@@ -701,10 +701,11 @@ class i3p_App:
         class misc_Thread(Thread):
             def run(self):
                 while True:
-                    app.update_block(
-                        'qemu', app.util.qemu_status(), True)
-                    app.update_block(
-                        'synergy', app.util.synergy_status(), True)
+                    if false:
+                        app.update_block(
+                            'qemu', app.util.qemu_status(), True)
+                        app.update_block(
+                            'synergy', app.util.synergy_status(), True)
                     app.update_block(
                         'cputemp', app.util.get_cputemp(), True)
                     time.sleep(0.5)
