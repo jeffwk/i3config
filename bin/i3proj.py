@@ -459,7 +459,7 @@ class i3p_App:
             try:
                 percent = int(vals)
                 return o.write_simple_block(
-                    o.write_icon(''), 'yellow', 'fg', 4, percent+'%'
+                    o.write_icon(''), 'yellow', 'fg', 4, str(percent)+'%'
                 )
             except:
                 return ''
@@ -602,9 +602,12 @@ class i3p_App:
         update = False
 
         prev_state = self.state
-        self.load_state()
-        if self.state != prev_state:
-            update = True
+        try:
+            self.load_state()
+            if self.state != prev_state:
+                update = True
+        except:
+            pass
 
         prev_active = self.cache_or(['active_project'])
         self.update_active_project()
