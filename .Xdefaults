@@ -6,9 +6,9 @@ URxvt.perl-ext-common:
 
 Emacs*toolBar: off
 Emacs*menuBar: off
-! Emacs*font: Sauce Code Pro Medium:pixelsize=32
-Emacs*font: Inconsolata for Powerline:pixelsize=36
-! Emacs*font: Sauce Code Pro Medium:pixelsize=23
+Emacs*font: Sauce Code Pro Medium-13
+! Emacs*font: Inconsolata for Powerline:pixelsize=36
+! Emacs*font: Monaco:pixelsize=32
 Emacs*verticalScrollBars: off
 
 !! background transparency
@@ -23,10 +23,13 @@ Emacs*verticalScrollBars: off
 ! URxvt*font: xft:Inconsolata for Powerline:pixelsize=26
 ! URxvt*font: xft:Source Code Pro Semibold:pixelsize=15,FontAwesome
 ! URxvt*font: xft:Sauce Code Pro:pixelsize=29
-
-URxvt*font: xft:Inconsolata for Powerline:pixelsize=36
-! URxvt*font: xft:Ubuntu Mono:pixelsize=20
-! URxvt*font: xft:Monaco:pixelsize=17
+! URxvt*font: xft:Inconsolata for Powerline:pixelsize=36
+! URxvt*font: xft:Courier Prime Code:pixelsize=36
+! URxvt*font: xft:Courier Prime Code:pixelsize=36
+! URxvt*font: xft:Ubuntu Mono:pixelsize=36
+! URxvt*font: xft:Monaco:pixelsize=32
+! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=29
+URxvt*font: xft:Sauce Code Pro Medium:size=13
 
 ! Xcursor.theme: ArchCursorTheme
 ! Xcursor.size: 32

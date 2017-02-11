@@ -10,14 +10,16 @@ font pango:Sauce Code Pro Medium 11
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-bindsym $mod+Shift+Return exec urxvtc
+set $inf INFINALITY_FT=ultimate
+
+bindsym $mod+Shift+Return exec $inf urxvtc
 
 # kill focused window
 bindsym Control+q kill
 
 # start rofi run (a program launcher)
-bindsym $mod+p exec --no-startup-id rofi -show run
-bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run
+bindsym $mod+p exec --no-startup-id $inf rofi -show run
+bindsym $mod+shift+p exec --no-startup-id $inf sudo rofi -show run
 
 # window focus keys
 bindsym $mod+Left focus left
@@ -186,7 +188,7 @@ bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
 exec --no-startup-id xrandr --dpi 162
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
-exec --no-startup-id urxvtd -q -f -o
+exec --no-startup-id $inf urxvtd -q -f -o
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
 # exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
 exec --no-startup-id xset s on +dpms

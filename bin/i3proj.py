@@ -682,10 +682,10 @@ class i3p_App:
             def run(self):
                 width = app.util.get_screen_width()
                 self.lb = subprocess.Popen(
-                    ['INFINALITY_FT="ultimate" lemonbar -g %dx45 -o 0 -u 2' % width +
+                    ['INFINALITY_FT="osx" lemonbar -g %dx42 -o 0 -u 2' % width +
                      ' -B' + app.cfg.colors['bg'] +
-                     ' -f \'sauce code pro semibold:pixelsize=25\'' +
-                     ' -f \'fontawesome:pixelsize=26\''],
+                     ' -f \'sauce code pro medium:size=10\'' +
+                     ' -f \'fontawesome:size=10\''],
                     shell=True, encoding='utf8', stdin=PIPE)
                 while True:
                     if app.cache_or(['output']) != app.cache_or(['current']):
