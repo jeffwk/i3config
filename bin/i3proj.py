@@ -29,10 +29,11 @@ def i3p_path(relpath):
     return os.path.expanduser('~/.i3/i3proj/%s' % fname)
 
 class i3p_Config:
-    def __init__(self,margin,padding,colors):
+    def __init__(self,margin,padding,colors,aliases):
         self.margin = margin
         self.padding = padding
         self.colors = colors
+        self.aliases = aliases
 
 default_config = i3p_Config(
     margin=6,
@@ -49,6 +50,14 @@ default_config = i3p_Config(
         'cyan': '#8abeb7',
         'orange': '#de935f',
         'yellow': '#f0c674'
+    },
+    aliases = {'code': ':2:blue',
+               'server': 'S:2:blue',
+               'client': 'C:2:blue',
+               'web': ':2:blue',
+               'shell': ':2:blue',
+               'media': ':2:blue',
+               'music': ':2:blue'
     }
 )
 
@@ -120,6 +129,23 @@ class bar_Output:
     
     def write_icon(self, s):
         return ('%{T2}' + s + '%{T-}')
+
+    def write_with_font(self, s, fontidx):
+        return ('%{T' + str(fontidx) + '}' + s + '%{T-}')
+
+    def write_with_fg(self, s, color, current=None):
+        if current == None:
+            current_out = '-'
+        else:
+            current_out = self.colors[current]
+        return ('%{F' + self.colors[color] + '}' + s + '%{F' + current_out + '}')
+
+    def write_with_bg(self, s, color, current=None):
+        if current == None:
+            current_out = '-'
+        else:
+            current_out = self.colors[current]
+        return ('%{B' + self.colors[color] + '}' + s + '%{B' + current_out + '}')
 
     def write_offset(self, offset):
         return ('%{O' + str(offset) + '}')
@@ -286,7 +312,7 @@ class i3p_App:
         if walias == None or walias == '':
             return self.remove_ws_alias(pname, wname)
         elif not (check_pname(pname) and check_wname(wname) and
-                  is_str(walias)):
+                  type(walias)==list):
             print('add_ws_alias: invalid arguments (%s, %s, %s)' %
                   (pname, wname, walias))
         else:
@@ -306,11 +332,23 @@ class i3p_App:
 
     def label_workspace(self):
         self.update_all_ws()
-        alias = self.util.rofi_select(
-            [], 'Enter workspace label:')
+        response = self.util.rofi_select(
+            [], 'Enter workspace label:').strip().split(':')
+        [alias, fontidx, color] = [None, None, None]
+        if len(response) == 1 and response[0] in self.cfg.aliases.keys():
+            response = self.cfg.aliases[response[0]].strip().split(':')
+        if len(response) >= 1:
+            alias = response[0]
+        if len(response) >= 2:
+            try:
+                fontidx = int(response[1])
+            except:
+                print('invalid font index: ' % response[1])
+        if len(response) >= 3:
+            color = response[2]
         [pname,wname] = self.parse_ws_name(
             self.get_visible_ws()['name'])
-        self.add_ws_alias(pname, wname, alias)
+        self.add_ws_alias(pname, wname, [alias, fontidx, color])
 
     def i3_msg(self, mtype, marg):
         p = Popen(['i3-msg -t %s %s' % (mtype, marg)],
@@ -635,18 +673,31 @@ class i3p_App:
             all_ws_sorted = sorted(all_ws, key=self.ws_order)
             for ws in all_ws_sorted:
                 [pname,wname] = self.parse_ws_name(ws['name'])
-                walias = self.get_ws_alias(wname)
-                if walias == None:
-                    wdisplay = wname
-                else:
-                    wdisplay = wname + '[' + walias + ']'
                 wactive = (pname == pactive)
                 if wactive:
                     color = {True: 'fg', False: 'fg-dim'}[ws['visible']]
-                    s += o.write_multi_block(
+                    walias = self.get_ws_alias(wname)
+                    if type(walias) == str:
+                        [alias,fontidx,acolor] = [walias, None, None]
+                    elif type(walias) == list:
+                        [alias,fontidx,acolor] = walias
+                    wdisplay = wname
+                    if walias != None and alias != None and len(alias)>0:
+                        wdisplay += '['
+                        alias_out = alias
+                        if acolor != None:
+                            alias_out = o.write_with_fg(alias_out, acolor, color)
+                        if fontidx != None:
+                            alias_out = o.write_with_font(alias_out, fontidx)
+                            alias_out = o.write_offset(1) + alias_out + o.write_offset(1)
+                        wdisplay += alias_out
+                        wdisplay += ']'
+                    b = o.write_multi_block(
                         color,
                         [[color, wdisplay, 0]]
                     )
+                    s += b
+                
             self.cache_save(['i3_ws','lemonbar'], s)
             self.update_output()
 
@@ -688,7 +739,7 @@ class i3p_App:
                     ['INFINALITY_FT="osx" lemonbar -g %dx42 -o 0 -u 2' % width +
                      ' -B' + app.cfg.colors['bg'] +
                      ' -f \'sauce code pro medium:size=10\'' +
-                     ' -f \'fontawesome:size=10\''],
+                     ' -f \'fontawesome:size=11\''],
                     shell=True, encoding='utf8', stdin=PIPE)
                 while True:
                     if app.cache_or(['output']) != app.cache_or(['current']):
