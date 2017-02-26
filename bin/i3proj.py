@@ -749,9 +749,9 @@ class i3p_App:
                     fsize = 'size=10'
                     isize = 'size=11'
                 else:
-                    height = 37
-                    fsize = 'pixelsize=21'
-                    isize = 'pixelsize=21'
+                    height = 40
+                    fsize = 'pixelsize=22'
+                    isize = 'pixelsize=25'
                 self.lb = subprocess.Popen(
                     ['INFINALITY_FT="osx" lemonbar -g %dx%d -o 0 -u 2' %
                      (width, height) +
