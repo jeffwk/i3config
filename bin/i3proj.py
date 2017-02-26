@@ -95,6 +95,14 @@ class i3p_Util:
         result = p.communicate()[0].strip()
         return result
 
+    def systemd_status(self, name):
+        p = Popen(['service-status libvirtd'], shell=True, encoding='utf8', stdout=PIPE)
+        result = p.communicate()[0].strip()
+        if result == 'on':
+            return True
+        else:
+            return False
+
     def qemu_status(self):
         p = Popen(['qemu-status win10'], shell=True, encoding='utf8', stdout=PIPE)
         result = p.communicate()[0].strip()
@@ -210,6 +218,7 @@ class i3p_App:
 
     def init(self):
         self.util = i3p_Util()
+        self.libvirtd_active = self.util.systemd_status('libvirtd')
         self.out = bar_Output()
         try:
             self.load_state()
@@ -394,7 +403,7 @@ class i3p_App:
             cpu = vals
             return o.write_simple_block(
                 o.write_icon(''),
-                'green', 'fg', 4, '%s%%' % cpu)
+                'green', 'fg', 3, '%s%%' % cpu)
         elif name == 'mem':
             [memused, memmax] = vals
             return o.write_multi_block(
@@ -409,9 +418,9 @@ class i3p_App:
             return o.write_multi_block(
                 'cyan',
                 [['cyan', o.write_icon(''), 0],
-                 ['fg', diskread, 7],
+                 ['fg', diskread, 6],
                  ['cyan', ' ' + o.write_icon(''), 0],
-                 ['fg', diskwrite, 7],
+                 ['fg', diskwrite, 6],
                  ['cyan', ' ' + o.write_icon(''), 0]]
             )
         elif name == 'netspeed':
@@ -419,9 +428,9 @@ class i3p_App:
             return o.write_multi_block(
                 'blue',
                 [['blue', o.write_icon(''), 0],
-                 ['fg', netdown, 7],
+                 ['fg', netdown, 6],
                  ['blue', ' ' + o.write_icon(''), 0],
-                 ['fg', netup, 7],
+                 ['fg', netup, 6],
                  ['blue', ' ' + o.write_icon(''), 0]]
             )
         elif name == 'fsusage':
@@ -442,7 +451,7 @@ class i3p_App:
             volume = vals
             return o.write_simple_block(
                 o.write_icon(''),
-                'orange', 'fg', 4, volume+'%')
+                'orange', 'fg', 3, volume+'%')
         elif name == 'packages':
             pstatus = vals
             return o.write_simple_block(
@@ -466,7 +475,7 @@ class i3p_App:
         elif name == 'cputemp':
             temp = vals
             return o.write_simple_block(
-                o.write_icon(''), 'orange', 'fg', 4, temp+'°'
+                o.write_icon(''), 'orange', 'fg', 3, temp+'°'
             )
         else:
             return ''
@@ -684,11 +693,20 @@ class i3p_App:
         class output_Thread(Thread):
             def run(self):
                 width = app.util.get_screen_width()
+                if width > 2560:
+                    height = 42
+                    fsize = 'size=10'
+                    isize = 'size=11'
+                else:
+                    height = 37
+                    fsize = 'pixelsize=21'
+                    isize = 'pixelsize=21'
                 self.lb = subprocess.Popen(
-                    ['INFINALITY_FT="osx" lemonbar -g %dx42 -o 0 -u 2' % width +
+                    ['INFINALITY_FT="osx" lemonbar -g %dx%d -o 0 -u 2' %
+                     (width, height) +
                      ' -B' + app.cfg.colors['bg'] +
-                     ' -f \'sauce code pro medium:size=10\'' +
-                     ' -f \'fontawesome:size=10\''],
+                     ' -f \'sauce code pro medium:%s\'' % str(fsize) +
+                     ' -f \'fontawesome:%s\'' % str(isize)],
                     shell=True, encoding='utf8', stdin=PIPE)
                 while True:
                     if app.cache_or(['output']) != app.cache_or(['current']):
@@ -701,10 +719,11 @@ class i3p_App:
         class misc_Thread(Thread):
             def run(self):
                 while True:
-                    app.update_block(
-                        'qemu', app.util.qemu_status(), True)
-                    app.update_block(
-                        'synergy', app.util.synergy_status(), True)
+                    if app.libvirtd_active:
+                        app.update_block(
+                            'qemu', app.util.qemu_status(), True)
+                        app.update_block(
+                            'synergy', app.util.synergy_status(), True)
                     app.update_block(
                         'cputemp', app.util.get_cputemp(), True)
                     time.sleep(0.5)
