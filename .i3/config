@@ -13,6 +13,7 @@ floating_modifier $mod
 set $inf INFINALITY_FT=ultimate
 
 bindsym $mod+Shift+Return exec $inf urxvtc
+bindsym $mod+Shift+Control+Return exec $inf urxvtc -fn "xft:Sauce Code Pro Medium:pixelsize=40"
 
 # kill focused window
 bindsym Control+q kill

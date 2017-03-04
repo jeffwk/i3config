@@ -745,9 +745,9 @@ class i3p_App:
             def run(self):
                 width = app.util.get_screen_width()
                 if width > 2560:
-                    height = 42
-                    fsize = 'size=10'
-                    isize = 'size=11'
+                    height = 70
+                    fsize = 'size=16'
+                    isize = 'size=18'
                 else:
                     height = 40
                     fsize = 'pixelsize=22'
