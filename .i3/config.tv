@@ -5,7 +5,7 @@
 set $mod Mod1
 set $super Mod4
 
-font pango:Sauce Code Pro Medium 11
+font pango:Sauce Code Pro Medium 13
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -186,9 +186,9 @@ bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
 # bar {
 #}
 
-exec --no-startup-id xrandr --dpi 162
+# exec --no-startup-id xrandr --dpi 192
 exec --no-startup-id xmodmap ~/.Xmodmap
-exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
+exec --no-startup-id cat ~/.Xresources ~/.Xdefaults.tv | xrdb -merge > /dev/null 2>&1
 exec --no-startup-id $inf urxvtd -q -f -o
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
 # exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
@@ -199,14 +199,13 @@ exec --no-startup-id hsetroot -solid '#555555'
 exec --no-startup-id compton
 ## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id emacs-reload
-exec --no-startup-id SVPManager
+# exec --no-startup-id SVPManager
 
-exec --no-startup-id mount /insilica
-exec --no-startup-id mount /mnt/insilica
-exec --no-startup-id mount /mnt/insilica-data
+# exec --no-startup-id mount /insilica
+# exec --no-startup-id mount /mnt/insilica
+# exec --no-startup-id mount /mnt/insilica-data
 
-# exec --no-startup-id sleep 2 && xrandr --output eDP1 --primary --mode 2560x1440 --dpi 162 --output HDMI2 --off && python3 ~/bin/i3proj.py run
-exec --no-startup-id python3 ~/bin/i3proj.py run > ~/i3proj.out 2> ~/i3proj.err
+exec --no-startup-id sleep 2 && xrandr --output eDP1 --off --output HDMI2 --mode 3840x2160 --primary --dpi 192 && python3 ~/bin/i3proj.py run
 
 # exec --no-startup-id systemctl --user start synergys
 # exec --no-startup-id sudo virsh start win10
