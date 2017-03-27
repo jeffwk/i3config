@@ -18,8 +18,8 @@ bindsym $mod+Shift+Return exec $inf urxvtc
 bindsym Control+q kill
 
 # start rofi run (a program launcher)
-bindsym $mod+p exec --no-startup-id $inf rofi -show run
-bindsym $mod+shift+p exec --no-startup-id $inf sudo rofi -show run
+bindsym $mod+p exec --no-startup-id rofi -show run
+bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run
 
 # window focus keys
 bindsym $mod+Left focus left
