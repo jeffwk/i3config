@@ -205,7 +205,8 @@ exec --no-startup-id emacs-reload
 # exec --no-startup-id mount /mnt/insilica
 # exec --no-startup-id mount /mnt/insilica-data
 
-exec --no-startup-id sleep 2 && xrandr --output eDP1 --off --output HDMI2 --mode 3840x2160 --primary --dpi 192 && python3 ~/bin/i3proj.py run
+exec --no-startup-id sleep 2 && xrandr --output DP-1 --off --output HDMI-2 --mode 3840x2160 --primary --dpi 192 && python3 ~/bin/i3proj.py run
+# exec --no-startup-id sleep 2 && xrandr --output HDMI-2 --off --output DP-1 --mode 3840x2160 --primary --dpi 192 && python3 ~/bin/i3proj.py run
 
 # exec --no-startup-id systemctl --user start synergys
 # exec --no-startup-id sudo virsh start win10
