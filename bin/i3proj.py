@@ -105,9 +105,25 @@ class i3p_Util:
         return result
 
     def systemd_status(self, name):
-        p = Popen(['service-status libvirtd'], shell=True, encoding='utf8', stdout=PIPE)
+        p = Popen(['service-status', name], shell=True, encoding='utf8', stdout=PIPE)
         result = p.communicate()[0].strip()
         if result == 'on':
+            return True
+        else:
+            return False
+
+    def service_exists(self, name):
+        p = Popen(['service-exists', name], shell=True, encoding='utf8', stdout=PIPE)
+        result = p.communicate()[0].strip()
+        if result == 'yes':
+            return True
+        else:
+            return False
+
+    def user_service_exists(self, name):
+        p = Popen(['user-service-exists', name], shell=True, encoding='utf8', stdout=PIPE)
+        result = p.communicate()[0].strip()
+        if result == 'yes':
             return True
         else:
             return False
