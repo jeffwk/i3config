@@ -1,6 +1,0 @@
-source /etc/profile.d/user.sh
-source /etc/X11/xinit/xinitrc.d/xft-settings.sh.tv
-
-export GDK_SCALE=2
-export GDK_DPI_SCALE=0.5
-export SAL_USE_VCLPLUGIN=gtk
