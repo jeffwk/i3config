@@ -1,0 +1,6 @@
+#!/bin/bash
+
+killall xautolock ; start-xautolock & sleep 0.3
+
+xautolock -locknow
+xset dpms force off

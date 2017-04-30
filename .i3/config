@@ -177,7 +177,7 @@ bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioStop exec --no-startup-id playerctl stop
 
-bindsym $mod+Control+l exec --no-startup-id killall xautolock && xautolock -time 20 -locker 'i3lock -e -c 282828' & sleep 0.25 && xautolock -locknow
+bindsym $mod+Control+l exec --no-startup-id trigger-xautolock
 
 bindsym $mod+Shift+Control+q exec --no-startup-id toggle-qemu win10
 bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
@@ -193,7 +193,7 @@ exec --no-startup-id $inf urxvtd -q -f -o
 # exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
 exec --no-startup-id xset s on +dpms
 exec --no-startup-id xset s 1200 1200
-exec --no-startup-id xautolock -time 20 -locker 'i3lock -e -c 282828'
+exec --no-startup-id start-xautolock
 exec --no-startup-id hsetroot -solid '#555555'
 exec --no-startup-id compton
 ## restart emacs daemons to connect with X for clipboard operations
