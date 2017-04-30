@@ -81,16 +81,16 @@ set $WSP10 "10"
 # bindsym $mod+9 workspace 9
 # bindsym $mod+0 workspace 10
 
-bindsym $mod+1 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP1
-bindsym $mod+2 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP2
-bindsym $mod+3 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP3
-bindsym $mod+4 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP4
-bindsym $mod+5 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP5
-bindsym $mod+6 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP6
-bindsym $mod+7 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP7
-bindsym $mod+8 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP8
-bindsym $mod+9 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP9
-bindsym $mod+0 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP10
+bindsym $mod+1 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP1
+bindsym $mod+2 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP2
+bindsym $mod+3 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP3
+bindsym $mod+4 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP4
+bindsym $mod+5 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP5
+bindsym $mod+6 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP6
+bindsym $mod+7 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP7
+bindsym $mod+8 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP8
+bindsym $mod+9 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP9
+bindsym $mod+0 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP10
 
 # move focused container to workspace
 # bindsym $mod+Shift+1 move container to workspace 1
@@ -104,16 +104,16 @@ bindsym $mod+0 exec i3-msg workspace $(cat ~/.i3/i3proj/active)_$WSP10
 # bindsym $mod+Shift+9 move container to workspace 9
 # bindsym $mod+Shift+0 move container to workspace 10
 
-bindsym $mod+Shift+1 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP1
-bindsym $mod+Shift+2 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP2
-bindsym $mod+Shift+3 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP3
-bindsym $mod+Shift+4 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP4
-bindsym $mod+Shift+5 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP5
-bindsym $mod+Shift+6 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP6
-bindsym $mod+Shift+7 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP7
-bindsym $mod+Shift+8 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP8
-bindsym $mod+Shift+9 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP9
-bindsym $mod+Shift+0 exec i3-msg move container to workspace $(cat ~/.i3/i3proj/active)_$WSP10
+bindsym $mod+Shift+1 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP1
+bindsym $mod+Shift+2 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP2
+bindsym $mod+Shift+3 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP3
+bindsym $mod+Shift+4 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP4
+bindsym $mod+Shift+5 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP5
+bindsym $mod+Shift+6 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP6
+bindsym $mod+Shift+7 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP7
+bindsym $mod+Shift+8 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP8
+bindsym $mod+Shift+9 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP9
+bindsym $mod+Shift+0 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP10
 
 bindsym $super+Return exec --no-startup-id python3 ~/bin/i3proj.py switch-project
 bindsym $super+space exec --no-startup-id python3 ~/bin/i3proj.py recent-project
@@ -203,6 +203,7 @@ exec --no-startup-id SVPManager
 exec --no-startup-id mount /insilica
 exec --no-startup-id mount /mnt/insilica
 exec --no-startup-id mount /mnt/insilica-data
+exec --no-startup-id mount /mnt/huge
 
 # exec --no-startup-id sleep 2 && xrandr --output eDP1 --primary --mode 2560x1440 --dpi 162 --output HDMI2 --off && python3 ~/bin/i3proj.py run
 exec --no-startup-id python3 ~/bin/i3proj.py run > ~/i3proj.out 2> ~/i3proj.err

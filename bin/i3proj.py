@@ -29,11 +29,12 @@ def i3p_path(relpath):
     return os.path.expanduser('~/.i3/i3proj/%s' % fname)
 
 class i3p_Config:
-    def __init__(self,margin,padding,colors,aliases):
+    def __init__(self,margin,padding,colors,icons,item_colors):
         self.margin = margin
         self.padding = padding
         self.colors = colors
-        self.aliases = aliases
+        self.icons = icons
+        self.item_colors = item_colors
 
 default_config = i3p_Config(
     margin=6,
@@ -51,14 +52,17 @@ default_config = i3p_Config(
         'orange': '#de935f',
         'yellow': '#f0c674'
     },
-    aliases = {'code': ':2:blue',
-               'server': 'S:2:blue',
-               'client': 'C:2:blue',
-               'web': ':2:blue',
-               'shell': ':2:blue',
-               'media': ':2:blue',
-               'music': ':2:blue'
-    }
+    icons = {'code': '',
+             'server': 'S',
+             'client': 'C',
+             'web': '',
+             'chrome': '',
+             'firefox': '',
+             'shell': '',
+             'media': '',
+             'music': ''
+    },
+    item_colors = {'ws_icon': 'blue'}
 )
 
 def check_pname(pname):
@@ -244,31 +248,13 @@ class i3p_App:
 
     def init(self):
         self.util = i3p_Util()
-        self.libvirtd_active = self.util.systemd_status('libvirtd')
         self.out = bar_Output()
         try:
             self.load_state()
         except:
             self.state = {
-                'aliases': {
-                    'home': {
-                        '1': 'shell',
-                        '2': 'media',
-                        '3': 'web',
-                        '4': 'work'
-                    },
-                    'sysrev': {
-                        '1': 'web',
-                        '2': 'server',
-                        '3': 'client',
-                        '4': 'shell',
-                        '5': 'shell'
-                    },
-                    'i3': {
-                        '1': 'shell',
-                        '2': 'emacs'
-                    }
-                }}
+                'labels': {}
+            }
 
     def cache_or(self, ks, default=None):
         x = self.cache
@@ -317,47 +303,35 @@ class i3p_App:
         except:
             pass
     
-    def add_ws_alias(self, pname, wname, walias):
-        if walias == None or walias == '':
-            return self.remove_ws_alias(pname, wname)
+    def add_ws_label(self, pname, wname, wlabel):
+        if wlabel == None or wlabel == '':
+            return self.remove_ws_label(pname, wname)
         elif not (check_pname(pname) and check_wname(wname) and
-                  type(walias)==list):
-            print('add_ws_alias: invalid arguments (%s, %s, %s)' %
-                  (pname, wname, walias))
+                  type(wlabel)==str):
+            print('add_ws_label: invalid arguments (%s, %s, %s)' %
+                  (pname, wname, wlabel))
         else:
-            self.set_state(['aliases',pname,wname], walias, True)
+            self.set_state(['labels',pname,wname], wlabel, True)
 
-    def remove_ws_alias(self, pname, wname):
+    def remove_ws_label(self, pname, wname):
         if not (check_pname(pname) and check_wname(wname)):
-            print('remove_ws_alias: invalid arguments (%s, %s)' %
+            print('remove_ws_label: invalid arguments (%s, %s)' %
                   (pname, wname))
         else:
-            self.del_state(['aliases',pname,wname], True)
+            self.del_state(['labels',pname,wname], True)
 
-    def get_ws_alias(self, wname, pname=None):
+    def get_ws_label(self, wname, pname=None):
         if pname == None:
             pname = self.cache_or(['active_project'])
-        return self.get_state(['aliases',pname,str(wname)])
+        return self.get_state(['labels',pname,str(wname)])
 
     def label_workspace(self):
         self.update_all_ws()
         response = self.util.rofi_select(
-            [], 'Enter workspace label:').strip().split(':')
-        [alias, fontidx, color] = [None, None, None]
-        if len(response) == 1 and response[0] in self.cfg.aliases.keys():
-            response = self.cfg.aliases[response[0]].strip().split(':')
-        if len(response) >= 1:
-            alias = response[0]
-        if len(response) >= 2:
-            try:
-                fontidx = int(response[1])
-            except:
-                print('invalid font index: ' % response[1])
-        if len(response) >= 3:
-            color = response[2]
+            [], 'Enter workspace label:').strip()
         [pname,wname] = self.parse_ws_name(
             self.get_visible_ws()['name'])
-        self.add_ws_alias(pname, wname, [alias, fontidx, color])
+        self.add_ws_label(pname, wname, response)
 
     def i3_msg(self, mtype, marg):
         p = Popen(['i3-msg -t %s %s' % (mtype, marg)],
@@ -538,7 +512,10 @@ class i3p_App:
         return True
 
     def get_active_project(self):
-        return open(i3path('active')).readlines()[0].strip()
+        try:
+            return open(i3path('active')).readlines()[0].strip()
+        except:
+            return 'home'
 
     def write_active_project(self, pname):
         f = open(i3path('active'),'w')
@@ -554,8 +531,11 @@ class i3p_App:
         f.close()
 
     def get_project_list(self):
-        return [s.strip() for s in
-                open(i3path('projects')).readlines()]
+        try:
+            return [s.strip() for s in
+                    open(i3path('projects')).readlines()]
+        except:
+            return ['home']
 
     def write_project_list(self, pnames):
         f = open(i3path('projects'),'w')
@@ -685,22 +665,27 @@ class i3p_App:
                 wactive = (pname == pactive)
                 if wactive:
                     color = {True: 'fg', False: 'fg-dim'}[ws['visible']]
-                    walias = self.get_ws_alias(wname)
-                    if type(walias) == str:
-                        [alias,fontidx,acolor] = [walias, None, None]
-                    elif type(walias) == list:
-                        [alias,fontidx,acolor] = walias
+                    wlabel = self.get_ws_label(wname)
+                    if wlabel is None or len(wlabel) == 0:
+                        label = None
+                        icon = None
+                    elif wlabel in self.cfg.icons.keys():
+                        label = None
+                        icon = self.cfg.icons[wlabel]
+                    else:
+                        label = wlabel
+                        icon = None
+
                     wdisplay = wname
-                    if walias != None and alias != None and len(alias)>0:
-                        wdisplay += '['
-                        alias_out = alias
-                        if acolor != None:
-                            alias_out = o.write_with_fg(alias_out, acolor, color)
-                        if fontidx != None:
-                            alias_out = o.write_with_font(alias_out, fontidx)
-                            alias_out = o.write_offset(1) + alias_out + o.write_offset(1)
-                        wdisplay += alias_out
-                        wdisplay += ']'
+                    if icon != None:
+                        icon_color = self.cfg.item_colors['ws_icon']
+                        label_out = o.write_with_fg(icon, icon_color, color)
+                        label_out = o.write_with_font(label_out, 2)
+                        label_out = o.write_offset(1) + label_out + o.write_offset(1)
+                        wdisplay += '[' + label_out + ']'
+                    elif label != None:
+                        wdisplay += '[' + label + ']'
+
                     b = o.write_multi_block(
                         color,
                         [[color, wdisplay, 0]]
@@ -717,12 +702,16 @@ class i3p_App:
     def run(self, args=None):
         app = self
 
+        if self.util.service_exists('libvirtd'):
+            self.libvirtd_active = self.util.systemd_status('libvirtd')
+        else:
+            self.libvirtd_active = False
+
         class i3ws_Thread(Thread):
             def run(self):
                 while True:
-                    
                     app.update_workspaces( app.i3_get_workspaces() )
-                    time.sleep(0.05)
+                    time.sleep(0.075)
 
         class conky_Thread(Thread):
             def run(self):
