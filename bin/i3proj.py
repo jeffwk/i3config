@@ -750,15 +750,15 @@ class i3p_App:
             def run(self):
                 width = app.util.get_screen_width()
                 if width > 2560:
-                    height = 70
-                    fsize = 'size=16'
-                    isize = 'size=18'
+                    height = 54
+                    fsize = 'pixelsize=29'
+                    isize = 'pixelsize=31'
                 else:
                     height = 40
                     fsize = 'pixelsize=22'
                     isize = 'pixelsize=25'
                 self.lb = subprocess.Popen(
-                    ['INFINALITY_FT="osx" lemonbar -g %dx%d -o 0 -u 2' %
+                    ['lemonbar -g %dx%d -o 0 -u 2' %
                      (width, height) +
                      ' -B' + app.cfg.colors['bg'] +
                      ' -f \'sauce code pro medium:%s\'' % str(fsize) +
