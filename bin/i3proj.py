@@ -41,7 +41,7 @@ default_config = i3p_Config(
     padding=5,
     colors = {
         'fg': '#c8c8c8',
-        'bg': '#282828',
+        'bg': '#181818',
         'fg-dim': '#777777',
         'bg-light': '#888888',
         'fg-dark': '#000000',
