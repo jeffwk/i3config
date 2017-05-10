@@ -108,8 +108,23 @@ class i3p_Util:
         result = p.communicate()[0].strip()
         return result
 
+    def get_cpufreq(self):
+        try:
+            lines = open(i3path('cpufreq')).readlines()[1:]
+            maxfreq = 0
+            for line in lines:
+                val = int(float(line.strip()))
+                if val > maxfreq:
+                    maxfreq = val
+            if maxfreq == 0:
+                return None
+            else:
+                return maxfreq
+        except:
+            return None
+
     def systemd_status(self, name):
-        p = Popen(['service-status', name], shell=True, encoding='utf8', stdout=PIPE)
+        p = Popen(['service-status', name], encoding='utf8', stdout=PIPE)
         result = p.communicate()[0].strip()
         if result == 'on':
             return True
@@ -117,7 +132,7 @@ class i3p_Util:
             return False
 
     def service_exists(self, name):
-        p = Popen(['service-exists', name], shell=True, encoding='utf8', stdout=PIPE)
+        p = Popen(['service-exists', name], encoding='utf8', stdout=PIPE)
         result = p.communicate()[0].strip()
         if result == 'yes':
             return True
@@ -125,7 +140,7 @@ class i3p_Util:
             return False
 
     def user_service_exists(self, name):
-        p = Popen(['user-service-exists', name], shell=True, encoding='utf8', stdout=PIPE)
+        p = Popen(['user-service-exists', name], encoding='utf8', stdout=PIPE)
         result = p.communicate()[0].strip()
         if result == 'yes':
             return True
@@ -238,7 +253,8 @@ class i3p_App:
                 'date': '',
                 'time': '',
                 'battery': '',
-                'cputemp': ''
+                'cputemp': '',
+                'cpufreq': ''
             },
             'blocks': {
                 'qemu': '',
@@ -254,7 +270,8 @@ class i3p_App:
                 'date': '',
                 'time': '',
                 'battery': '',
-                'cputemp': ''
+                'cputemp': '',
+                'cpufreq': ''
             },
             'main': '',
             'output': '',
@@ -366,6 +383,7 @@ class i3p_App:
         blocks = ['qemu',
                   'synergy',
                   'cpu',
+                  'cpufreq',
                   'cputemp',
                   'mem',
                   'diskio',
@@ -467,7 +485,7 @@ class i3p_App:
                 'purple',
                 [['purple', o.write_icon(''), 0],
                  ['fg', ' ' + fsused, 0],
-                 ['purple', ' /', 0],
+                 ['purple', ' / ', 0],
                  ['fg', fssize, 0]]
             )
         elif name == 'btcprice':
@@ -504,6 +522,12 @@ class i3p_App:
             temp = vals
             return o.write_simple_block(
                 o.write_icon(''), 'orange', 'fg', 3, temp+'°'
+            )
+        elif name == 'cpufreq':
+            mhz = vals
+            # o.write_icon('')
+            return o.write_simple_block(
+                '', 'green', 'fg', 8, '%s MHz' % mhz
             )
         else:
             return ''
@@ -784,6 +808,17 @@ class i3p_App:
                         'cputemp', app.util.get_cputemp(), True)
                     time.sleep(0.5)
 
+        class i7z_Thread(Thread):
+            def run(self):
+                self.i7z = subprocess.Popen(
+                    ['sudo i7z --logfile ~/.i3/i3proj/cpufreq --write l --nogui'],
+                     shell=True, encoding='utf8', stdout=PIPE)
+                while True:
+                    cpufreq = app.util.get_cpufreq()
+                    if cpufreq != None:
+                        app.update_block('cpufreq', cpufreq, True)
+                    time.sleep(0.5)
+
         class packages_Thread(Thread):
             def run(self):
                 while True:
@@ -814,6 +849,9 @@ class i3p_App:
 
         output = output_Thread()
         output.start()
+
+        i7z = i7z_Thread()
+        i7z.start()
 
         output.join()    
 
