@@ -37,7 +37,7 @@ class i3p_Config:
         self.item_colors = item_colors
 
 default_config = i3p_Config(
-    margin=10,
+    margin=8,
     padding=2,
     colors = {
         'fg': '#fdf4c1',
@@ -526,9 +526,9 @@ class i3p_App:
             return o.write_multi_block(
                 'cyan',
                 [['cyan', o.write_icon(''), 0],
-                 ['value', diskread, 7],
+                 ['value', diskread, 8],
                  ['cyan', ' ' + o.write_icon(''), 0],
-                 ['value', diskwrite, 7],
+                 ['value', diskwrite, 8],
                  ['cyan', ' ' + o.write_icon(''), 0]]
             )
         elif name == 'netspeed':
@@ -536,9 +536,9 @@ class i3p_App:
             return o.write_multi_block(
                 'blue',
                 [['blue', o.write_icon(''), 0],
-                 ['value', netdown, 8],
+                 ['value', netdown, 10],
                  ['blue', ' ' + o.write_icon(''), 0],
-                 ['value', netup, 8],
+                 ['value', netup, 10],
                  ['blue', ' ' + o.write_icon(''), 0]]
             )
         elif name == 'fsusage':
@@ -867,7 +867,7 @@ class i3p_App:
         class output_Thread(Thread):
             def run(self):
                 width = app.util.get_screen_width()
-                height = 54
+                height = 50
                 fsize = 'size=10'
                 isize = 'size=12'
                 app.lb = subprocess.Popen(
