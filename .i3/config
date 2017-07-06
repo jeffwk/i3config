@@ -218,7 +218,7 @@ client.focused_inactive #909090 #666666 #cccccc #aaaaaa
 client.unfocused #909090 #666666 #cccccc #aaaaaa
 
 # sets border width
-new_window pixel 1
+new_window pixel 0
 # for_window [class="^.*"] border pixel 0
 
 set $default_gaps_inner 21

@@ -6,9 +6,8 @@ URxvt.perl-ext-common:
 
 Emacs*toolBar: off
 Emacs*menuBar: off
-Emacs*font: Sauce Code Pro Medium-12
-! Emacs*font: Inconsolata for Powerline:pixelsize=36
-! Emacs*font: Monaco:pixelsize=32
+! Emacs*font: Inconsolata-14
+Emacs*font: Sauce Code Pro Medium:pixelsize=31
 Emacs*verticalScrollBars: off
 
 !! background transparency
@@ -25,26 +24,19 @@ Emacs*verticalScrollBars: off
 ! URxvt*font: xft:Sauce Code Pro:pixelsize=29
 ! URxvt*font: xft:Inconsolata for Powerline:pixelsize=36
 ! URxvt*font: xft:Courier Prime Code:pixelsize=36
-! URxvt*font: xft:Courier Prime Code:pixelsize=36
 ! URxvt*font: xft:Ubuntu Mono:pixelsize=36
 ! URxvt*font: xft:Monaco:pixelsize=32
 ! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=29
-URxvt*font: xft:Sauce Code Pro Medium:size=12
-
-! Xcursor.theme: ArchCursorTheme
-! Xcursor.size: 32
-
-! Xcursor.theme: Adwaita
-! Xcursor.size: 32
+URxvt*font: xft:Sauce Code Pro Medium:pixelsize=31
 
 rofi.color-window: #bb222222,#bbdddddd,#bbdddddd
 rofi.color-normal: #00222222,#dddddd,#00222222,#ddeeeeee,#222222
 
 rofi.bw: 0
-rofi.font: inconsolata 32
+rofi.font: sauce code pro medium 27
 rofi.lines: 12
 rofi.line-margin: 6
-rofi.width: 42
+rofi.width: 40
 rofi.padding: 120
 rofi.separator-style: none
 rofi.hide-scrollbar: true

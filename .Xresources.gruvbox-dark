@@ -7,8 +7,11 @@
 ! -----------------------------------------------------------------------------
 
 ! hard contrast: *background: #1d2021
-*background: #282828
+! medium contrast: *background: #282828
 ! soft contrast: *background: #32302f
+! hard (custom): *background: #1f2223
+*background: #282828
+
 *foreground: #ebdbb2
 ! Black + DarkGrey
 *color0:  #282828

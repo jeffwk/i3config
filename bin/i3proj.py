@@ -37,20 +37,23 @@ class i3p_Config:
         self.item_colors = item_colors
 
 default_config = i3p_Config(
-    margin=6,
-    padding=5,
+    margin=10,
+    padding=2,
     colors = {
-        'fg': '#c8c8c8',
-        'bg': '#181818',
-        'fg-dim': '#777777',
-        'bg-light': '#888888',
-        'fg-dark': '#000000',
-        'green': '#b5bd68',
-        'purple': '#b294bb',
-        'blue': '#81a2be',
-        'cyan': '#8abeb7',
-        'orange': '#de935f',
-        'yellow': '#f0c674'
+        'fg': '#fdf4c1',
+        # 'bg': '#1f2223',
+        'bg': '#282828',
+        # 'fg-dim': '#777777',
+        'fg-dim': '#988974',
+        'value': '#d5c4a1',
+        'bg-light': '#ebdbb2',
+        'fg-dark': '#121314',
+        'green': '#b8bb26',
+        'purple': '#b16286',
+        'blue': '#83a598',
+        'cyan': '#8ec07c',
+        'orange': '#d79921',
+        'yellow': '#fabd2f'
     },
     icons = {'code': '',
              'server': 'S',
@@ -85,6 +88,12 @@ class i3p_Util:
         p.stdin.flush()
         result = p.communicate()[0].strip()
         p.stdin.close()
+        return result
+
+    def get_window_title(self):
+        p = Popen(["window-title.sh"],
+                  shell=True, encoding='utf8', stdout=PIPE)
+        result = p.communicate()[0].strip()
         return result
 
     def get_screen_width(self):
@@ -169,6 +178,12 @@ class bar_Output:
         self.margin = cfg.margin
         self.padding = cfg.padding
         self.colors = cfg.colors
+
+    def lookup_color(self, color):
+        if color in self.colors.keys():
+            return self.colors[color]
+        else:
+            return self.colors['fg']
     
     def write_icon(self, s):
         return ('%{T2}' + s + '%{T-}')
@@ -180,15 +195,15 @@ class bar_Output:
         if current == None:
             current_out = '-'
         else:
-            current_out = self.colors[current]
-        return ('%{F' + self.colors[color] + '}' + s + '%{F' + current_out + '}')
+            current_out = self.lookup_color(current)
+        return ('%{F' + self.lookup_color(color) + '}' + s + '%{F' + current_out + '}')
 
     def write_with_bg(self, s, color, current=None):
         if current == None:
             current_out = '-'
         else:
-            current_out = self.colors[current]
-        return ('%{B' + self.colors[color] + '}' + s + '%{B' + current_out + '}')
+            current_out = self.lookup_color(current)
+        return ('%{B' + self.lookup_color(color) + '}' + s + '%{B' + current_out + '}')
 
     def write_offset(self, offset):
         return ('%{O' + str(offset) + '}')
@@ -201,23 +216,24 @@ class bar_Output:
 
     def write_simple_block(self, label, color, val_color, width, val):
         nspaces = width - len(val)
-        return ('%{U' + self.colors[color] + '}' +
-                '%{F' + self.colors[color] + '}' +
+
+        return ('%{U' + self.lookup_color(color) + '}' +
+                '%{F' + self.lookup_color(color) + '}' +
                 '%{+u}' +
                 self.write_offset(self.padding) +
                 '' + label + ' ' + self.write_spaces(nspaces) +
-                '%{F' + self.colors[val_color] + '}' + val +
+                '%{F' + self.lookup_color(val_color) + '}' + val +
                 self.write_offset(self.padding) +
                 '%{-u}' +
                 self.write_offset(self.margin))
 
     def write_multi_block(self, color, sections):
         s = ''
-        s += '%{U' + self.colors[color] + '}' + '%{+u}'
+        s += '%{U' + self.lookup_color(color) + '}' + '%{+u}'
         s += self.write_offset(self.padding)
         for section in sections:
             [scolor, sval, swidth] = section
-            s += '%{F' + self.colors[scolor] + '}'
+            s += '%{F' + self.lookup_color(scolor) + '}'
             nspaces = swidth - len(sval)
             s += self.write_spaces(nspaces)
             s += sval
@@ -278,6 +294,8 @@ class i3p_App:
             'current': ''
         }
         self.cfg = cfg
+        self.lb = None
+        self.lb2 = None
 
     def init(self):
         self.util = i3p_Util()
@@ -378,23 +396,51 @@ class i3p_App:
     def i3_goto_workspace(self, pname, wname):
         return self.i3_msg('command', 'workspace %s_%s' % (pname,str(wname)))
 
+    def update_window_title(self):
+        title = self.util.get_window_title()
+        if title != self.cache_or(['window_title'],''):
+            self.cache_save(['window_title'],title)
+            self.update_output()
+            self.update_display()
+
     def write_main_output(self):
         s = ''
+        # blocks = ['volume',
+        #          'battery',
+        #          'date',
+        #          'time']
         blocks = ['qemu',
                   'synergy',
                   'cpu',
-                  'cpufreq',
                   'cputemp',
                   'mem',
                   'diskio',
                   'netspeed',
                   'fsusage',
                   'btcprice',
-                  'volume',
-                  'battery',
                   'packages',
+                  'battery',
+                  'volume',
                   'date',
                   'time']
+        for name in blocks:
+            s += self.cache_or(['blocks',name], '')
+        return s
+
+    def write_secondary_output(self):
+        s = ''
+        s += '%{c}'
+        blocks = ['qemu',
+                  'synergy',
+                  'cpu',
+                  # 'cpufreq',
+                  'cputemp',
+                  'mem',
+                  'diskio',
+                  'netspeed',
+                  'fsusage',
+                  'btcprice',
+                  'packages']
         for name in blocks:
             s += self.cache_or(['blocks',name], '')
         return s
@@ -403,6 +449,8 @@ class i3p_App:
         return ''.join(
             ['%{l}',
              self.cache_or(['i3_ws','lemonbar'], ''),
+             '%{c}',
+             self.cache_or(['window_title'], ''),
              '%{r}',
              self.cache_or(['main'], '')]
         )
@@ -410,12 +458,16 @@ class i3p_App:
     def update_main_output(self):
         self.cache_save(['main'], self.write_main_output())
 
+    def update_secondary_output(self):
+        self.cache_save(['secondary'], self.write_secondary_output())
+
     def update_output(self):
         self.cache_save(['output'], self.write_full_output())
 
     def update_output_all(self):
         self.update_main_output()
         self.update_output()
+        # self.update_secondary_output()
 
     def render_block(self, name, vals):
         o = self.out
@@ -430,7 +482,7 @@ class i3p_App:
             return o.write_multi_block(
                 color,
                 [[color, o.write_icon(icon), 0],
-                 ['fg', ' qemu', 0]]
+                 ['value', ' qemu', 0]]
             )
         elif name == 'synergy':
             status = vals
@@ -443,30 +495,40 @@ class i3p_App:
             return o.write_multi_block(
                 color,
                 [[color, o.write_icon(icon), 0],
-                 ['fg', ' synergy', 0]]
+                 ['value', ' synergy', 0]]
             )
         elif name == 'cpu':
             cpu = vals
-            return o.write_simple_block(
-                o.write_icon(''),
-                'green', 'fg', 3, '%s%%' % cpu)
+            cpufreq = self.cache_or(['cpufreq'])
+            if cpufreq is None:
+                return o.write_simple_block(
+                    o.write_icon(''),
+                    'green', 'value', 4, '%s%%' % cpu)
+            else:
+                return o.write_multi_block(
+                    'green',
+                    [['green', o.write_icon(''), 0],
+                     ['value', '%s%%' % cpu, 5],
+                     ['green', ' | ', 0],
+                     ['value', '%s MHz' % cpufreq, 8]]
+                )
         elif name == 'mem':
             [memused, memmax] = vals
             return o.write_multi_block(
                 'yellow',
                 [['yellow', o.write_icon(''), 0],
-                 ['fg', memused, 6],
-                 ['yellow', ' /', 0],
-                 ['fg', memmax, 6]]
+                 ['value', '  ' + memused, 0],
+                 ['yellow', ' / ', 0],
+                 ['value', memmax, 0]]
             )
         elif name == 'diskio':
             [diskread, diskwrite] = vals
             return o.write_multi_block(
                 'cyan',
                 [['cyan', o.write_icon(''), 0],
-                 ['fg', diskread, 6],
+                 ['value', diskread, 7],
                  ['cyan', ' ' + o.write_icon(''), 0],
-                 ['fg', diskwrite, 6],
+                 ['value', diskwrite, 7],
                  ['cyan', ' ' + o.write_icon(''), 0]]
             )
         elif name == 'netspeed':
@@ -474,9 +536,9 @@ class i3p_App:
             return o.write_multi_block(
                 'blue',
                 [['blue', o.write_icon(''), 0],
-                 ['fg', netdown, 6],
+                 ['value', netdown, 8],
                  ['blue', ' ' + o.write_icon(''), 0],
-                 ['fg', netup, 6],
+                 ['value', netup, 8],
                  ['blue', ' ' + o.write_icon(''), 0]]
             )
         elif name == 'fsusage':
@@ -484,55 +546,56 @@ class i3p_App:
             return o.write_multi_block(
                 'purple',
                 [['purple', o.write_icon(''), 0],
-                 ['fg', ' ' + fsused, 0],
+                 ['value', '  ' + fsused, 0],
                  ['purple', ' / ', 0],
-                 ['fg', fssize, 0]]
+                 ['value', fssize, 0]]
             )
         elif name == 'btcprice':
             btcprice = vals
             return o.write_simple_block(
                 o.write_icon(''),
-                'green', 'fg', 4, btcprice)
+                'green', 'value', 4, btcprice)
         elif name == 'volume':
             volume = vals
             return o.write_simple_block(
                 o.write_icon(''),
-                'orange', 'fg', 3, volume+'%')
+                'orange', 'value', 4, volume+'%')
         elif name == 'packages':
             pstatus = vals
             return o.write_simple_block(
-                o.write_icon(''), 'cyan', 'fg', 2, pstatus)
+                o.write_icon(''), 'cyan', 'value', 3, pstatus)
         elif name == 'date':
             datestr = vals
             return o.write_simple_block(
-                o.write_icon(''), 'blue', 'fg', 10, datestr)
+                o.write_icon(''), 'blue', 'value', 11, datestr)
         elif name == 'time':
             timestr = vals
             return o.write_simple_block(
-                o.write_icon(''), 'purple', 'fg', 8, timestr)
+                o.write_icon(''), 'purple', 'value', 8, timestr)
         elif name == 'battery':
             try:
                 percent = int(vals)
                 return o.write_simple_block(
-                    o.write_icon(''), 'yellow', 'fg', 4, str(percent)+'%'
+                    o.write_icon(''), 'yellow', 'value', 4, str(percent)+'%'
                 )
             except:
                 return ''
         elif name == 'cputemp':
             temp = vals
             return o.write_simple_block(
-                o.write_icon(''), 'orange', 'fg', 3, temp+'°'
+                o.write_icon(''), 'orange', 'value', 4, temp+'°'
             )
         elif name == 'cpufreq':
             mhz = vals
             # o.write_icon('')
             return o.write_simple_block(
-                '', 'green', 'fg', 8, '%s MHz' % mhz
+                o.write_icon(''),
+                'green', 'value', 9, '%s MHz' % mhz
             )
         else:
             return ''
 
-    def update_block(self, name, vals, redraw=False):
+    def update_block(self, name, vals, redraw=True):
         prev = self.cache_or(['values',name])
         if prev != vals:
             self.cache_save(['values',name], vals)
@@ -540,6 +603,12 @@ class i3p_App:
                             self.render_block(name, vals))
             if redraw:
                 self.update_output_all()
+                self.update_display()
+
+    def update_cpufreq(self):
+        cpufreq = app.util.get_cpufreq()
+        if cpufreq != None:
+            self.cache_save(['cpufreq'], cpufreq)
 
     def update_from_conky(self, conkyline):
         try:
@@ -548,7 +617,8 @@ class i3p_App:
             print('update_from_conky: unable to parse json')
             return False
         for k in j.keys():
-            self.update_block(k, j[k])
+            self.update_block(k, j[k], False)
+        self.update_display()
         return True
 
     def get_active_project(self):
@@ -576,6 +646,11 @@ class i3p_App:
                     open(i3path('projects')).readlines()]
         except:
             return ['home']
+
+    def get_active_project_list(self):
+        proj_aws = self.project_active_workspaces()
+        return [pname for pname in self.get_project_list()
+                if (pname in proj_aws.keys() and len(proj_aws[pname]) > 0)]
 
     def write_project_list(self, pnames):
         f = open(i3path('projects'),'w')
@@ -611,12 +686,13 @@ class i3p_App:
         s += '%{F' + fg + '}'
         s += '%{B' + bg + '}'
         s += o.write_offset(padding)
-        if active:
-            s += name
-        else:
-            s += name[:1]
-        if not active:
-            s += '[%d]' % wscount
+        s += name
+        # if active:
+        #     s += name
+        # else:
+        #     s += name[:1]
+        # if not active:
+        #     s += '<%d>' % wscount
         s += o.write_offset(padding)
         s += '%{B-}%{F-}'
         s += o.write_offset(margin)
@@ -663,6 +739,20 @@ class i3p_App:
 
     def latest_project_ws(self, pname):
         return self.get_state(['project',pname,'latest_ws'], '1')
+
+    def update_display(self):
+        if (app.lb != None and
+            (app.cache_or(['output']) != app.cache_or(['current']))):
+            output = app.cache_or(['output'], '')
+            app.cache_save(['current'], output)
+            print(output, end='\n', file=app.lb.stdin)
+            app.lb.stdin.flush()
+        if (app.lb2 != None and
+            (app.cache_or(['secondary']) != app.cache_or(['current_secondary']))):
+            output = app.cache_or(['secondary'], '')
+            app.cache_save(['current_secondary'], output)
+            print(output, end='\n', file=app.lb2.stdin)
+            app.lb2.stdin.flush()
 
     def update_workspaces(self, all_ws_str):
         o = self.out
@@ -721,10 +811,13 @@ class i3p_App:
                         icon_color = self.cfg.item_colors['ws_icon']
                         label_out = o.write_with_fg(icon, icon_color, color)
                         label_out = o.write_with_font(label_out, 2)
-                        label_out = o.write_offset(1) + label_out + o.write_offset(1)
-                        wdisplay += '[' + label_out + ']'
+                        icon_padding = 4
+                        label_out = (o.write_offset(icon_padding) +
+                                     label_out +
+                                     o.write_offset(icon_padding))
+                        wdisplay += '(' + label_out + ')'
                     elif label != None:
-                        wdisplay += '[' + label + ']'
+                        wdisplay += '(' + label + ')'
 
                     b = o.write_multi_block(
                         color,
@@ -734,6 +827,7 @@ class i3p_App:
                 
             self.cache_save(['i3_ws','lemonbar'], s)
             self.update_output()
+            self.update_display()
 
     def get_visible_ws(self):
         return [ws for ws in self.cache_or(['i3_ws','list'])
@@ -751,7 +845,7 @@ class i3p_App:
             def run(self):
                 while True:
                     app.update_workspaces( app.i3_get_workspaces() )
-                    time.sleep(0.075)
+                    time.sleep(0.1)
 
         class conky_Thread(Thread):
             def run(self):
@@ -767,46 +861,47 @@ class i3p_App:
         class volume_Thread(Thread):
             def run(self):
                 while True:
-                    app.update_block('volume', app.util.get_volume(), True)
+                    app.update_block('volume', app.util.get_volume())
                     time.sleep(0.1)
 
         class output_Thread(Thread):
             def run(self):
                 width = app.util.get_screen_width()
-                if width > 2560:
-                    height = 54
-                    fsize = 'pixelsize=29'
-                    isize = 'pixelsize=31'
-                else:
-                    height = 40
-                    fsize = 'pixelsize=22'
-                    isize = 'pixelsize=25'
-                self.lb = subprocess.Popen(
-                    ['lemonbar -g %dx%d -o 0 -u 2' %
+                height = 57
+                fsize = 'pixelsize=29'
+                isize = 'pixelsize=33'
+                app.lb = subprocess.Popen(
+                    ['lemonbar -g %dx%d -o 0 -u 4' %
                      (width, height) +
                      ' -B' + app.cfg.colors['bg'] +
-                     ' -f \'sauce code pro medium:%s\'' % str(fsize) +
+                     ' -f \'source code pro medium:%s\'' % str(fsize) +
                      ' -f \'fontawesome:%s\'' % str(isize)],
                     shell=True, encoding='utf8', stdin=PIPE)
+                # app.lb2 = subprocess.Popen(
+                #     ['lemonbar -b -g %dx%d -o 0 -u 4' %
+                #      (width, height) +
+                #      ' -B' + app.cfg.colors['bg'] +
+                #      ' -f \'source code pro medium:%s\'' % str(fsize) +
+                #      ' -f \'fontawesome:%s\'' % str(isize)],
+                #     shell=True, encoding='utf8', stdin=PIPE)
+                app.update_display()
                 while True:
-                    if app.cache_or(['output']) != app.cache_or(['current']):
-                        output = app.cache_or(['output'], '')
-                        print(output, end='\n', file=self.lb.stdin)
-                        self.lb.stdin.flush()
-                        app.cache_save(['current'], output)
-                    time.sleep(0.05)
+                    time.sleep(1.0)
 
         class misc_Thread(Thread):
             def run(self):
                 while True:
                     if app.libvirtd_active:
-                        app.update_block(
-                            'qemu', app.util.qemu_status(), True)
-                        app.update_block(
-                            'synergy', app.util.synergy_status(), True)
-                    app.update_block(
-                        'cputemp', app.util.get_cputemp(), True)
+                        app.update_block('qemu', app.util.qemu_status())
+                        app.update_block('synergy', app.util.synergy_status())
+                    app.update_block('cputemp', app.util.get_cputemp())
                     time.sleep(0.5)
+
+        class title_Thread(Thread):
+            def run(self):
+                while True:
+                    app.update_window_title()
+                    time.sleep(0.05)
 
         class i7z_Thread(Thread):
             def run(self):
@@ -814,17 +909,15 @@ class i3p_App:
                     ['sudo i7z --logfile ~/.i3/i3proj/cpufreq --write l --nogui'],
                      shell=True, encoding='utf8', stdout=PIPE)
                 while True:
-                    cpufreq = app.util.get_cpufreq()
-                    if cpufreq != None:
-                        app.update_block('cpufreq', cpufreq, True)
+                    app.update_cpufreq()
                     time.sleep(0.5)
 
         class packages_Thread(Thread):
             def run(self):
                 while True:
-                    app.update_block(
-                        'packages', app.util.get_packages_status(), True)
-                    time.sleep(120)
+                    packages = app.util.get_packages_status()
+                    app.update_block('packages', packages)
+                    time.sleep(60)
 
         app.update_active_project()
         pname = app.cache_or(['active_project'])
@@ -846,6 +939,9 @@ class i3p_App:
 
         misc = misc_Thread()
         misc.start()
+
+        # title = title_Thread()
+        # title.start()
 
         output = output_Thread()
         output.start()
@@ -918,7 +1014,8 @@ class i3p_App:
                 self.write_project_list(new_plist)
 
     def next_project(self):
-        plist = self.get_project_list()
+        self.update_workspaces( self.i3_get_workspaces() )
+        plist = self.get_active_project_list()
         pactive = self.get_active_project()
         if pactive not in plist:
             print('next_project: active project not found in list')
@@ -931,7 +1028,8 @@ class i3p_App:
             self.switch_project(plist[next_idx])
 
     def prev_project(self):
-        plist = self.get_project_list()
+        self.update_workspaces( self.i3_get_workspaces() )
+        plist = self.get_active_project_list()
         pactive = self.get_active_project()
         if pactive not in plist:
             print('prev_project: active project not found in list')
