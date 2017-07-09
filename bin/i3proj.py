@@ -867,14 +867,15 @@ class i3p_App:
         class output_Thread(Thread):
             def run(self):
                 width = app.util.get_screen_width()
-                height = 57
-                fsize = 'pixelsize=29'
-                isize = 'pixelsize=33'
+                height = 54
+                fsize = 'size=10'
+                isize = 'size=12'
                 app.lb = subprocess.Popen(
                     ['lemonbar -g %dx%d -o 0 -u 4' %
                      (width, height) +
                      ' -B' + app.cfg.colors['bg'] +
-                     ' -f \'source code pro medium:%s\'' % str(fsize) +
+                     # ' -f \'source code pro medium:%s\'' % str(fsize) +
+                     ' -f \'sauce code pro semibold:%s\'' % str(fsize) +
                      ' -f \'fontawesome:%s\'' % str(isize)],
                     shell=True, encoding='utf8', stdin=PIPE)
                 # app.lb2 = subprocess.Popen(

@@ -7,7 +7,8 @@ URxvt.perl-ext-common:
 Emacs*toolBar: off
 Emacs*menuBar: off
 ! Emacs*font: Inconsolata-14
-Emacs*font: Sauce Code Pro Medium:pixelsize=31
+! Emacs*font: Sauce Code Pro:pixelsize=29
+Emacs*font: Sauce Code Pro-11
 Emacs*verticalScrollBars: off
 
 !! background transparency
@@ -27,7 +28,8 @@ Emacs*verticalScrollBars: off
 ! URxvt*font: xft:Ubuntu Mono:pixelsize=36
 ! URxvt*font: xft:Monaco:pixelsize=32
 ! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=29
-URxvt*font: xft:Sauce Code Pro Medium:pixelsize=31
+! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=29
+URxvt*font: xft:Sauce Code Pro Medium-11
 
 rofi.color-window: #bb222222,#bbdddddd,#bbdddddd
 rofi.color-normal: #00222222,#dddddd,#00222222,#ddeeeeee,#222222
