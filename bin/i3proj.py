@@ -723,14 +723,13 @@ class i3p_App:
     def write_projects_section(self, all_ws):
         pactive = self.cache_or(['active_project'])
         proj_aws = self.project_active_workspaces(all_ws)
-        pnames = proj_aws.keys()
 
         s = ''
         s += '%{-u}'
-        for pname in proj_aws.keys():
-            if pname != pactive:
-                s += self.write_project_block(pname, False, len(proj_aws[pname]))
-        s += self.write_project_block(pactive, True, None)
+        for pname in self.get_project_list():
+            if pname in proj_aws.keys():
+                active = (pname == pactive)
+                s += self.write_project_block(pname, active, len(proj_aws[pname]))
         return s
 
     def set_latest_project_ws(self, pname, wname):
