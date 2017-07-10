@@ -82,10 +82,16 @@ class i3p_Util:
         pass
     
     def rofi_select(self, options, message):
-        p = Popen(['rofi', '-dmenu', '-mesg', message],
-                  encoding='utf8', stdin=PIPE, stdout=PIPE)
-        print('\n'.join(options), end='\n', file=p.stdin)
-        p.stdin.flush()
+        input = '\n'.join(options)
+        if len(options) > 0:
+            cmd = ['rofi', '-dmenu', '-sync', '-p', '', '-mesg', message,
+                   '-l', str(min(10,len(options))), '-no-custom']
+        else:
+            cmd = ['rofi', '-dmenu', '-sync', '-p', '> ', '-mesg', message,
+                   '-l', '1']
+        p = Popen(cmd, encoding='utf8', stdin=PIPE, stdout=PIPE)
+        if len(options) > 0:
+            print(input, end='\n', file=p.stdin, flush=True)
         result = p.communicate()[0].strip()
         p.stdin.close()
         return result
@@ -379,7 +385,7 @@ class i3p_App:
     def label_workspace(self):
         self.update_all_ws()
         response = self.util.rofi_select(
-            [], 'Enter workspace label:').strip()
+            [], 'Enter workspace label').strip()
         [pname,wname] = self.parse_ws_name(
             self.get_visible_ws()['name'])
         self.add_ws_label(pname, wname, response)
@@ -951,20 +957,22 @@ class i3p_App:
 
         output.join()    
 
-    def transfer_project(self, pname=None):
+    def transfer_project(self):
         plist = self.get_project_list()
-        if pname == None:
-            pname = self.util.rofi_select(
-                plist, 'Transfer window to project:')
-        if pname not in plist:
-            print('invalid project name: %s' % pname)
+
+        pws_list = []
+        for wsidx in range(1,11):
+            for pname in plist:
+                pws_list += [pname + '_' + str(wsidx)]
+
+        wname = self.util.rofi_select(
+            pws_list, 'Transfer window to project:')
+
+        if not (wname in pws_list):
+            print('invalid workspace name: %s' % wname)
         else:
-            self.update_all_ws()
-            active_ws = self.get_visible_ws()
-            if pname != None and active_ws != None:
-                wname = pname + '_' + str(self.ws_order(active_ws))
-                self.i3_msg('command',
-                            'move container to workspace ' + wname)
+            self.i3_msg('command',
+                        'move container to workspace ' + wname)
 
     def switch_project(self, pname):
         plist = self.get_project_list()
@@ -986,7 +994,7 @@ class i3p_App:
     def create_project(self, args=None):
         plist = self.get_project_list()
         pname = self.util.rofi_select(
-            [], 'Enter name for new project:')
+            [], 'Enter name for new project')
         if pname == None or len(pname.strip()) == 0:
             print('create_project: no project name')
             return
