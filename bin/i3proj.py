@@ -872,7 +872,7 @@ class i3p_App:
         class output_Thread(Thread):
             def run(self):
                 width = app.util.get_screen_width()
-                height = 50
+                height = 45
                 fsize = 'size=10'
                 isize = 'size=12'
                 app.lb = subprocess.Popen(
