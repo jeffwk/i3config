@@ -866,7 +866,7 @@ class i3p_App:
             def run(self):
                 while True:
                     app.update_workspaces( app.i3_get_workspaces() )
-                    time.sleep(0.1)
+                    time.sleep(0.15)
 
         class conky_Thread(Thread):
             def run(self):
@@ -883,7 +883,7 @@ class i3p_App:
             def run(self):
                 while True:
                     app.update_block('volume', app.util.get_volume())
-                    time.sleep(0.1)
+                    time.sleep(0.2)
 
         class output_Thread(Thread):
             def run(self):
@@ -923,7 +923,7 @@ class i3p_App:
             def run(self):
                 while True:
                     app.update_window_title()
-                    time.sleep(0.05)
+                    time.sleep(0.1)
 
         class i7z_Thread(Thread):
             def run(self):
@@ -956,8 +956,8 @@ class i3p_App:
         volume = volume_Thread()
         volume.start()
 
-        packages = packages_Thread()
-        packages.start()
+        # packages = packages_Thread()
+        # packages.start()
 
         misc = misc_Thread()
         misc.start()
