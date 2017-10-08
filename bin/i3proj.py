@@ -36,14 +36,10 @@ class i3p_Config:
         self.icons = icons
         self.item_colors = item_colors
 
-default_config = i3p_Config(
-    margin=10,
-    padding=2,
-    colors = {
+color_themes = {
+    'gruvbox': {
         'fg': '#fdf4c1',
-        # 'bg': '#1f2223',
         'bg': '#282828',
-        # 'fg-dim': '#777777',
         'fg-dim': '#988974',
         'value': '#d5c4a1',
         'bg-light': '#ebdbb2',
@@ -55,10 +51,30 @@ default_config = i3p_Config(
         'orange': '#d79921',
         'yellow': '#fabd2f'
     },
+    'base16-default-dark': {
+        'fg': '#e8e8e8',
+        'bg': '#181818',
+        'fg-dim': '#a8a8a8',
+        'value': '#d8d8d8',
+        'bg-light': '#d8d8d8',
+        'fg-dark': '#121212',
+        'green': '#a1b56c',
+        'purple': '#ba8baf',
+        'blue': '#7cafc2',
+        'cyan': '#86c1b9',
+        'orange': '#dc9656',
+        'yellow': '#f7ca88'
+    }
+}
+
+default_config = i3p_Config(
+    margin=10,
+    padding=2,
+    colors = color_themes['base16-default-dark'],
     icons = {'code': '',
              'server': 'S',
              'client': 'C',
-             'web': '',
+             'web': '',
              'chrome': '',
              'firefox': '',
              'shell': '',

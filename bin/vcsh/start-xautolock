@@ -1,3 +1,3 @@
 #!/bin/bash
 
-xautolock -time 20 -locker 'i3lock -e -c 282828'
+xautolock -time 20 -locker 'i3lock -e -c 111111'
