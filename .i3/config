@@ -186,7 +186,7 @@ bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
 # bar {
 #}
 
-exec --no-startup-id xrandr --dpi 162
+exec --no-startup-id xrandr --dpi 144
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
 exec --no-startup-id $inf urxvtd -q -f -o

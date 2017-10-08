@@ -531,8 +531,9 @@ class i3p_App:
                     'green',
                     [['green', o.write_icon(''), 0],
                      ['value', '%s%%' % cpu, 5],
-                     ['green', ' | ', 0],
-                     ['value', '%s MHz' % cpufreq, 8]]
+                     # ['green', ' | ', 0],
+                     # ['value', '%s MHz' % cpufreq, 8]
+                    ]
                 )
         elif name == 'mem':
             [memused, memmax] = vals
@@ -888,11 +889,11 @@ class i3p_App:
         class output_Thread(Thread):
             def run(self):
                 width = app.util.get_screen_width()
-                height = 54
-                fsize = 'size=10'
+                height = 45
+                fsize = 'size=11'
                 isize = 'size=12'
                 app.lb = subprocess.Popen(
-                    ['lemonbar -g %dx%d -o 0 -u 4' %
+                    ['lemonbar -g %dx%d -o 0 -u 3' %
                      (width, height) +
                      ' -B' + app.cfg.colors['bg'] +
                      # ' -f \'source code pro medium:%s\'' % str(fsize) +
@@ -968,8 +969,8 @@ class i3p_App:
         output = output_Thread()
         output.start()
 
-        i7z = i7z_Thread()
-        i7z.start()
+        # i7z = i7z_Thread()
+        # i7z.start()
 
         output.join()    
 
