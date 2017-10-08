@@ -198,7 +198,7 @@ exec --no-startup-id $inf urxvtd -q -f -o
 # exec --no-startup-id xset dpms 1800 0 0
 exec --no-startup-id xset s off -dpms
 exec --no-startup-id start-xautolock
-exec --no-startup-id hsetroot -solid '#404040'
+exec --no-startup-id hsetroot -solid '#111111'
 exec --no-startup-id compton -b
 ## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id emacs-reload
@@ -209,7 +209,6 @@ exec --no-startup-id mount /mnt/insilica
 exec --no-startup-id mount /mnt/insilica-data
 exec --no-startup-id mount /mnt/huge
 
-# exec --no-startup-id sleep 2 && xrandr --output eDP1 --primary --mode 2560x1440 --dpi 162 --output HDMI2 --off && python3 ~/bin/i3proj.py run
 exec --no-startup-id python3 ~/bin/i3proj.py run > ~/i3proj.out 2> ~/i3proj.err
 
 # exec --no-startup-id systemctl --user start synergys
@@ -221,7 +220,7 @@ client.focused_inactive #909090 #666666 #cccccc #aaaaaa
 client.unfocused #909090 #666666 #cccccc #aaaaaa
 
 # sets border width
-new_window pixel 0
+new_window pixel 1
 # for_window [class="^.*"] border pixel 0
 
 set $default_gaps_inner 21
