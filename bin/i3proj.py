@@ -53,7 +53,7 @@ color_themes = {
     },
     'base16-default-dark': {
         'fg': '#e8e8e8',
-        'bg': '#181818',
+        'bg': '#121212',
         'fg-dim': '#a8a8a8',
         'value': '#d8d8d8',
         'bg-light': '#d8d8d8',
@@ -79,7 +79,9 @@ default_config = i3p_Config(
              'firefox': '',
              'shell': '',
              'media': '',
-             'music': ''
+             'music': '',
+             'steam': '',
+             'db': ''
     },
     item_colors = {'ws_icon': 'blue'}
 )
@@ -867,7 +869,7 @@ class i3p_App:
             def run(self):
                 while True:
                     app.update_workspaces( app.i3_get_workspaces() )
-                    time.sleep(0.15)
+                    time.sleep(0.1)
 
         class conky_Thread(Thread):
             def run(self):
@@ -890,7 +892,7 @@ class i3p_App:
             def run(self):
                 width = app.util.get_screen_width()
                 height = 45
-                fsize = 'size=11'
+                fsize = 'size=10'
                 isize = 'size=12'
                 app.lb = subprocess.Popen(
                     ['lemonbar -g %dx%d -o 0 -u 3' %

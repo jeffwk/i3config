@@ -195,11 +195,11 @@ exec --no-startup-id $inf urxvtd -q -f -o
 exec --no-startup-id xset s on +dpms
 exec --no-startup-id xset s 1200 1200
 exec --no-startup-id start-xautolock
-exec --no-startup-id hsetroot -solid '#111111'
+exec --no-startup-id hsetroot -solid '#080808'
 exec --no-startup-id compton
 ## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id emacs-reload
-exec --no-startup-id SVPManager
+# exec --no-startup-id SVPManager
 
 exec --no-startup-id mount /insilica
 exec --no-startup-id mount /mnt/insilica
@@ -210,6 +210,8 @@ exec --no-startup-id python3 ~/bin/i3proj.py run > ~/i3proj.out 2> ~/i3proj.err
 
 # exec --no-startup-id systemctl --user start synergys
 # exec --no-startup-id sudo virsh start win10
+
+exec --no-startup-id systemctl --user restart auto-rotate
 
 # sets border colors
 client.focused #b0b0b0 #b0b0b0 #000000 #aaaaaa
