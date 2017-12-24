@@ -195,7 +195,7 @@ exec --no-startup-id $inf urxvtd -q -f -o
 exec --no-startup-id xset s on +dpms
 exec --no-startup-id xset s 1200 1200
 exec --no-startup-id start-xautolock
-exec --no-startup-id hsetroot -solid '#080808'
+exec --no-startup-id hsetroot -solid '#101010'
 exec --no-startup-id compton
 ## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id emacs-reload
@@ -219,7 +219,7 @@ client.focused_inactive #909090 #666666 #cccccc #aaaaaa
 client.unfocused #909090 #666666 #cccccc #aaaaaa
 
 # sets border width
-new_window pixel 1
+new_window pixel 0
 # for_window [class="^.*"] border pixel 0
 
 set $default_gaps_inner 21

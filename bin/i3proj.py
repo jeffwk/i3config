@@ -70,11 +70,11 @@ color_themes = {
 default_config = i3p_Config(
     margin=10,
     padding=2,
-    colors = color_themes['base16-default-dark'],
+    colors = color_themes['gruvbox'],
     icons = {'code': '',
              'server': 'S',
              'client': 'C',
-             'web': '',
+             'web': '',
              'chrome': '',
              'firefox': '',
              'shell': '',
