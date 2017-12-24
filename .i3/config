@@ -275,7 +275,7 @@ mode "$mode_gaps_outer" {
     bindsym Escape mode "default"
 }
 
-for_window [class="mpv" instance="gl"] floating enable
+for_window [class="mpv"] floating enable
 for_window [class="Eog"] floating enable
 for_window [class="Nvidia-settings"] floating enable
 for_window [class="Gnome-control-center"] floating enable
