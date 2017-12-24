@@ -561,9 +561,9 @@ class i3p_App:
             return o.write_multi_block(
                 'blue',
                 [['blue', o.write_icon(''), 0],
-                 ['value', netdown, 8],
+                 ['value', netdown, 9],
                  ['blue', ' ' + o.write_icon(''), 0],
-                 ['value', netup, 8],
+                 ['value', netup, 9],
                  ['blue', ' ' + o.write_icon(''), 0]]
             )
         elif name == 'fsusage':
