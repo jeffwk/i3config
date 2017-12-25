@@ -195,8 +195,8 @@ exec --no-startup-id $inf urxvtd -q -f -o
 exec --no-startup-id xset s on +dpms
 exec --no-startup-id xset s 1200 1200
 exec --no-startup-id start-xautolock
-exec --no-startup-id hsetroot -solid '#101010'
-exec --no-startup-id compton
+exec --no-startup-id hsetroot -solid '#202020'
+exec --no-startup-id compton -b
 ## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id emacs-reload
 # exec --no-startup-id SVPManager

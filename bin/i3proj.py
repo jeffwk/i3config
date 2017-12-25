@@ -39,9 +39,11 @@ class i3p_Config:
 color_themes = {
     'gruvbox': {
         'fg': '#fdf4c1',
-        'bg': '#282828',
+        #'bg': '#282828',
+        'bg': '#32302f',
         'fg-dim': '#988974',
-        'value': '#d5c4a1',
+        # 'value': '#d5c4a1',
+        'value': '#fdf4c1',
         'bg-light': '#ebdbb2',
         'fg-dark': '#121314',
         'green': '#b8bb26',
@@ -895,11 +897,12 @@ class i3p_App:
                 fsize = 'size=10'
                 isize = 'size=12'
                 app.lb = subprocess.Popen(
-                    ['lemonbar -g %dx%d -o 0 -u 3' %
+                    ['lemonbar -g %dx%d -o -1 -u 3' %
                      (width, height) +
                      ' -B' + app.cfg.colors['bg'] +
                      # ' -f \'source code pro medium:%s\'' % str(fsize) +
-                     ' -f \'sauce code pro semibold:%s\'' % str(fsize) +
+                     # ' -f \'sauce code pro semibold:%s\'' % str(fsize) +
+                     ' -f \'inconsolata:%s\'' % str(fsize) +
                      ' -f \'fontawesome:%s\'' % str(isize)],
                     shell=True, encoding='utf8', stdin=PIPE)
                 # app.lb2 = subprocess.Popen(
