@@ -180,8 +180,9 @@ bindsym XF86AudioStop exec --no-startup-id playerctl stop
 
 bindsym $mod+Control+l exec --no-startup-id trigger-xautolock
 
-bindsym $mod+Shift+Control+q exec --no-startup-id toggle-qemu win10
-bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
+# bindsym $mod+Shift+Control+q exec --no-startup-id toggle-qemu win10
+# bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
+# bindsym $mod+Shift+Control+o exec --no-startup-id switch-monitor
 
 # bar {
 #}
