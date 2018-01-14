@@ -894,7 +894,7 @@ class i3p_App:
             def run(self):
                 width = app.util.get_screen_width()
                 height = 45
-                fsize = 'size=10'
+                fsize = 'size=12'
                 isize = 'size=12'
                 app.lb = subprocess.Popen(
                     ['lemonbar -g %dx%d -o -1 -u 3' %
