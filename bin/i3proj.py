@@ -70,20 +70,27 @@ color_themes = {
 }
 
 default_config = i3p_Config(
-    margin=10,
-    padding=2,
+    margin=8,
+    padding=4,
     colors = color_themes['gruvbox'],
     icons = {'code': '',
              'server': 'S',
              'client': 'C',
-             'web': '',
+             'web': '',
+             'work': '',
              'chrome': '',
              'firefox': '',
              'shell': '',
+             # 'shell': '',
              'media': '',
-             'music': ''
+             'video': '',
+             'music': '',
+             'tv': '',
+             'settings': '',
+             'user': ''
     },
-    item_colors = {'ws_icon': 'blue'}
+    item_colors = {'ws_icon': 'blue',
+                   'ws_label': 'blue'}
 )
 
 def check_pname(pname):
@@ -210,7 +217,7 @@ class bar_Output:
             return self.colors['fg']
     
     def write_icon(self, s):
-        return ('%{T2}' + s + '%{T-}')
+        return ('%{T-}' + s + '%{T-}')
 
     def write_with_font(self, s, fontidx):
         return ('%{T' + str(fontidx) + '}' + s + '%{T-}')
@@ -549,7 +556,7 @@ class i3p_App:
             [diskread, diskwrite] = vals
             return o.write_multi_block(
                 'cyan',
-                [['cyan', o.write_icon(''), 0],
+                [['cyan', o.write_icon(''), 0],
                  ['value', diskread, 8],
                  ['cyan', ' ' + o.write_icon(''), 0],
                  ['value', diskwrite, 8],
@@ -832,15 +839,21 @@ class i3p_App:
                     wdisplay = wname
                     if icon != None:
                         icon_color = self.cfg.item_colors['ws_icon']
+                        icon_padding = 8
                         label_out = o.write_with_fg(icon, icon_color, color)
-                        label_out = o.write_with_font(label_out, 2)
-                        icon_padding = 4
-                        label_out = (o.write_offset(icon_padding) +
-                                     label_out +
-                                     o.write_offset(icon_padding))
-                        wdisplay += '(' + label_out + ')'
+                        label_out = (o.write_offset(icon_padding)
+                                     + label_out
+                                     + o.write_offset(4)
+                        )
+                        wdisplay += label_out
                     elif label != None:
-                        wdisplay += '(' + label + ')'
+                        label_color = self.cfg.item_colors['ws_label']
+                        label_padding = 10
+                        label_out = (o.write_offset(label_padding)
+                                     + o.write_with_fg(label, label_color, color)
+                                     # + o.write_offset(4)
+                        )
+                        wdisplay += label_out
 
                     b = o.write_multi_block(
                         color,
@@ -890,9 +903,9 @@ class i3p_App:
         class output_Thread(Thread):
             def run(self):
                 width = app.util.get_screen_width()
-                height = 45
-                fsize = 'size=10'
-                isize = 'size=12'
+                height = 46
+                fsize = 'size=12'
+                isize = 'size=11'
                 app.lb = subprocess.Popen(
                     ['lemonbar -g %dx%d -o -1 -u 4' %
                      (width, height) +
@@ -900,7 +913,8 @@ class i3p_App:
                      # ' -f \'source code pro medium:%s\'' % str(fsize) +
                      # ' -f \'sauce code pro semibold:%s\'' % str(fsize) +
                      ' -f \'inconsolata:%s\'' % str(fsize) +
-                     ' -f \'fontawesome:%s\'' % str(isize)],
+                     ' -f \'fontawesome 5 pro regular:%s\'' % str(isize) +
+                     ' -f \'fontawesome 5 brands:%s\'' % str(isize)],
                     shell=True, encoding='utf8', stdin=PIPE)
                 # app.lb2 = subprocess.Popen(
                 #     ['lemonbar -b -g %dx%d -o 0 -u 4' %
