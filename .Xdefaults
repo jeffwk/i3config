@@ -8,7 +8,9 @@ Emacs*toolBar: off
 Emacs*menuBar: off
 ! Emacs*font: Inconsolata-14
 ! Emacs*font: Sauce Code Pro:pixelsize=29
-Emacs*font: Sauce Code Pro Medium-11
+! Emacs*font: Sauce Code Pro Medium-12
+! Emacs*font: Inconsolata for Powerline-14
+Emacs*font: Inconsolata for Powerline-14
 ! Emacs*font: Fira Code Retina-11
 Emacs*verticalScrollBars: off
 
@@ -30,7 +32,9 @@ Emacs*verticalScrollBars: off
 ! URxvt*font: xft:Monaco:pixelsize=32
 ! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=29
 ! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=29
-URxvt*font: xft:Sauce Code Pro Medium-11
+! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=23
+URxvt*font: xft:Inconsolata for Powerline-14
+! URxvt*font: xft:Inconsolata for Powerline-14
 ! URxvt*font: xft:Fira Code Medium-11
 
 rofi.color-window: #bb222222,#bbdddddd,#bbdddddd
