@@ -8,7 +8,6 @@ Emacs*toolBar: off
 Emacs*menuBar: off
 Emacs*font: Inconsolata for Powerline-14
 ! Emacs*font: Sauce Code Pro:pixelsize=29
-! Emacs*font: Sauce Code Pro Medium-11
 Emacs*verticalScrollBars: off
 
 !! background transparency
