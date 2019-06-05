@@ -5,7 +5,7 @@
 set $mod Mod1
 set $super Mod4
 
-font pango:Sauce Code Pro Medium 11
+font pango:SauceCodePro Medium 11
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -13,7 +13,7 @@ floating_modifier $mod
 set $inf INFINALITY_FT=ultimate
 
 bindsym $mod+Shift+Return exec $inf urxvtc
-bindsym $mod+Shift+Control+Return exec $inf urxvtc -fn "xft:Sauce Code Pro Medium:pixelsize=40"
+bindsym $mod+Shift+Control+Return exec $inf urxvtc -fn "xft:Inconsolata for Powerline:pixelsize=40"
 
 # kill focused window
 bindsym $mod+Control+q kill
@@ -187,24 +187,30 @@ bindsym $mod+Control+l exec --no-startup-id trigger-xautolock
 # bar {
 #}
 
-exec --no-startup-id xrandr --dpi 144
+exec --no-startup-id xrandr --dpi 120
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
 exec --no-startup-id $inf urxvtd -q -f -o
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
 # exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
-exec --no-startup-id xset s on +dpms
-exec --no-startup-id xset s 1200 1200
-exec --no-startup-id start-xautolock
-exec --no-startup-id hsetroot -solid '#202020'
+exec --no-startup-id xset s off
+exec --no-startup-id xset dpms 900 900 900
+# exec --no-startup-id xset s blank
+# exec --no-startup-id xset s expose
+# exec --no-startup-id xset s 600
 exec --no-startup-id compton -b
+exec --no-startup-id hsetroot -solid '#141414'
+exec --no-startup-id start-xautolock
 ## restart emacs daemons to connect with X for clipboard operations
-exec --no-startup-id emacs-reload
+exec --no-startup-id reload-emacs
 # exec --no-startup-id SVPManager
 
-exec --no-startup-id mount /insilica
-exec --no-startup-id mount /mnt/insilica
-exec --no-startup-id mount /mnt/insilica-data
+exec --no-startup-id xiccd
+exec --no-startup-id bash -c 'sleep 1 && sudo systemctl start colord'
+
+# exec --no-startup-id mount /insilica
+# exec --no-startup-id mount /mnt/insilica
+# exec --no-startup-id mount /mnt/insilica-data
 exec --no-startup-id mount /mnt/huge
 
 exec --no-startup-id python3 ~/bin/i3proj.py run > ~/i3proj.out 2> ~/i3proj.err
@@ -212,7 +218,7 @@ exec --no-startup-id python3 ~/bin/i3proj.py run > ~/i3proj.out 2> ~/i3proj.err
 # exec --no-startup-id systemctl --user start synergys
 # exec --no-startup-id sudo virsh start win10
 
-exec --no-startup-id systemctl --user restart auto-rotate
+# exec --no-startup-id systemctl --user restart auto-rotate
 
 # sets border colors
 client.focused #b0b0b0 #b0b0b0 #000000 #aaaaaa
@@ -223,7 +229,7 @@ client.unfocused #909090 #666666 #cccccc #aaaaaa
 new_window pixel 0
 # for_window [class="^.*"] border pixel 0
 
-set $default_gaps_inner 21
+set $default_gaps_inner 10
 set $default_gaps_outer 0
 
 gaps inner $default_gaps_inner
