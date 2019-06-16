@@ -56,6 +56,7 @@ color_themes = {
     'base16-default-dark': {
         'fg': '#e8e8e8',
         'bg': '#181818',
+        # 'bg': '#121212',
         'fg-dim': '#a8a8a8',
         'value': '#d8d8d8',
         'bg-light': '#d8d8d8',
@@ -76,8 +77,9 @@ default_config = i3p_Config(
     icons = {'code': '',
              'server': 'S',
              'client': 'C',
-             'web': '',
+             'web': '',
              'work': '',
+             'slack': '',
              'chrome': '',
              'firefox': '',
              'shell': '',
@@ -87,7 +89,9 @@ default_config = i3p_Config(
              'music': '',
              'tv': '',
              'settings': '',
-             'user': ''
+             'user': '',
+             'steam': '',
+             'db': ''
     },
     item_colors = {'ws_icon': 'blue',
                    'ws_label': 'blue'}

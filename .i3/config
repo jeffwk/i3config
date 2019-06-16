@@ -5,15 +5,13 @@
 set $mod Mod1
 set $super Mod4
 
-font pango:Sauce Code Pro Medium 11
+font pango:SauceCodePro Medium 11
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-set $inf INFINALITY_FT=ultimate
-
-bindsym $mod+Shift+Return exec $inf urxvtc
-bindsym $mod+Shift+Control+Return exec $inf urxvtc -fn "xft:Sauce Code Pro Medium:pixelsize=40"
+bindsym $mod+Shift+Return exec urxvtc
+bindsym $mod+Shift+Control+Return exec urxvtc -fn "xft:Inconsolata for Powerline:pixelsize=40"
 
 # kill focused window
 bindsym $mod+Control+q kill
@@ -120,10 +118,10 @@ bindsym $super+Return exec --no-startup-id python3 ~/bin/i3proj.py switch-projec
 bindsym $super+space exec --no-startup-id python3 ~/bin/i3proj.py recent-project
 bindsym $super+Left exec --no-startup-id python3 ~/bin/i3proj.py prev-project
 bindsym $super+Right exec --no-startup-id python3 ~/bin/i3proj.py next-project
-bindsym $super+n exec --no-startup-id python3 ~/bin/i3proj.py create-project
-bindsym $super+d exec --no-startup-id python3 ~/bin/i3proj.py delete-project
+bindsym $mod+$super+n exec --no-startup-id python3 ~/bin/i3proj.py create-project
+bindsym $mod+$super+d exec --no-startup-id python3 ~/bin/i3proj.py delete-project
 bindsym $super+x exec --no-startup-id python3 ~/bin/i3proj.py transfer-project
-bindsym $super+l exec --no-startup-id python3 ~/bin/i3proj.py set-ws-label
+bindsym $mod+$super+l exec --no-startup-id python3 ~/bin/i3proj.py set-ws-label
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -180,39 +178,52 @@ bindsym XF86AudioStop exec --no-startup-id playerctl stop
 
 bindsym $mod+Control+l exec --no-startup-id trigger-xautolock
 
-bindsym $mod+Shift+Control+q exec --no-startup-id toggle-qemu win10
-bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
-bindsym $mod+Shift+Control+o exec --no-startup-id switch-monitor
+# bindsym $mod+Shift+Control+q exec --no-startup-id toggle-qemu win10
+# bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
+# bindsym $mod+Shift+Control+o exec --no-startup-id switch-monitor
 
 # bar {
 #}
 
-exec --no-startup-id xrandr --dpi 144
+exec --no-startup-id xrandr --dpi 128
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
-exec --no-startup-id $inf urxvtd -q -f -o
+exec --no-startup-id urxvtd -q -f -o
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
 # exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
 # exec --no-startup-id xset s on +dpms
 # exec --no-startup-id xset s 1800
 # exec --no-startup-id xset dpms 1800 0 0
-exec --no-startup-id xset s off -dpms
-exec --no-startup-id start-xautolock
-exec --no-startup-id hsetroot -solid '#202020'
+exec --no-startup-id xset s off
+exec --no-startup-id xset -dpms
+# exec --no-startup-id xset dpms 900 900 900
+# exec --no-startup-id xset s blank
+# exec --no-startup-id xset s expose
+# exec --no-startup-id xset s 600
+# exec --no-startup-id hsetroot -solid '#202020'
+exec --no-startup-id hsetroot -solid '#141414'
 exec --no-startup-id compton -b
+exec --no-startup-id start-xautolock
 ## restart emacs daemons to connect with X for clipboard operations
-exec --no-startup-id emacs-reload
+exec --no-startup-id reload-emacs
 exec --no-startup-id SVPManager
 
-exec --no-startup-id mount /insilica
-exec --no-startup-id mount /mnt/insilica
-exec --no-startup-id mount /mnt/insilica-data
+exec --no-startup-id sudo systemctl restart colord
+exec --no-startup-id bash -c 'sleep 2 && xiccd'
+# exec --no-startup-id VBoxClient-all
+# exec --no-startup-id VBoxClient --vmsvga
+
+# exec --no-startup-id mount /insilica
+# exec --no-startup-id mount /mnt/insilica
+# exec --no-startup-id mount /mnt/insilica-data
 exec --no-startup-id mount /mnt/huge
 
 exec --no-startup-id python3 ~/bin/i3proj.py run > ~/i3proj.out 2> ~/i3proj.err
 
 # exec --no-startup-id systemctl --user start synergys
 # exec --no-startup-id sudo virsh start win10
+
+# exec --no-startup-id systemctl --user restart auto-rotate
 
 # sets border colors
 client.focused #b0b0b0 #b0b0b0 #000000 #aaaaaa
@@ -223,7 +234,7 @@ client.unfocused #909090 #666666 #cccccc #aaaaaa
 new_window pixel 0
 # for_window [class="^.*"] border pixel 0
 
-set $default_gaps_inner 21
+set $default_gaps_inner 10
 set $default_gaps_outer 0
 
 gaps inner $default_gaps_inner
@@ -276,7 +287,7 @@ mode "$mode_gaps_outer" {
     bindsym Escape mode "default"
 }
 
-for_window [class="mpv" instance="gl"] floating enable
+for_window [class="mpv"] floating enable
 for_window [class="Eog"] floating enable
 for_window [class="Nvidia-settings"] floating enable
 for_window [class="Gnome-control-center"] floating enable
