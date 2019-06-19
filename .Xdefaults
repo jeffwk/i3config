@@ -1,14 +1,29 @@
+!!
+!! rxvt-unicode
+!!
+
 URxvt.iso14755: false
 URxvt*scrollBar: false
 URxvt.internalBorder:  6
 URxvt.perl-ext:
 URxvt.perl-ext-common:
+URxvt.saveLines: 20000
 
-Emacs*toolBar: off
-Emacs*menuBar: off
-Emacs*font: Inconsolata for Powerline:pixelsize=24
-! Emacs*font: Sauce Code Pro:pixelsize=29
-Emacs*verticalScrollBars: off
+!! do not scroll with output
+URxvt*scrollTtyOutput: false
+!! scroll in relation to buffer [with mouse scroll or Shift+Page Up]
+URxvt*scrollWithBuffer: true
+!! scroll back to the bottom on keypress
+URxvt*scrollTtyKeypress: true
+
+!! fix scrolling in program screens (such as emacs)
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
+!! needs aur/rxvt-unicode-better-wheel-scrolling-unicode3
+URxvt.secondaryWheel: 1
+
+!! Disable printing the terminal contents when pressing PrintScreen.
+URxvt.print-pipe: "cat > /dev/null"
 
 !! background transparency
 ! URxvt*depth: 32
@@ -16,7 +31,6 @@ Emacs*verticalScrollBars: off
 ! URxvt*background: rgba:1212/1212/1212/aaaa
 ! URxvt*background: rgba:1212/1212/1212/8888
 
-!! select font
 ! URxvt*font: xft:DejaVu Sans Mono:pixelsize=17
 ! URxvt*font: xft:Droid Sans Mono:pixelsize=17
 ! URxvt*font: xft:Inconsolata for Powerline:pixelsize=26
@@ -31,14 +45,29 @@ Emacs*verticalScrollBars: off
 ! URxvt*font: xft:Sauce Code Pro Medium-11
 URxvt*font: xft:Inconsolata for Powerline:pixelsize=24
 
+!!
+!! emacs
+!!
+
+Emacs*toolBar: off
+Emacs*menuBar: off
+Emacs*font: Inconsolata for Powerline:pixelsize=24
+! Emacs*font: Sauce Code Pro:pixelsize=29
+Emacs*verticalScrollBars: off
+
+!!
+!! rofi
+!!
+
 rofi.color-window: #bb222222,#bbdddddd,#bbdddddd
 rofi.color-normal: #00222222,#dddddd,#00222222,#ddeeeeee,#222222
 
 rofi.bw: 0
-rofi.font: sauce code pro 21
+! rofi.font: sauce code pro 21
+rofi.font: inconsolata for powerline 22
 rofi.lines: 10
 rofi.line-margin: 4
 rofi.width: 33
 rofi.padding: 80
 rofi.separator-style: none
-rofi.hide-scrollbar: true
+! rofi.hide-scrollbar: true
