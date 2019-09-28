@@ -1,0 +1,40 @@
+#!/usr/bin/python3
+
+from urllib.request import urlopen
+import json
+import time
+from os.path import expanduser
+
+def fetchprice():
+    r = urlopen('https://www.bitstamp.net/api/v2/ticker/ethusd/')
+    j = json.loads(r.read().decode(encoding='UTF-8'))
+    p = float(j['last'])
+    t = round(time.time())
+    openprice = float(j['open'])
+    dayratio = (p / openprice)
+    daydiff = round((dayratio - 1.0) * 1000.0)/1000.0
+    o = {'price':p, 'time':t, 'open':openprice, 'daydiff': daydiff}
+    f = open(expanduser('~/.ethprice'),'w')
+    f.write( json.dumps(o) )
+    f.close()
+    return [p,daydiff]
+
+def getcachedprice():
+    try:
+        f = open(expanduser('~/.ethprice'),'r')
+        s = f.read()
+        f.close()
+        j = json.loads(s)
+        t = round(time.time())
+        if t < j['time'] + 30:
+            return [j['price'], j['daydiff']]
+        else:
+            return None
+    except:
+        return None
+
+p = getcachedprice()
+if p is None:
+    p = fetchprice()
+for line in p:
+    print(line)
