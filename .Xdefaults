@@ -7,7 +7,7 @@ URxvt*scrollBar: false
 URxvt.internalBorder:  6
 URxvt.perl-ext:
 URxvt.perl-ext-common:
-URxvt.saveLines: 20000
+URxvt.saveLines: 30000
 
 !! do not scroll with output
 URxvt*scrollTtyOutput: false
@@ -40,20 +40,24 @@ URxvt.print-pipe: "cat > /dev/null"
 ! URxvt*font: xft:Courier Prime Code:pixelsize=36
 ! URxvt*font: xft:Ubuntu Mono:pixelsize=36
 ! URxvt*font: xft:Monaco:pixelsize=32
-! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=29
-! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=29
+! URxvt*font: xft:SauceCode Pro Medium:pixelsize=25
+! URxvt*font: xft:SauceCode Pro Nerd Font Mono:pixelsize=27
 ! URxvt*font: xft:Sauce Code Pro Medium-11
-URxvt*font: xft:Inconsolata for Powerline:pixelsize=29
+! URxvt*font: xft:Inconsolata for Powerline:pixelsize=29
+! URxvt*font: xft:InconsolataGo Nerd Font:pixelsize=30
+URxvt*font: xft:Inconsolata Nerd Font:pixelsize=30
 
 !!
 !! emacs
 !!
 
+Emacs*verticalScrollBars: off
 Emacs*toolBar: off
 Emacs*menuBar: off
-Emacs*font: Inconsolata for Powerline:pixelsize=30
 ! Emacs*font: Sauce Code Pro:pixelsize=29
-Emacs*verticalScrollBars: off
+! Emacs*font: Inconsolata for Powerline:pixelsize=30
+! Emacs*font: InconsolataGo Nerd Font Mono:pixelsize=30
+Emacs*font: InconsolataGo Nerd Font Mono 15
 
 !!
 !! rofi
@@ -64,7 +68,7 @@ rofi.color-normal: #00222222,#dddddd,#00222222,#ddeeeeee,#222222
 
 rofi.bw: 0
 ! rofi.font: sauce code pro 21
-rofi.font: inconsolata for powerline 25
+rofi.font: inconsolata nerd font mono 24
 rofi.lines: 10
 rofi.line-margin: 6
 rofi.width: 25

@@ -19,7 +19,7 @@ def json_to_file(j,path):
 def json_from_file(path):
     f = open(path,'r')
     return json.load(f)
-    
+
 basedir = os.path.expanduser('~/.i3/i3proj')
 
 def i3path(relpath):
@@ -42,6 +42,7 @@ color_themes = {
         #'bg': '#282828',
         'bg': '#32302f',
         'fg-dim': '#988974',
+        'fg-dim-slight': '#cbc49a',
         # 'value': '#d5c4a1',
         'value': '#fdf4c1',
         'bg-light': '#ebdbb2',
@@ -58,6 +59,7 @@ color_themes = {
         'bg': '#181818',
         # 'bg': '#121212',
         'fg-dim': '#a8a8a8',
+        'fg-dim-slight': '#c8c8c8',
         'value': '#d8d8d8',
         'bg-light': '#d8d8d8',
         'fg-dark': '#121212',
@@ -93,8 +95,8 @@ default_config = i3p_Config(
              'steam': '',
              'db': ''
     },
-    item_colors = {'ws_icon': 'blue',
-                   'ws_label': 'blue'}
+    item_colors = {'ws_label_1': 'blue',
+                   'ws_label_2': 'orange'}
 )
 
 def check_pname(pname):
@@ -109,7 +111,7 @@ def is_str(x):
 class i3p_Util:
     def __init__(self):
         pass
-    
+
     def rofi_select(self, options, message):
         input = '\n'.join(options)
         if len(options) > 0:
@@ -167,6 +169,26 @@ class i3p_Util:
         except:
             return None
 
+    def get_btcprice(self):
+        try:
+            p = subprocess.Popen(['btcprice'], encoding='utf8', stdout=PIPE)
+            price = float(p.stdout.readline().strip())
+            daydiff = float(p.stdout.readline().strip())
+            return {'price': price, 'daydiff': daydiff}
+        except:
+            print('get_btcprice exception')
+            return None
+
+    def get_ethprice(self):
+        try:
+            p = subprocess.Popen(['ethprice'], encoding='utf8', stdout=PIPE)
+            price = float(p.stdout.readline().strip())
+            daydiff = float(p.stdout.readline().strip())
+            return {'price': price, 'daydiff': daydiff}
+        except:
+            print('get_ethprice exception')
+            return None
+
     def systemd_status(self, name):
         p = Popen(['service-status', name], encoding='utf8', stdout=PIPE)
         result = p.communicate()[0].strip()
@@ -219,7 +241,7 @@ class bar_Output:
             return self.colors[color]
         else:
             return self.colors['fg']
-    
+
     def write_icon(self, s):
         return ('%{T-}' + s + '%{T-}')
 
@@ -299,6 +321,7 @@ class i3p_App:
                 'netspeed': '',
                 'fsusage': '',
                 'btcprice': '',
+                'ethprice': '',
                 'volume': '',
                 'packages': '',
                 'date': '',
@@ -316,6 +339,7 @@ class i3p_App:
                 'netspeed': '',
                 'fsusage': '',
                 'btcprice': '',
+                'ethprice': '',
                 'volume': '',
                 'packages': '',
                 'date': '',
@@ -388,7 +412,7 @@ class i3p_App:
                 self.write_state()
         except:
             pass
-    
+
     def add_ws_label(self, pname, wname, wlabel):
         if wlabel == None or wlabel == '':
             return self.remove_ws_label(pname, wname)
@@ -416,7 +440,7 @@ class i3p_App:
         response = self.util.rofi_select(
             [], 'Enter workspace label').strip()
         [pname,wname] = self.parse_ws_name(
-            self.get_visible_ws()['name'])
+            self.get_focused_ws()['name'])
         self.add_ws_label(pname, wname, response)
 
     def i3_msg(self, mtype, marg):
@@ -424,6 +448,9 @@ class i3p_App:
                   shell=True, encoding='utf8', stdout=PIPE)
         result = p.communicate()[0].strip()
         return result
+
+    def i3_get_outputs(self):
+        return self.i3_msg('get_outputs', '')
 
     def i3_get_workspaces(self):
         return self.i3_msg('get_workspaces', '')
@@ -446,13 +473,15 @@ class i3p_App:
         #          'time']
         blocks = ['qemu',
                   'synergy',
+                  'btcprice',
+                  'ethprice',
                   'cpu',
+                  # 'cpufreq',
                   'cputemp',
                   'mem',
                   'diskio',
                   'netspeed',
                   'fsusage',
-                  'btcprice',
                   'packages',
                   'battery',
                   'volume',
@@ -467,6 +496,8 @@ class i3p_App:
         s += '%{c}'
         blocks = ['qemu',
                   'synergy',
+                  'btcprice',
+                  'ethprice',
                   'cpu',
                   # 'cpufreq',
                   'cputemp',
@@ -474,7 +505,6 @@ class i3p_App:
                   'diskio',
                   'netspeed',
                   'fsusage',
-                  'btcprice',
                   'packages']
         for name in blocks:
             s += self.cache_or(['blocks',name], '')
@@ -562,9 +592,14 @@ class i3p_App:
                 'cyan',
                 [['cyan', o.write_icon(''), 0],
                  ['value', diskread, 8],
-                 ['cyan', ' ' + o.write_icon(''), 0],
+                 # ['cyan', ' ' + o.write_icon(''), 0],
+                 ['cyan', ' ' + o.write_icon(''), 0],
+                 # ['cyan', ' R', 0],
                  ['value', diskwrite, 8],
-                 ['cyan', ' ' + o.write_icon(''), 0]]
+                 # ['cyan', ' ' + o.write_icon(''), 0]
+                 ['cyan', ' ' + o.write_icon(''), 0]
+                 # ['cyan', ' W', 0]
+                 ]
             )
         elif name == 'netspeed':
             [netdown, netup] = vals
@@ -585,11 +620,40 @@ class i3p_App:
                  ['purple', ' / ', 0],
                  ['value', fssize, 0]]
             )
-        elif name == 'btcprice':
+        elif name == 'btcprice' and vals != None:
             btcprice = vals
-            return o.write_simple_block(
-                o.write_icon(''),
-                'green', 'value', 4, btcprice)
+            price = btcprice['price']
+            daydiff = btcprice['daydiff']
+            if price != None and daydiff != None:
+                diffcolor = {True: 'cyan', False: 'orange'}[
+                    daydiff >= 0.0
+                ]
+                if daydiff >= 0.0:
+                    diffstr = ('+%.1f%%' % (daydiff * 100.0))
+                else:
+                    diffstr = ('%.1f%%' % (daydiff * 100.0))
+                return o.write_multi_block(
+                    'blue',
+                    [['blue', o.write_icon(''), 0],
+                     ['value', ' ' + str(round(price)), 0],
+                     [diffcolor, ' ' + diffstr, 0]])
+        elif name == 'ethprice' and vals != None:
+            ethprice = vals
+            price = ethprice['price']
+            daydiff = ethprice['daydiff']
+            if price != None and daydiff != None:
+                diffcolor = {True: 'cyan', False: 'orange'}[
+                    daydiff >= 0.0
+                ]
+                if daydiff >= 0.0:
+                    diffstr = ('+%.1f%%' % (daydiff * 100.0))
+                else:
+                    diffstr = ('%.1f%%' % (daydiff * 100.0))
+                return o.write_multi_block(
+                    'blue',
+                    [['blue', o.write_icon(''), 0],
+                     ['value', ' ' + str(round(price)), 0],
+                     [diffcolor, ' ' + diffstr, 0]])
         elif name == 'volume':
             volume = vals
             return o.write_simple_block(
@@ -623,10 +687,10 @@ class i3p_App:
         elif name == 'cpufreq':
             mhz = vals
             # o.write_icon('')
-            return o.write_simple_block(
-                o.write_icon(''),
-                'green', 'value', 9, '%s MHz' % mhz
-            )
+            return o.write_multi_block(
+                    'green',
+                    [['value', '%s MHz' % mhz, 9]]
+                )
         else:
             return ''
 
@@ -695,6 +759,30 @@ class i3p_App:
     def update_active_project(self):
         self.cache_save(['active_project'], self.get_active_project())
 
+    def update_outputs(self):
+        self.cache_save(['outputs'], json.loads(self.i3_get_outputs()))
+
+    def get_primary_output(self):
+        outputs = self.cache_or(['outputs'])
+        if outputs is not None:
+            return [out for out in outputs if out['primary']][0]
+
+    def find_active_output(self):
+        ws = self.get_focused_ws()
+        if ws != None:
+            return ws['output']
+        else:
+            return self.get_primary_output()
+
+    def update_active_output(self):
+        self.cache_save(['active_output'], self.find_active_output())
+
+    def get_active_output(self):
+        self.update_all_ws()
+        self.update_outputs()
+        self.update_active_output()
+        return self.cache_or(['active_output'],'')
+
     def ws_order(self, ws):
         wname = '_'.join(ws['name'].split('_')[1:])
         if len(wname) == 0:
@@ -704,7 +792,7 @@ class i3p_App:
             return 10
         else:
             return int(wname[0])
-    
+
     def write_project_block(self, name, active, wscount):
         o = self.out
         colors = self.cfg.colors
@@ -817,8 +905,8 @@ class i3p_App:
                 print('update_workspaces: unable to parse all_ws_str')
                 return
             self.cache_save(['i3_ws','list'], all_ws)
-            visible_ws = self.get_visible_ws()
-            [vis_pname, vis_wname] = self.parse_ws_name(visible_ws['name'])
+            focused_ws = self.get_focused_ws()
+            [vis_pname, vis_wname] = self.parse_ws_name(focused_ws['name'])
             self.set_latest_project_ws(vis_pname, vis_wname)
             pactive = self.cache_or(['active_project'])
             s += self.write_projects_section(all_ws)
@@ -826,9 +914,22 @@ class i3p_App:
             all_ws_sorted = sorted(all_ws, key=self.ws_order)
             for ws in all_ws_sorted:
                 [pname,wname] = self.parse_ws_name(ws['name'])
+                primary_output = self.get_primary_output()
+
+                if (primary_output is not None and
+                    ws['output'] == primary_output['name']):
+                    label_color = self.cfg.item_colors['ws_label_1']
+                else:
+                    label_color = self.cfg.item_colors['ws_label_2']
+
                 wactive = (pname == pactive)
                 if wactive:
-                    color = {True: 'fg', False: 'fg-dim'}[ws['visible']]
+                    if ws['focused']:
+                        color = 'fg'
+                    elif ws['visible']:
+                        color = 'fg-dim-slight'
+                    else:
+                        color = 'fg-dim'
                     wlabel = self.get_ws_label(wname)
                     if wlabel is None or len(wlabel) == 0:
                         label = None
@@ -842,16 +943,14 @@ class i3p_App:
 
                     wdisplay = wname
                     if icon != None:
-                        icon_color = self.cfg.item_colors['ws_icon']
                         icon_padding = 8
-                        label_out = o.write_with_fg(icon, icon_color, color)
+                        label_out = o.write_with_fg(icon, label_color, color)
                         label_out = (o.write_offset(icon_padding)
                                      + label_out
                                      + o.write_offset(4)
                         )
                         wdisplay += label_out
                     elif label != None:
-                        label_color = self.cfg.item_colors['ws_label']
                         label_padding = 10
                         label_out = (o.write_offset(label_padding)
                                      + o.write_with_fg(label, label_color, color)
@@ -864,15 +963,15 @@ class i3p_App:
                         [[color, wdisplay, 0]]
                     )
                     s += b
-                
+
             self.cache_save(['i3_ws','lemonbar'], s)
             self.update_output()
             self.update_display()
 
-    def get_visible_ws(self):
+    def get_focused_ws(self):
         return [ws for ws in self.cache_or(['i3_ws','list'])
-                if ws['visible']][0]
-    
+                if ws['focused']][0]
+
     def run(self, args=None):
         app = self
 
@@ -883,9 +982,14 @@ class i3p_App:
 
         class i3ws_Thread(Thread):
             def run(self):
+                self.sub_workspace = Popen(['i3-msg -t subscribe -m \'[ "workspace", "output" ]\''],
+                                           shell=True, encoding='utf8', stdout=PIPE)
+                app.update_outputs()
+                app.update_workspaces( app.i3_get_workspaces() )
                 while True:
+                    event = str(self.sub_workspace.stdout.readline())
+                    app.update_outputs()
                     app.update_workspaces( app.i3_get_workspaces() )
-                    time.sleep(0.15)
 
         class conky_Thread(Thread):
             def run(self):
@@ -907,11 +1011,11 @@ class i3p_App:
         class output_Thread(Thread):
             def run(self):
                 width = app.util.get_screen_width()
-                height = 46
-                fsize = 'size=12'
-                isize = 'size=11'
+                height = 44
+                fsize = 'size=13'
+                isize = 'size=12'
                 app.lb = subprocess.Popen(
-                    ['lemonbar -g %dx%d -o -1 -u 4' %
+                    ['lemonbar -g %dx%d -o -2 -u 4' %
                      (width, height) +
                      ' -B' + app.cfg.colors['bg'] +
                      # ' -f \'source code pro medium:%s\'' % str(fsize) +
@@ -938,22 +1042,36 @@ class i3p_App:
                         app.update_block('qemu', app.util.qemu_status())
                         app.update_block('synergy', app.util.synergy_status())
                     app.update_block('cputemp', app.util.get_cputemp())
-                    time.sleep(0.5)
+                    time.sleep(1.0)
 
         class title_Thread(Thread):
             def run(self):
+                self.sub_window = Popen(['i3-msg -t subscribe -m \'[ "window" ]\''],
+                                        shell=True, encoding='utf8', stdout=PIPE)
+                app.update_window_title()
                 while True:
+                    event = str(self.sub_window.stdout.readline())
                     app.update_window_title()
-                    time.sleep(0.1)
 
         class i7z_Thread(Thread):
             def run(self):
                 self.i7z = subprocess.Popen(
-                    ['sudo i7z --logfile ~/.i3/i3proj/cpufreq --write l --nogui'],
+                    ['sudo i7z --write l --nogui'],
                      shell=True, encoding='utf8', stdout=PIPE)
+                time.sleep(1.0)
+                self.i7z_entr = Popen(['echo ~/cpu_freq_log.txt | entr echo \'updated\''],
+                                           shell=True, encoding='utf8', stdout=PIPE)
                 while True:
+                    event = str(self.i7z_entr.stdout.readline())
                     app.update_cpufreq()
-                    time.sleep(0.5)
+                    app.update_block('cpufreq', str(app.util.get_cpufreq()))
+
+        class markets_Thread(Thread):
+            def run(self):
+                while True:
+                    app.update_block('btcprice', app.util.get_btcprice())
+                    app.update_block('ethprice', app.util.get_ethprice())
+                    time.sleep(5.0)
 
         class packages_Thread(Thread):
             def run(self):
@@ -986,13 +1104,16 @@ class i3p_App:
         # title = title_Thread()
         # title.start()
 
+        markets = markets_Thread()
+        markets.start()
+
         output = output_Thread()
         output.start()
 
-        i7z = i7z_Thread()
-        i7z.start()
+        # i7z = i7z_Thread()
+        # i7z.start()
 
-        output.join()    
+        output.join()
 
     def transfer_project(self):
         plist = self.get_project_list()
@@ -1096,7 +1217,7 @@ class i3p_App:
             print('recent_project: \'%s\' not in project list' % plast)
         else:
             self.switch_project(plast)
-            
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Workspace group manager for i3wm')
     parser.add_argument('action', nargs=1, choices=[
@@ -1129,7 +1250,5 @@ if __name__ == '__main__':
         app.label_workspace()
     elif action == 'active-project':
         print(app.get_active_project())
-    elif action == 'next-project':
-        app.next_project()
     else:
         print('invalid command-line arguments')

@@ -6,15 +6,18 @@ import time
 from os.path import expanduser
 
 def fetchprice():
-    r = urlopen('https://www.bitstamp.net/api/ticker/')
+    r = urlopen('https://www.bitstamp.net/api/v2/ticker/btcusd/')
     j = json.loads(r.read().decode(encoding='UTF-8'))
-    p = round(float(j['last']))
+    p = float(j['last'])
     t = round(time.time())
-    o = {'price':p, 'time':t}
+    openprice = float(j['open'])
+    dayratio = (p / openprice)
+    daydiff = round((dayratio - 1.0) * 1000.0)/1000.0
+    o = {'price':p, 'time':t, 'open':openprice, 'daydiff': daydiff}
     f = open(expanduser('~/.btcprice'),'w')
     f.write( json.dumps(o) )
     f.close()
-    return p
+    return [p,daydiff]
 
 def getcachedprice():
     try:
@@ -24,7 +27,7 @@ def getcachedprice():
         j = json.loads(s)
         t = round(time.time())
         if t < j['time'] + 30:
-            return j['price']
+            return [j['price'], j['daydiff']]
         else:
             return None
     except:
@@ -33,4 +36,5 @@ def getcachedprice():
 p = getcachedprice()
 if p is None:
     p = fetchprice()
-print(p,end="")
+for line in p:
+    print(line)
