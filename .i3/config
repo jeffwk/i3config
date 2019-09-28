@@ -10,10 +10,8 @@ font pango:SauceCodePro Medium 11
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-set $inf INFINALITY_FT=ultimate
-
-bindsym $mod+Shift+Return exec $inf urxvtc
-bindsym $mod+Shift+Control+Return exec $inf urxvtc -fn "xft:Inconsolata for Powerline:pixelsize=40"
+bindsym $mod+Shift+Return exec urxvtc
+bindsym $mod+Shift+Control+Return exec urxvtc -fn "xft:Inconsolata for Powerline:pixelsize=40"
 
 # kill focused window
 bindsym $mod+Control+q kill
@@ -21,6 +19,7 @@ bindsym $mod+Control+q kill
 # start rofi run (a program launcher)
 bindsym $mod+p exec --no-startup-id rofi -show run
 bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run
+bindsym $mod+Control+shift+p exec --no-startup-id rofi-pass
 
 # window focus keys
 bindsym $mod+Left focus left
@@ -116,20 +115,28 @@ bindsym $mod+Shift+8 exec i3-msg move container to workspace $(python3 ~/bin/i3p
 bindsym $mod+Shift+9 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP9
 bindsym $mod+Shift+0 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP10
 
+bindsym $super+o move workspace to output right
+bindsym $super+Control+o move workspace to output right
+
 bindsym $super+Return exec --no-startup-id python3 ~/bin/i3proj.py switch-project
+bindsym $super+Control+Return exec --no-startup-id python3 ~/bin/i3proj.py switch-project
 bindsym $super+space exec --no-startup-id python3 ~/bin/i3proj.py recent-project
 bindsym $super+Left exec --no-startup-id python3 ~/bin/i3proj.py prev-project
 bindsym $super+Right exec --no-startup-id python3 ~/bin/i3proj.py next-project
 bindsym $super+n exec --no-startup-id python3 ~/bin/i3proj.py create-project
 bindsym $super+d exec --no-startup-id python3 ~/bin/i3proj.py delete-project
 bindsym $super+x exec --no-startup-id python3 ~/bin/i3proj.py transfer-project
+bindsym $super+Control+x exec --no-startup-id python3 ~/bin/i3proj.py transfer-project
 bindsym $super+l exec --no-startup-id python3 ~/bin/i3proj.py set-ws-label
+bindsym $super+Control+l exec --no-startup-id python3 ~/bin/i3proj.py set-ws-label
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-bindsym --release $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill compton || true && sleep 0.2 && compton -b'
+bindsym $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill compton || true && sleep 0.2 && compton -b && pkill stalonetray || true && sleep 0.2 && stalonetray & start-twmnd.sh & exit'
+# bindsym --release $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill compton || true && sleep 0.2 && compton -b && pkill stalonetray || true && sleep 0.2 && stalonetray & start-twmnd.sh &'
+bindsym $mod+Shift+Control+n exec --no-startup-id start-twmnd.sh
 
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+Control+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
@@ -190,13 +197,15 @@ bindsym $mod+Control+l exec --no-startup-id trigger-xautolock
 exec --no-startup-id xrandr --dpi 128
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
-exec --no-startup-id $inf urxvtd -q -f -o
+exec --no-startup-id urxvtd -q -f -o
 
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
 # exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
 
 exec --no-startup-id xset s 1200 0
 exec --no-startup-id xset dpms 900 0 0
+
+exec --no-startup-id xset r rate 250 30
 
 exec --no-startup-id compton -b
 
@@ -209,8 +218,9 @@ exec --no-startup-id reload-emacs
 
 # exec --no-startup-id SVPManager
 
-exec --no-startup-id xiccd
-exec --no-startup-id bash -c 'sleep 1 && sudo systemctl start colord'
+exec --no-startup-id sudo systemctl restart colord
+exec --no-startup-id bash -c 'sleep 2 && xiccd'
+exec --no-startup-ip bash -c 'sleep 2 && start-twmnd.sh'
 
 # exec --no-startup-id mount /insilica
 # exec --no-startup-id mount /mnt/insilica
@@ -219,8 +229,12 @@ exec --no-startup-id mount /mnt/huge
 
 exec --no-startup-id python3 ~/bin/i3proj.py run > ~/i3proj.out 2> ~/i3proj.err
 
-# exec --no-startup-id systemctl --user start synergys
+exec --no-startup-id stalonetray
+
+# exec --no-startup-id systemctl --user restart auto-rotate
+
 # exec --no-startup-id sudo virsh start win10
+# exec --no-startup-id systemctl --user start synergys
 
 # exec --no-startup-id systemctl --user restart auto-rotate
 

@@ -7,7 +7,7 @@ URxvt*scrollBar: false
 URxvt.internalBorder:  6
 URxvt.perl-ext:
 URxvt.perl-ext-common:
-URxvt.saveLines: 20000
+URxvt.saveLines: 30000
 
 !! do not scroll with output
 URxvt*scrollTtyOutput: false
@@ -50,12 +50,14 @@ URxvt*font: xft:Inconsolata Nerd Font Mono:pixelsize=23
 !! emacs
 !!
 
+Emacs*verticalScrollBars: off
 Emacs*toolBar: off
 Emacs*menuBar: off
 ! Emacs*font: Sauce Code Pro:pixelsize=29
-! Emacs*font: Inconsolata for Powerline:pixelsize=24
+! Emacs*font: Inconsolata for Powerline:pixelsize=30
+! Emacs*font: InconsolataGo Nerd Font Mono:pixelsize=30
+! Emacs*font: InconsolataGo Nerd Font Mono 15
 Emacs*font: Inconsolata Nerd Font Mono:pixelsize=23
-Emacs*verticalScrollBars: off
 
 !!
 !! rofi
@@ -66,9 +68,9 @@ rofi.color-normal: #00222222,#dddddd,#00222222,#ddeeeeee,#222222
 
 rofi.bw: 0
 ! rofi.font: sauce code pro 21
-rofi.font: inconsolata for powerline 22
+rofi.font: inconsolata nerd font mono 22
 rofi.lines: 10
-rofi.line-margin: 4
+rofi.line-margin: 5
 rofi.width: 33
 rofi.padding: 80
 rofi.separator-style: none

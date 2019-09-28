@@ -1,9 +1,12 @@
 ! Base16 Eighties
 ! Scheme: Chris Kempson (http://chriskempson.com)
 
-#define base00 #2d2d2d
-#define base01 #393939
-#define base02 #515151
+! #define base00 #2d2d2d
+! #define base01 #393939
+! #define base02 #515151
+#define base00 #242424
+#define base01 #323232
+#define base02 #404040
 #define base03 #747369
 #define base04 #a09f93
 #define base05 #d3d0c8

@@ -9,5 +9,5 @@ conky.config = {
     cpu_avg_samples = 2,
 };
 
-conky.text = 
+conky.text =
 [[{"cpu": "${cpu cpu0}", "mem": ["${mem}", "${memmax}"], "diskio": ["${diskio_read}", "${diskio_write}"], "netspeed": ["${downspeedf wlp4s0}K", "${upspeedf wlp4s0}K"], "fsusage": ["${fs_used}", "${fs_size}"], "date": "${time %a %b %d}", "time": "${time %_I:%M %p}", "battery": "${battery_percent}"}]];
