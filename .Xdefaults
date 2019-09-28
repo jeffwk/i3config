@@ -43,7 +43,8 @@ URxvt.print-pipe: "cat > /dev/null"
 ! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=29
 ! URxvt*font: xft:Sauce Code Pro Medium:pixelsize=29
 ! URxvt*font: xft:Sauce Code Pro Medium-11
-URxvt*font: xft:Inconsolata for Powerline:pixelsize=24
+! URxvt*font: xft:Inconsolata for Powerline:pixelsize=25
+URxvt*font: xft:Inconsolata Nerd Font Mono:pixelsize=23
 
 !!
 !! emacs
@@ -51,8 +52,9 @@ URxvt*font: xft:Inconsolata for Powerline:pixelsize=24
 
 Emacs*toolBar: off
 Emacs*menuBar: off
-Emacs*font: Inconsolata for Powerline:pixelsize=24
 ! Emacs*font: Sauce Code Pro:pixelsize=29
+! Emacs*font: Inconsolata for Powerline:pixelsize=24
+Emacs*font: Inconsolata Nerd Font Mono:pixelsize=23
 Emacs*verticalScrollBars: off
 
 !!

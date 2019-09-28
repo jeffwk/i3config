@@ -1,6 +1,6 @@
 #!/bin/bash
 
 killall xautolock ; start-xautolock & sleep 0.3
-
+xset dpms force standby
+sleep 0.2
 xautolock -locknow
-xset dpms force off

@@ -12,7 +12,8 @@
 ! hard (custom): *background: #1f2223
 ! *background: #32302f
 ! *background: #1d2021
-*background: #272524
+! *background: #272524
+*background: #201e1d
 
 *foreground: #ebdbb2
 ! Black + DarkGrey

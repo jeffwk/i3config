@@ -187,22 +187,26 @@ bindsym $mod+Control+l exec --no-startup-id trigger-xautolock
 # bar {
 #}
 
-exec --no-startup-id xrandr --dpi 120
+exec --no-startup-id xrandr --dpi 128
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
 exec --no-startup-id $inf urxvtd -q -f -o
+
 # exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
 # exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
-exec --no-startup-id xset s off
-exec --no-startup-id xset dpms 900 900 900
-# exec --no-startup-id xset s blank
-# exec --no-startup-id xset s expose
-# exec --no-startup-id xset s 600
+
+exec --no-startup-id xset s 1200 0
+exec --no-startup-id xset dpms 900 0 0
+
 exec --no-startup-id compton -b
-exec --no-startup-id hsetroot -solid '#141414'
+
+exec --no-startup-id hsetroot -solid '#101010'
+
 exec --no-startup-id start-xautolock
+
 ## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id reload-emacs
+
 # exec --no-startup-id SVPManager
 
 exec --no-startup-id xiccd
@@ -229,7 +233,7 @@ client.unfocused #909090 #666666 #cccccc #aaaaaa
 new_window pixel 0
 # for_window [class="^.*"] border pixel 0
 
-set $default_gaps_inner 10
+set $default_gaps_inner 8
 set $default_gaps_outer 0
 
 gaps inner $default_gaps_inner
