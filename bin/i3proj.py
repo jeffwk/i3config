@@ -1012,9 +1012,11 @@ class i3p_App:
         class output_Thread(Thread):
             def run(self):
                 width = app.util.get_screen_width()
-                height = 40
-                fsize = 'size=13'
-                isize = 'size=12'
+                height = 39
+                # fsize = 'size=12'
+                # isize = 'size=11'
+                fsize = 'pixelsize=22'
+                isize = 'pixelsize=20'
                 app.lb = subprocess.Popen(
                     ['lemonbar -g %dx%d -o -2 -u 4' %
                      (width, height) +
