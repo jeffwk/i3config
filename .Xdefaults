@@ -4,7 +4,7 @@
 
 URxvt.iso14755: false
 URxvt*scrollBar: false
-URxvt.internalBorder:  6
+URxvt.internalBorder:  18
 URxvt.perl-ext:
 URxvt.perl-ext-common:
 URxvt.saveLines: 30000
@@ -45,7 +45,10 @@ URxvt.print-pipe: "cat > /dev/null"
 ! URxvt*font: xft:Sauce Code Pro Medium-11
 ! URxvt*font: xft:Inconsolata for Powerline:pixelsize=29
 ! URxvt*font: xft:InconsolataGo Nerd Font:pixelsize=30
-URxvt*font: xft:Inconsolata Nerd Font:pixelsize=30
+! URxvt*font: xft:Inconsolata Nerd Font:pixelsize=30
+! URxvt*font: xft:Anka/Coder Condensed:pixelsize=28
+! URxvt*font: xft: AnkaCoder Nerd Font:pixelsize=26
+URxvt*font: xft: Input Mono:pixelsize=23
 
 !!
 !! emacs
@@ -57,7 +60,12 @@ Emacs*menuBar: off
 ! Emacs*font: Sauce Code Pro:pixelsize=29
 ! Emacs*font: Inconsolata for Powerline:pixelsize=30
 ! Emacs*font: InconsolataGo Nerd Font Mono:pixelsize=30
-Emacs*font: InconsolataGo Nerd Font Mono 15
+! Emacs*font: InconsolataGo Nerd Font Mono 15
+! Emacs*font: InconsolataGo Nerd Font Mono:pixelsize=29
+! Emacs*font: Anka/Coder Condensed:pixelsize=28
+! Emacs*font: AnkaCoder Nerd Font Mono:pixelsize=26
+! Emacs*font: Input Mono:pixelsize=24
+Emacs*font: Input Mono:pixelsize=23
 
 !!
 !! rofi
@@ -66,12 +74,14 @@ Emacs*font: InconsolataGo Nerd Font Mono 15
 rofi.color-window: #bb222222,#bbdddddd,#bbdddddd
 rofi.color-normal: #00222222,#dddddd,#00222222,#ddeeeeee,#222222
 
-rofi.bw: 0
+rofi.theme: jeff_fancy1
+! rofi.bw: 0
 ! rofi.font: sauce code pro 21
-rofi.font: inconsolata nerd font mono 24
+! rofi.font: inconsolata nerd font mono 24
+rofi.font: input mono 22
 rofi.lines: 10
 rofi.line-margin: 6
-rofi.width: 25
-rofi.padding: 75
-rofi.separator-style: none
+rofi.width: 22
+! rofi.padding: 64
+! rofi.separator-style: none
 ! rofi.hide-scrollbar: true
