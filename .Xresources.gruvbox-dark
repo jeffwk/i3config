@@ -14,6 +14,11 @@
 ! *background: #1d2021
 ! *background: #272524
 *background: #201e1d
+!! *background: #242221
+! *background: #232120
+! *background: #222120
+! *background: #1f2223
+>>>>>>> origin/desktop
 
 *foreground: #ebdbb2
 ! Black + DarkGrey

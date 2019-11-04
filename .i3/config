@@ -134,7 +134,8 @@ bindsym $super+Control+l exec --no-startup-id python3 ~/bin/i3proj.py set-ws-lab
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill compton || true && sleep 0.2 && compton -b && pkill stalonetray || true && sleep 0.2 && stalonetray & start-twmnd.sh & exit'
+bindsym $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill compton || true && sleep 0.1 && compton -b & pkill stalonetray || true && sleep 0.1 && stalonetray & start-twmnd.sh &'
+# bindsym $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill compton || true && sleep 0.1 && compton --experimental-backends -b & pkill stalonetray || true && sleep 0.1 && stalonetray & start-twmnd.sh &'
 # bindsym --release $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill compton || true && sleep 0.2 && compton -b && pkill stalonetray || true && sleep 0.2 && stalonetray & start-twmnd.sh &'
 bindsym $mod+Shift+Control+n exec --no-startup-id start-twmnd.sh
 
@@ -150,16 +151,16 @@ mode $resize {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        bindsym j resize shrink width 10 px or 5 ppt
+        bindsym k resize grow height 10 px or 5 ppt
+        bindsym l resize shrink height 10 px or 5 ppt
+        bindsym semicolon resize grow width 10 px or 5 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Left resize shrink width 10 px or 5 ppt
+        bindsym Down resize grow height 10 px or 5 ppt
+        bindsym Up resize shrink height 10 px or 5 ppt
+        bindsym Right resize grow width 10 px or 5 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -205,18 +206,22 @@ exec --no-startup-id urxvtd -q -f -o
 exec --no-startup-id xset s 1200 0
 exec --no-startup-id xset dpms 900 0 0
 
-exec --no-startup-id xset r rate 250 30
+exec --no-startup-id xset r rate 225 33
+
+# exec --no-startup-id hsetroot -solid '#101010'
+# exec --no-startup-id hsetroot -solid '#202020'
+# exec --no-startup-id hsetroot -solid '#121212'
+# exec --no-startup-id hsetroot -solid '#0c0c0c'
+# exec --no-startup-id hsetroot -solid '#777270'
+# exec --no-startup-id hsetroot -solid '#8b8886'
+exec --no-startup-id hsetroot -solid '#9a9895'
 
 exec --no-startup-id compton -b
-
-exec --no-startup-id hsetroot -solid '#101010'
 
 exec --no-startup-id start-xautolock
 
 ## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id reload-emacs
-
-# exec --no-startup-id SVPManager
 
 exec --no-startup-id sudo systemctl restart colord
 exec --no-startup-id bash -c 'sleep 2 && xiccd'
@@ -234,7 +239,6 @@ exec --no-startup-id stalonetray
 # exec --no-startup-id systemctl --user restart auto-rotate
 
 # exec --no-startup-id sudo virsh start win10
-# exec --no-startup-id systemctl --user start synergys
 
 # exec --no-startup-id systemctl --user restart auto-rotate
 
@@ -246,9 +250,10 @@ client.unfocused #909090 #666666 #cccccc #aaaaaa
 # sets border width
 new_window pixel 0
 # for_window [class="^.*"] border pixel 0
+border_radius 21
 
-set $default_gaps_inner 8
-set $default_gaps_outer 0
+set $default_gaps_inner 16
+set $default_gaps_outer -1
 
 gaps inner $default_gaps_inner
 gaps outer $default_gaps_outer
@@ -257,7 +262,7 @@ set $mode_gaps gaps (default[d] | zero[0] | inner[i] | outer[o] | quit[esc])
 set $mode_gaps_outer gaps outer (default[d] | zero[0] | increase[+] | decrease[-] | quit[esc])
 set $mode_gaps_inner gaps inner (default[d] | zero[0] | increase[+] | decrease[-] | quit[esc])
 
-bindsym $mod+shift+g mode "$mode_gaps"
+bindsym $mod+Control+g mode "$mode_gaps"
 
 mode "$mode_gaps" {
     bindsym o      mode "$mode_gaps_outer"
