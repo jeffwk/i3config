@@ -57,6 +57,8 @@ URxvt*font: xft: Input Mono:pixelsize=23
 Emacs*verticalScrollBars: off
 Emacs*toolBar: off
 Emacs*menuBar: off
+Emacs*internalBorder: 7
+! Emacs*borderWidth: 5
 ! Emacs*font: Sauce Code Pro:pixelsize=29
 ! Emacs*font: Inconsolata for Powerline:pixelsize=30
 ! Emacs*font: InconsolataGo Nerd Font Mono:pixelsize=30

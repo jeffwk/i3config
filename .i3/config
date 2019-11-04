@@ -220,8 +220,8 @@ exec --no-startup-id xset r rate 225 33
 # exec --no-startup-id hsetroot -solid '#121212'
 # exec --no-startup-id hsetroot -solid '#0c0c0c'
 # exec --no-startup-id hsetroot -solid '#777270'
-exec --no-startup-id hsetroot -solid '#8b8886'
-# exec --no-startup-id hsetroot -solid '#908b89'
+# exec --no-startup-id hsetroot -solid '#8b8886'
+exec --no-startup-id hsetroot -solid '#9a9895'
 
 exec --no-startup-id compton -b
 
@@ -246,7 +246,7 @@ exec --no-startup-id stalonetray
 
 # exec --no-startup-id systemctl --user restart auto-rotate
 
-exec --no-startup-id sudo virsh start win10
+# exec --no-startup-id sudo virsh start win10
 exec --no-startup-id systemctl --user start synergys
 
 # sets border colors
@@ -257,10 +257,10 @@ client.unfocused #909090 #666666 #cccccc #aaaaaa
 # sets border width
 new_window pixel 0
 # for_window [class="^.*"] border pixel 0
-border_radius 18
+border_radius 21
 
-set $default_gaps_inner 15
-set $default_gaps_outer 0
+set $default_gaps_inner 16
+set $default_gaps_outer -1
 
 gaps inner $default_gaps_inner
 gaps outer $default_gaps_outer
@@ -269,7 +269,7 @@ set $mode_gaps gaps (default[d] | zero[0] | inner[i] | outer[o] | quit[esc])
 set $mode_gaps_outer gaps outer (default[d] | zero[0] | increase[+] | decrease[-] | quit[esc])
 set $mode_gaps_inner gaps inner (default[d] | zero[0] | increase[+] | decrease[-] | quit[esc])
 
-bindsym $mod+shift+g mode "$mode_gaps"
+bindsym $mod+Control+g mode "$mode_gaps"
 
 mode "$mode_gaps" {
     bindsym o      mode "$mode_gaps_outer"
