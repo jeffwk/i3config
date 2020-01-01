@@ -196,7 +196,7 @@ bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
 #}
 
 # exec --no-startup-id xrandr --output "DP-4" --primary --auto --output "DP-2" --auto --right-of "DP-4"
-exec --no-startup-id xrandr --output "DisplayPort-2" --primary --auto --output "DisplayPort-0" --auto --right-of "DisplayPort-2"
+exec --no-startup-id xrandr --output "DisplayPort-1" --primary --auto --output "DisplayPort-2" --auto --right-of "DisplayPort-1"
 exec --no-startup-id xrandr --dpi 144
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
@@ -259,8 +259,8 @@ new_window pixel 0
 # for_window [class="^.*"] border pixel 0
 border_radius 21
 
-set $default_gaps_inner 16
-set $default_gaps_outer -1
+set $default_gaps_inner 14
+set $default_gaps_outer 0
 
 gaps inner $default_gaps_inner
 gaps outer $default_gaps_outer

@@ -4,10 +4,18 @@
 
 URxvt.iso14755: false
 URxvt*scrollBar: false
-URxvt.internalBorder:  18
-URxvt.perl-ext:
-URxvt.perl-ext-common:
+URxvt.internalBorder:  16
 URxvt.saveLines: 30000
+
+URxvt.perl-ext:
+URxvt.perl-ext-common: resize-font
+URxvt.keysym.C-plus:  resize-font:bigger
+URxvt.keysym.C-equal: resize-font:bigger
+URxvt.keysym.C-0: resize-font:reset
+URxvt.keysym.C-): resize-font:show
+URxvt.resize-font.step: 2
+
+! URxvt.letterSpace: 1
 
 !! do not scroll with output
 URxvt*scrollTtyOutput: false
@@ -33,7 +41,7 @@ URxvt.print-pipe: "cat > /dev/null"
 
 ! URxvt*font: xft:DejaVu Sans Mono:pixelsize=17
 ! URxvt*font: xft:Droid Sans Mono:pixelsize=17
-! URxvt*font: xft:Inconsolata for Powerline:pixelsize=26
+! URxvt*font: xft:Inconsolata for Powerline:pixelsize=27
 ! URxvt*font: xft:Source Code Pro Semibold:pixelsize=15,FontAwesome
 ! URxvt*font: xft:Sauce Code Pro:pixelsize=29
 ! URxvt*font: xft:Inconsolata for Powerline:pixelsize=36
@@ -48,7 +56,9 @@ URxvt.print-pipe: "cat > /dev/null"
 ! URxvt*font: xft:Inconsolata Nerd Font:pixelsize=30
 ! URxvt*font: xft:Anka/Coder Condensed:pixelsize=28
 ! URxvt*font: xft: AnkaCoder Nerd Font:pixelsize=26
-URxvt*font: xft: Input Mono:pixelsize=23
+!! URxvt*font: xft: Input Mono:pixelsize=23
+!! URxvt*font: xft: InputMono Medium:pixelsize=23
+URxvt*font: xft: InputMono Nerd Font:pixelsize=23
 
 !!
 !! emacs
@@ -66,8 +76,8 @@ Emacs*internalBorder: 7
 ! Emacs*font: InconsolataGo Nerd Font Mono:pixelsize=29
 ! Emacs*font: Anka/Coder Condensed:pixelsize=28
 ! Emacs*font: AnkaCoder Nerd Font Mono:pixelsize=26
-! Emacs*font: Input Mono:pixelsize=24
-Emacs*font: Input Mono:pixelsize=23
+!! Emacs*font: Input Mono:pixelsize=25
+Emacs*font: InputMono Nerd Font:pixelsize=25
 
 !!
 !! rofi
