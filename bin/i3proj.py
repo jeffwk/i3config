@@ -93,7 +93,10 @@ default_config = i3p_Config(
              'settings': '',
              'user': '',
              'steam': '',
-             'db': ''
+             'db': '',
+             'windows': '',
+             'win10': ''
+
     },
     item_colors = {'ws_label_1': 'blue',
                    'ws_label_2': 'orange'}
@@ -978,6 +981,7 @@ class i3p_App:
 
         if self.util.service_exists('libvirtd'):
             self.libvirtd_active = self.util.systemd_status('libvirtd')
+            # self.libvirtd_active = False
         else:
             self.libvirtd_active = False
 

@@ -252,8 +252,8 @@ new_window pixel 0
 # for_window [class="^.*"] border pixel 0
 border_radius 21
 
-set $default_gaps_inner 16
-set $default_gaps_outer -1
+set $default_gaps_inner 14
+set $default_gaps_outer 0
 
 gaps inner $default_gaps_inner
 gaps outer $default_gaps_outer

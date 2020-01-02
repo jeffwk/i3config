@@ -47,7 +47,7 @@ grow_gravity NE
 icon_gravity NE
 
 # icon_size <int>            # specifies dimensions of typical icon slot
-icon_size 28
+icon_size 26
 
 # log_level <level>          # controls the amount of logging output, level can
                              # be err (default), info, or trace (enabled only
@@ -130,7 +130,6 @@ window_layer normal
                              # will be attached; it can be either top, bottom,
                              # left, right, none or auto (default)
 # window_strut auto
-window_strut top
 
 # window_type <type>         # set the EWMH-compatible window type; one of:
                              # desktop, dock, normal, toolbar, utility
