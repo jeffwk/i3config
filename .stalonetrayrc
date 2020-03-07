@@ -34,7 +34,7 @@ fuzzy_edges 0
 
 # geometry <geometry>        # tray's geometry in standard X notation; width and
                              # height are specified in slot_size multiples
-geometry 6x1+1250+8
+geometry 6x1+950+8
 
 # grow_gravity <gravity>     # one of N, S, E, W, NW, NE, SW, SE; tray will grow
                              # in the direction opposite to one specified by
@@ -47,7 +47,7 @@ grow_gravity NE
 icon_gravity NE
 
 # icon_size <int>            # specifies dimensions of typical icon slot
-icon_size 26
+icon_size 28
 
 # log_level <level>          # controls the amount of logging output, level can
                              # be err (default), info, or trace (enabled only
@@ -99,7 +99,7 @@ scrollbars none
                              # icon_size NEW in 0.8.
 
 # skip_taskbar [<bool>]      # hide tray`s window from the taskbar
-skip_taskbar true
+skip_taskbar false
 
 # sticky [<bool>]            # make a tray`s window sticky across the
                              # desktops/pages
@@ -122,18 +122,19 @@ vertical false
 
 # window_layer <layer>       # set the EWMH-compatible window layer; one of:
                              # bottom, normal, top
-window_layer normal
+window_layer bottom
 
 # window_strut <mode>        # enable/disable window struts for tray window (to
                              # avoid converting of tray window by maximized
                              # windows); mode defines to which screen border tray
                              # will be attached; it can be either top, bottom,
                              # left, right, none or auto (default)
-# window_strut auto
+window_strut auto
 
 # window_type <type>         # set the EWMH-compatible window type; one of:
                              # desktop, dock, normal, toolbar, utility
-window_type toolbar
+# window_type toolbar
+window_type utility
 # window_type desktop
 
 # xsync [<bool>]             # whether to operate on X server synchronously (SLOOOOW)

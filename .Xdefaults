@@ -58,7 +58,8 @@ URxvt.print-pipe: "cat > /dev/null"
 ! URxvt*font: xft: AnkaCoder Nerd Font:pixelsize=26
 !! URxvt*font: xft: Input Mono:pixelsize=23
 !! URxvt*font: xft: InputMono Medium:pixelsize=23
-URxvt*font: xft: InputMono Nerd Font:pixelsize=23
+! URxvt*font: xft: InputMono Nerd Font:pixelsize=23
+URxvt*font: xft: InputMono Nerd Font:pixelsize=25
 
 !!
 !! emacs
@@ -77,7 +78,7 @@ Emacs*internalBorder: 7
 ! Emacs*font: Anka/Coder Condensed:pixelsize=28
 ! Emacs*font: AnkaCoder Nerd Font Mono:pixelsize=26
 !! Emacs*font: Input Mono:pixelsize=25
-Emacs*font: InputMono Nerd Font:pixelsize=25
+Emacs*font: InputMono Nerd Font:pixelsize=27
 
 !!
 !! rofi
