@@ -1027,7 +1027,7 @@ class i3p_App:
                      ' -B' + app.cfg.colors['bg'] +
                      # ' -f \'source code pro medium:%s\'' % str(fsize) +
                      # ' -f \'sauce code pro semibold:%s\'' % str(fsize) +
-                     ' -f \'inconsolata:%s\'' % str(fsize) +
+                     ' -f \'inputmono medium:%s\'' % str(fsize) +
                      ' -f \'fontawesome 5 pro regular:%s\'' % str(isize) +
                      ' -f \'fontawesome 5 brands:%s\'' % str(isize)],
                     shell=True, encoding='utf8', stdin=PIPE)

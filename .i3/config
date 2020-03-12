@@ -134,7 +134,7 @@ bindsym $super+Control+l exec --no-startup-id python3 ~/bin/i3proj.py set-ws-lab
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill compton || true && sleep 0.1 && compton -b & pkill stalonetray || true && sleep 0.1 && stalonetray & start-twmnd.sh &'
+bindsym $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill picom || true && sleep 0.1 && picom -b --experimental-backends & pkill stalonetray || true && sleep 0.1 && stalonetray & start-twmnd.sh &'
 # bindsym $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill compton || true && sleep 0.1 && compton --experimental-backends -b & pkill stalonetray || true && sleep 0.1 && stalonetray & start-twmnd.sh &'
 # bindsym --release $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill compton || true && sleep 0.2 && compton -b && pkill stalonetray || true && sleep 0.2 && stalonetray & start-twmnd.sh &'
 bindsym $mod+Shift+Control+n exec --no-startup-id start-twmnd.sh
@@ -216,7 +216,7 @@ exec --no-startup-id xset r rate 225 33
 # exec --no-startup-id hsetroot -solid '#8b8886'
 exec --no-startup-id hsetroot -solid '#9a9895'
 
-exec --no-startup-id compton -b
+exec --no-startup-id picom -b --experimental-backends
 
 exec --no-startup-id start-xautolock
 
@@ -250,7 +250,7 @@ client.unfocused #909090 #666666 #cccccc #aaaaaa
 # sets border width
 new_window pixel 0
 # for_window [class="^.*"] border pixel 0
-border_radius 21
+border_radius 17
 
 set $default_gaps_inner 14
 set $default_gaps_outer 0
