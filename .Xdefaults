@@ -39,27 +39,21 @@ URxvt.print-pipe: "cat > /dev/null"
 ! URxvt*background: rgba:1212/1212/1212/aaaa
 ! URxvt*background: rgba:1212/1212/1212/8888
 
-! URxvt*font: xft:DejaVu Sans Mono:pixelsize=17
-! URxvt*font: xft:Droid Sans Mono:pixelsize=17
 ! URxvt*font: xft:Inconsolata for Powerline:pixelsize=27
-! URxvt*font: xft:Source Code Pro Semibold:pixelsize=15,FontAwesome
 ! URxvt*font: xft:Sauce Code Pro:pixelsize=29
-! URxvt*font: xft:Inconsolata for Powerline:pixelsize=36
 ! URxvt*font: xft:Courier Prime Code:pixelsize=36
 ! URxvt*font: xft:Ubuntu Mono:pixelsize=36
 ! URxvt*font: xft:Monaco:pixelsize=32
-! URxvt*font: xft:SauceCode Pro Medium:pixelsize=25
-! URxvt*font: xft:SauceCode Pro Nerd Font Mono:pixelsize=27
 ! URxvt*font: xft:Sauce Code Pro Medium-11
-! URxvt*font: xft:Inconsolata for Powerline:pixelsize=29
 ! URxvt*font: xft:InconsolataGo Nerd Font:pixelsize=30
 ! URxvt*font: xft:Inconsolata Nerd Font:pixelsize=30
-! URxvt*font: xft:Anka/Coder Condensed:pixelsize=28
-! URxvt*font: xft: AnkaCoder Nerd Font:pixelsize=26
-!! URxvt*font: xft: Input Mono:pixelsize=23
-!! URxvt*font: xft: InputMono Medium:pixelsize=23
-! URxvt*font: xft: InputMono Nerd Font:pixelsize=23
-URxvt*font: xft: InputMono Nerd Font:pixelsize=25
+! URxvt*font: xft:AnkaCoder Nerd Font:pixelsize=26
+! URxvt*font: xft:Inconsolata Nerd Font:pixelsize=32
+! URxvt*font: xft:Input Mono:pixelsize=23
+! URxvt*font: xft:Input Mono Medium:pixelsize=27
+! URxvt*font: xft:InputMono Nerd Font:pixelsize=23
+URxvt*font: xft:InputMono Nerd Font:pixelsize=27
+
 
 !!
 !! emacs
@@ -77,7 +71,7 @@ Emacs*internalBorder: 7
 ! Emacs*font: InconsolataGo Nerd Font Mono:pixelsize=29
 ! Emacs*font: Anka/Coder Condensed:pixelsize=28
 ! Emacs*font: AnkaCoder Nerd Font Mono:pixelsize=26
-!! Emacs*font: Input Mono:pixelsize=25
+! Emacs*font: Input Mono:pixelsize=25
 Emacs*font: InputMono Nerd Font:pixelsize=27
 
 !!
@@ -91,7 +85,7 @@ rofi.theme: jeff_fancy1
 ! rofi.bw: 0
 ! rofi.font: sauce code pro 21
 ! rofi.font: inconsolata nerd font mono 24
-rofi.font: input mono 22
+rofi.font: inputmono nerd font 22
 rofi.lines: 10
 rofi.line-margin: 6
 rofi.width: 22

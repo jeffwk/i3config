@@ -1,0 +1,9 @@
+label.deadd-noti-center,
+image.deadd-noti-center,
+label.deadd-noti-center *,
+image.deadd-noti-center *,
+.deadd-noti-center,
+.deadd-noti-center *
+{
+    font: 28px Input Mono Medium;
+}

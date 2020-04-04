@@ -50,8 +50,9 @@
     // Bold, Italic, Underline
     highlight:     underline bold #ffffff;
 
-    transparent: rgba(0,0,0,0);
+    transparent: rgba(0,0,0,0.0);
     font: "Input Mono 22";
+    // font: "Inconsolata 26";
 }
 #window {
     location: center;
@@ -80,7 +81,8 @@
     background-color: @tcyan;
 }
 #message {
-    font: "Source Code Pro 8";
+    font: "Input Mono 14";
+    // font: "Source Code Pro 8";
     color: @black;
 }
 
@@ -91,7 +93,8 @@
     border: 2px 2px 2px 2px;
     border-radius:  15px 15px 0px 0px;
     border-color: @foreground;
-    font: "Source Code Pro 18";
+    font: "Input Mono 20";
+    // font: "Source Code Pro 18";
 }
 #entry,prompt,case-indicator {
     text-font: inherit;
