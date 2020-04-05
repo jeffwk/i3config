@@ -475,7 +475,7 @@ class i3p_App:
         #          'date',
         #          'time']
         blocks = ['qemu',
-                  'synergy',
+                  # 'synergy',
                   # 'btcprice',
                   # 'ethprice',
                   'cpu',
@@ -498,7 +498,7 @@ class i3p_App:
         s = ''
         s += '%{c}'
         blocks = ['qemu',
-                  'synergy',
+                  # 'synergy',
                   # 'btcprice',
                   # 'ethprice',
                   'cpu',
@@ -871,14 +871,22 @@ class i3p_App:
             (app.cache_or(['output']) != app.cache_or(['current']))):
             output = app.cache_or(['output'], '')
             app.cache_save(['current'], output)
-            print(output, end='\n', file=app.lb.stdin)
-            app.lb.stdin.flush()
+            try:
+                print(output, end='\n', file=app.lb.stdin)
+                app.lb.stdin.flush()
+            except:
+                print('failed to update lemonbar...')
+                time.sleep(0.5)
         if (app.lb2 != None and
             (app.cache_or(['secondary']) != app.cache_or(['current_secondary']))):
             output = app.cache_or(['secondary'], '')
             app.cache_save(['current_secondary'], output)
-            print(output, end='\n', file=app.lb2.stdin)
-            app.lb2.stdin.flush()
+            try:
+                print(output, end='\n', file=app.lb2.stdin)
+                app.lb2.stdin.flush()
+            except:
+                print('failed to update lemonbar (secondary)...')
+                time.sleep(0.5)
 
     def update_workspaces(self, all_ws_str):
         o = self.out
@@ -992,9 +1000,13 @@ class i3p_App:
                 app.update_outputs()
                 app.update_workspaces( app.i3_get_workspaces() )
                 while True:
-                    event = str(self.sub_workspace.stdout.readline())
-                    app.update_outputs()
-                    app.update_workspaces( app.i3_get_workspaces() )
+                    try:
+                        event = str(self.sub_workspace.stdout.readline())
+                        app.update_outputs()
+                        app.update_workspaces( app.i3_get_workspaces() )
+                    except:
+                        print('failed to read workspaces...')
+                        time.sleep(0.5)
 
         class conky_Thread(Thread):
             def run(self):
@@ -1027,7 +1039,7 @@ class i3p_App:
                      ' -B' + app.cfg.colors['bg'] +
                      # ' -f \'source code pro medium:%s\'' % str(fsize) +
                      # ' -f \'sauce code pro semibold:%s\'' % str(fsize) +
-                     ' -f \'inputmono medium:%s\'' % str(fsize) +
+                     ' -f \'input mono medium:%s\'' % str(fsize) +
                      ' -f \'fontawesome 5 pro regular:%s\'' % str(isize) +
                      ' -f \'fontawesome 5 brands:%s\'' % str(isize)],
                     shell=True, encoding='utf8', stdin=PIPE)
@@ -1093,34 +1105,38 @@ class i3p_App:
             app.i3_goto_workspace(
                 pname, app.latest_project_ws(pname))
 
-        i3ws = i3ws_Thread()
+        i3ws = i3ws_Thread(daemon=True)
         i3ws.start()
 
-        conky = conky_Thread()
+        conky = conky_Thread(daemon=True)
         conky.start()
 
-        volume = volume_Thread()
+        volume = volume_Thread(daemon=True)
         volume.start()
 
-        # packages = packages_Thread()
+        # packages = packages_Thread(daemon=True)
         # packages.start()
 
-        misc = misc_Thread()
+        misc = misc_Thread(daemon=True)
         misc.start()
 
-        # title = title_Thread()
+        # title = title_Thread(daemon=True)
         # title.start()
 
-        # markets = markets_Thread()
+        # markets = markets_Thread(daemon=True)
         # markets.start()
 
-        output = output_Thread()
+        output = output_Thread(daemon=True)
         output.start()
 
-        # i7z = i7z_Thread()
+        # i7z = i7z_Thread(daemon=True)
         # i7z.start()
 
-        output.join()
+        try:
+            output.join()
+        except KeyboardInterrupt:
+            print('\nuser keyboard interrupt, exiting...\n')
+            sys.exit(0)
 
     def transfer_project(self):
         plist = self.get_project_list()

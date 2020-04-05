@@ -4,8 +4,19 @@
 
 set $mod Mod1
 set $super Mod4
+set $C Control
+set $S Mod4
+set $M Mod1
 
-font pango:SauceCodePro Medium 11
+font pango:Input Mono 11
+# font pango:Fira Code Medium 10
+# focus_on_window_activation none
+no_focus [class="stalonetray"]
+no_focus [class="trayer"]
+no_focus [class="Deadd-notification-center"]
+assign [class="stalonetray"] output primary
+assign [class="Deadd-notification-center"] output primary
+
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -13,13 +24,15 @@ floating_modifier $mod
 bindsym $mod+Shift+Return exec urxvtc
 bindsym $mod+Shift+Control+Return exec urxvtc -fn "xft:Inconsolata for Powerline:pixelsize=40"
 
+bindsym $C+$M+Return exec --no-startup-id kill -s USR1 $(pidof deadd-notification-center)
+
 # kill focused window
 bindsym $mod+Control+q kill
 
 # start rofi run (a program launcher)
-bindsym $mod+p exec --no-startup-id rofi -show run
-bindsym $mod+shift+p exec --no-startup-id sudo rofi -show run
-bindsym $mod+Control+shift+p exec --no-startup-id rofi-pass
+bindsym $mod+p                  exec --no-startup-id   rofi -show run
+bindsym $mod+shift+p            exec --no-startup-id   sudo rofi -show run
+bindsym $mod+Control+shift+p    exec --no-startup-id   rofi-pass
 
 # window focus keys
 bindsym $mod+Left focus left
@@ -115,32 +128,33 @@ bindsym $mod+Shift+8 exec i3-msg move container to workspace $(python3 ~/bin/i3p
 bindsym $mod+Shift+9 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP9
 bindsym $mod+Shift+0 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP10
 
-bindsym $super+o move workspace to output right
-bindsym $super+Control+o move workspace to output right
+# bindsym $super+o move workspace to output right
+bindsym $super+o move workspace to output right, exec --no-startup-id restart-tray.sh
+# , focus tiling
+# bindsym $super+Control+o move workspace to output right
 
-bindsym $super+Return exec --no-startup-id python3 ~/bin/i3proj.py switch-project
-bindsym $super+Control+Return exec --no-startup-id python3 ~/bin/i3proj.py switch-project
-bindsym $super+space exec --no-startup-id python3 ~/bin/i3proj.py recent-project
-bindsym $super+Left exec --no-startup-id python3 ~/bin/i3proj.py prev-project
-bindsym $super+Right exec --no-startup-id python3 ~/bin/i3proj.py next-project
-bindsym $super+n exec --no-startup-id python3 ~/bin/i3proj.py create-project
-bindsym $super+d exec --no-startup-id python3 ~/bin/i3proj.py delete-project
-bindsym $super+x exec --no-startup-id python3 ~/bin/i3proj.py transfer-project
-bindsym $super+Control+x exec --no-startup-id python3 ~/bin/i3proj.py transfer-project
-bindsym $super+l exec --no-startup-id python3 ~/bin/i3proj.py set-ws-label
-bindsym $super+Control+l exec --no-startup-id python3 ~/bin/i3proj.py set-ws-label
+set $i3p python3 ~/bin/i3proj.py
+bindsym $super+Return           exec --no-startup-id  $i3p switch-project
+bindsym $super+Control+Return   exec --no-startup-id  $i3p switch-project
+bindsym $super+space            exec --no-startup-id  $i3p recent-project
+bindsym $super+Left             exec --no-startup-id  $i3p prev-project
+bindsym $super+Right            exec --no-startup-id  $i3p next-project
+bindsym $super+n                exec --no-startup-id  $i3p create-project
+bindsym $super+d                exec --no-startup-id  $i3p delete-project
+bindsym $super+x                exec --no-startup-id  $i3p transfer-project
+bindsym $super+Control+x        exec --no-startup-id  $i3p transfer-project
+bindsym $super+l                exec --no-startup-id  $i3p set-ws-label
+bindsym $super+Control+l        exec --no-startup-id  $i3p set-ws-label
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+bindsym $mod+Shift+c            reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-bindsym $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill picom || true && sleep 0.1 && picom -b --experimental-backends & pkill stalonetray || true && sleep 0.1 && stalonetray & start-twmnd.sh &'
-# bindsym $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill compton || true && sleep 0.1 && compton --experimental-backends -b & pkill stalonetray || true && sleep 0.1 && stalonetray & start-twmnd.sh &'
-# bindsym --release $mod+Shift+Control+r exec --no-startup-id bash -c 'pkill compton || true && sleep 0.2 && compton -b && pkill stalonetray || true && sleep 0.2 && stalonetray & start-twmnd.sh &'
-bindsym $mod+Shift+Control+n exec --no-startup-id start-twmnd.sh
+bindsym $mod+Shift+r            restart
+bindsym $mod+Shift+Control+r    exec --no-startup-id  restart-desktop.sh
+bindsym $mod+Shift+Control+n    exec --no-startup-id  restart-notify.sh
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+Control+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+Control+e    exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 set $resize "resize: +Width[Right] -Width[Left] +Height[Up] -Height[Down]"
@@ -169,32 +183,54 @@ mode $resize {
 
 bindsym $mod+r mode $resize
 
-# bindsym $mod+Control+Up exec --no-startup-id pamixer -i 3
-# bindsym $mod+Control+Down exec --no-startup-id pamixer -d 3
-bindsym $mod+Control+Up exec --no-startup-id ~/bin/volume-up.sh
-bindsym $mod+Control+Down exec --no-startup-id ~/bin/volume-down.sh
-bindsym $mod+Control+m exec --no-startup-id pamixer -t
+set $ddc_bright  10
+set $ddc_input   60
+set $ddc         sudo ddcutil --nousb --noverify --sleep-multiplier=0.1
+# set $dp1         'PA32U'
+# set $dp2         'DELL P2715Q'
+# set $dp1_set     -l 'PA32U' setvcp
+# set $dp2_set     -l 'DELL P2715Q' setvcp
+set $dp1         6
+set $dp2         3
+set $dp1_set     -b 6 setvcp
+set $dp2_set     -b 3 setvcp
 
-#bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 1
-#bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 1
-bindsym XF86AudioRaiseVolume exec --no-startup-id ~/bin/volume-up.sh
-bindsym XF86AudioLowerVolume exec --no-startup-id ~/bin/volume-down.sh
-bindsym XF86AudioMute exec --no-startup-id pamixer -t
+bindsym $S+equal          exec --no-startup-id   change-brightness $dp1 + 4
+bindsym $S+minus          exec --no-startup-id   change-brightness $dp1 - 4
+# bindsym $S+backslash      exec --no-startup-id   $ddc $dp1_set $ddc_bright 92
+bindsym $S+backslash      exec --no-startup-id   change-brightness $dp1 92
+bindsym $S+0              exec --no-startup-id   change-brightness $dp1 72
 
-bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
-bindsym XF86AudioPrev exec --no-startup-id playerctl previous
-bindsym XF86AudioNext exec --no-startup-id playerctl next
-bindsym XF86AudioStop exec --no-startup-id playerctl stop
+bindsym $C+$S+equal       exec --no-startup-id   change-brightness $dp2 + 2
+bindsym $C+$S+minus       exec --no-startup-id   change-brightness $dp2 - 2
+bindsym $C+$S+backslash   exec --no-startup-id   change-brightness $dp2 96
+bindsym $C+$S+0           exec --no-startup-id   change-brightness $dp2 86
 
-bindsym $mod+Control+l exec --no-startup-id trigger-xautolock
+# ddcutil -l 'PA32U' setvcp 60 0x14
+bindsym $S+1              exec --no-startup-id   $ddc $dp1_set $ddc_input 0x14
+bindsym $S+2              exec --no-startup-id   $ddc $dp1_set $ddc_input 0x0f
+bindsym $S+3              exec --no-startup-id   $ddc $dp2_set $ddc_input 0x10
+bindsym $S+4              exec --no-startup-id   $ddc $dp2_set $ddc_input 0x11
 
-# bindsym $mod+Shift+Control+q exec --no-startup-id toggle-qemu win10
-# bindsym $mod+Shift+Control+s exec --no-startup-id toggle-user-service synergys
-# bindsym $mod+Shift+Control+o exec --no-startup-id switch-monitor
+bindsym $C+$M+Up          exec --no-startup-id   ~/bin/volume-up.sh
+bindsym $C+$M+Down        exec --no-startup-id   ~/bin/volume-down.sh
+bindsym $C+$M+m           exec --no-startup-id   pamixer -t
 
-# bar {
-#}
+bindsym XF86AudioRaiseVolume  exec --no-startup-id   ~/bin/volume-up.sh
+bindsym XF86AudioLowerVolume  exec --no-startup-id   ~/bin/volume-down.sh
+bindsym XF86AudioMute         exec --no-startup-id   pamixer -t
 
+bindsym XF86AudioPlay         exec --no-startup-id   playerctl play-pause
+bindsym XF86AudioPrev         exec --no-startup-id   playerctl previous
+bindsym XF86AudioNext         exec --no-startup-id   playerctl next
+bindsym XF86AudioStop         exec --no-startup-id   playerctl stop
+
+bindsym $mod+Control+l        exec --no-startup-id   trigger-xautolock
+
+bindsym $mod+Shift+Control+q  exec --no-startup-id   toggle-qemu win10
+bindsym $mod+Shift+Control+s  exec --no-startup-id   toggle-user-service synergys
+
+# exec --no-startup-id xrandr --output "HDMI-A-0" --primary --auto --output "DisplayPort-1" --auto --right-of "HDMI-A-0" --dpi 162
 exec --no-startup-id xrandr --dpi 128
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
@@ -207,13 +243,6 @@ exec --no-startup-id xset s 1200 0
 exec --no-startup-id xset dpms 900 0 0
 
 exec --no-startup-id xset r rate 225 33
-
-# exec --no-startup-id hsetroot -solid '#101010'
-# exec --no-startup-id hsetroot -solid '#202020'
-# exec --no-startup-id hsetroot -solid '#121212'
-# exec --no-startup-id hsetroot -solid '#0c0c0c'
-# exec --no-startup-id hsetroot -solid '#777270'
-# exec --no-startup-id hsetroot -solid '#8b8886'
 exec --no-startup-id hsetroot -solid '#9a9895'
 
 exec --no-startup-id picom -b --experimental-backends
@@ -227,9 +256,6 @@ exec --no-startup-id sudo systemctl restart colord
 exec --no-startup-id bash -c 'sleep 2 && xiccd'
 exec --no-startup-ip bash -c 'sleep 2 && start-twmnd.sh'
 
-# exec --no-startup-id mount /insilica
-# exec --no-startup-id mount /mnt/insilica
-# exec --no-startup-id mount /mnt/insilica-data
 exec --no-startup-id mount /mnt/huge
 
 exec --no-startup-id python3 ~/bin/i3proj.py run > ~/i3proj.out 2> ~/i3proj.err
@@ -250,9 +276,9 @@ client.unfocused #909090 #666666 #cccccc #aaaaaa
 # sets border width
 new_window pixel 0
 # for_window [class="^.*"] border pixel 0
-border_radius 17
+border_radius 23
 
-set $default_gaps_inner 14
+set $default_gaps_inner 11
 set $default_gaps_outer 0
 
 gaps inner $default_gaps_inner
