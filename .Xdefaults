@@ -4,7 +4,7 @@
 
 URxvt.iso14755: false
 URxvt*scrollBar: false
-URxvt.internalBorder:  16
+URxvt.internalBorder: 9
 URxvt.saveLines: 30000
 
 URxvt.perl-ext:
@@ -52,7 +52,7 @@ URxvt.print-pipe: "cat > /dev/null"
 ! URxvt*font: xft:Input Mono:pixelsize=23
 ! URxvt*font: xft:Input Mono Medium:pixelsize=27
 ! URxvt*font: xft:InputMono Nerd Font:pixelsize=23
-URxvt*font: xft:InputMono Nerd Font:pixelsize=27
+URxvt*font: xft:InputMono Nerd Font:pixelsize=23
 
 
 !!
@@ -72,7 +72,7 @@ Emacs*internalBorder: 7
 ! Emacs*font: Anka/Coder Condensed:pixelsize=28
 ! Emacs*font: AnkaCoder Nerd Font Mono:pixelsize=26
 ! Emacs*font: Input Mono:pixelsize=25
-Emacs*font: InputMono Nerd Font:pixelsize=27
+Emacs*font: InputMono Nerd Font:pixelsize=23
 
 !!
 !! rofi

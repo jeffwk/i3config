@@ -7,154 +7,113 @@ set $super Mod4
 set $C Control
 set $S Mod4
 set $M Mod1
+set $CM Control+Mod1
+set $CS Control+Mod4
 
 font pango:Input Mono 11
-# font pango:Fira Code Medium 10
-# focus_on_window_activation none
-no_focus [class="stalonetray"]
-no_focus [class="trayer"]
-no_focus [class="Deadd-notification-center"]
-assign [class="stalonetray"] output primary
-assign [class="Deadd-notification-center"] output primary
-
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-bindsym $mod+Shift+Return exec urxvtc
-bindsym $mod+Shift+Control+Return exec urxvtc -fn "xft:Inconsolata for Powerline:pixelsize=40"
+# launch programs
+bindsym $C+Return            exec urxvtc
+bindsym $C+Shift+Return      exec urxvtc -fn "xft:Inconsolata for Powerline:pixelsize=40"
+bindsym $CM+e exec           emacs
+bindsym $CM+p exec           (killall pavucontrol || true) && pavucontrol
 
-bindsym $C+$M+Return exec --no-startup-id kill -s USR1 $(pidof deadd-notification-center)
+bindsym $M+Return            exec --no-startup-id kill -s USR1 $(pidof deadd-notification-center)
 
 # kill focused window
-bindsym $mod+Control+q kill
+bindsym $CM+q                kill
 
 # start rofi run (a program launcher)
-bindsym $mod+p                  exec --no-startup-id   rofi -show run
-bindsym $mod+shift+p            exec --no-startup-id   sudo rofi -show run
-bindsym $mod+Control+shift+p    exec --no-startup-id   rofi-pass
+bindsym $M+p                 exec rofi -show run
+bindsym $M+Shift+p           exec sudo rofi -show run
+bindsym $CM+Shift+p          exec rofi-pass
 
 # window focus keys
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+bindsym $M+Left              focus left
+bindsym $M+Down              focus down
+bindsym $M+Up                focus up
+bindsym $M+Right             focus right
 
 # move window keys
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+bindsym $M+Shift+Left        move left
+bindsym $M+Shift+Down        move down
+bindsym $M+Shift+Up          move up
+bindsym $M+Shift+Right       move right
 
-# horizontal split
-bindsym $mod+h split h
-# vertical split
-bindsym $mod+v split v
-
+# split horizontal/vertical
+bindsym $M+h                 split h
+bindsym $M+v                 split v
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
-
+bindsym $M+f                 fullscreen toggle
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+Shift+s layout stacking
-bindsym $mod+Shift+w layout tabbed
-bindsym $mod+Shift+e layout toggle split
-
+bindsym $M+Shift+s           layout stacking
+bindsym $M+Shift+w           layout tabbed
+bindsym $M+Shift+e           layout toggle split
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
-
+bindsym $M+Shift+space       floating toggle
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
-
+bindsym $M+space             focus mode_toggle
 # focus the parent container
-bindsym $mod+a focus parent
-
+bindsym $M+a                 focus parent
 # focus the child container
-bindsym $mod+d focus child
+bindsym $M+d                 focus child
 
-set $WSP1 "1"
-set $WSP2 "2"
-set $WSP3 "3"
-set $WSP4 "4"
-set $WSP5 "5"
-set $WSP6 "6"
-set $WSP7 "7"
-set $WSP8 "8"
-set $WSP9 "9"
-set $WSP10 "10"
+set $i3p        python3 ~/bin/i3proj.py
+set $project    python3 ~/bin/i3proj.py active-project
+set $move_ws    i3-msg move container to workspace
+set $go_ws      i3-msg workspace
 
 # switch to workspace
-# bindsym $mod+1 workspace 1
-# bindsym $mod+2 workspace 2
-# bindsym $mod+3 workspace 3
-# bindsym $mod+4 workspace 4
-# bindsym $mod+5 workspace 5
-# bindsym $mod+6 workspace 6
-# bindsym $mod+7 workspace 7
-# bindsym $mod+8 workspace 8
-# bindsym $mod+9 workspace 9
-# bindsym $mod+0 workspace 10
-
-bindsym $mod+1 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP1
-bindsym $mod+2 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP2
-bindsym $mod+3 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP3
-bindsym $mod+4 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP4
-bindsym $mod+5 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP5
-bindsym $mod+6 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP6
-bindsym $mod+7 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP7
-bindsym $mod+8 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP8
-bindsym $mod+9 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP9
-bindsym $mod+0 exec i3-msg workspace $(python3 ~/bin/i3proj.py active-project)_$WSP10
+bindsym $M+1                  exec $go_ws $($project)_1
+bindsym $M+2                  exec $go_ws $($project)_2
+bindsym $M+3                  exec $go_ws $($project)_3
+bindsym $M+4                  exec $go_ws $($project)_4
+bindsym $M+5                  exec $go_ws $($project)_5
+bindsym $M+6                  exec $go_ws $($project)_6
+bindsym $M+7                  exec $go_ws $($project)_7
+bindsym $M+8                  exec $go_ws $($project)_8
+bindsym $M+9                  exec $go_ws $($project)_9
+bindsym $M+0                  exec $go_ws $($project)_10
 
 # move focused container to workspace
-# bindsym $mod+Shift+1 move container to workspace 1
-# bindsym $mod+Shift+2 move container to workspace 2
-# bindsym $mod+Shift+3 move container to workspace 3
-# bindsym $mod+Shift+4 move container to workspace 4
-# bindsym $mod+Shift+5 move container to workspace 5
-# bindsym $mod+Shift+6 move container to workspace 6
-# bindsym $mod+Shift+7 move container to workspace 7
-# bindsym $mod+Shift+8 move container to workspace 8
-# bindsym $mod+Shift+9 move container to workspace 9
-# bindsym $mod+Shift+0 move container to workspace 10
+bindsym $M+Shift+1            exec $move_ws $($project)_1
+bindsym $M+Shift+2            exec $move_ws $($project)_2
+bindsym $M+Shift+3            exec $move_ws $($project)_3
+bindsym $M+Shift+4            exec $move_ws $($project)_4
+bindsym $M+Shift+5            exec $move_ws $($project)_5
+bindsym $M+Shift+6            exec $move_ws $($project)_6
+bindsym $M+Shift+7            exec $move_ws $($project)_7
+bindsym $M+Shift+8            exec $move_ws $($project)_8
+bindsym $M+Shift+9            exec $move_ws $($project)_9
+bindsym $M+Shift+0            exec $move_ws $($project)_10
 
-bindsym $mod+Shift+1 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP1
-bindsym $mod+Shift+2 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP2
-bindsym $mod+Shift+3 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP3
-bindsym $mod+Shift+4 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP4
-bindsym $mod+Shift+5 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP5
-bindsym $mod+Shift+6 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP6
-bindsym $mod+Shift+7 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP7
-bindsym $mod+Shift+8 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP8
-bindsym $mod+Shift+9 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP9
-bindsym $mod+Shift+0 exec i3-msg move container to workspace $(python3 ~/bin/i3proj.py active-project)_$WSP10
+bindsym $S+o                  move workspace to output right, exec --no-startup-id restart-tray.sh
 
-# bindsym $super+o move workspace to output right
-bindsym $super+o move workspace to output right, exec --no-startup-id restart-tray.sh
-# , focus tiling
-# bindsym $super+Control+o move workspace to output right
-
-set $i3p python3 ~/bin/i3proj.py
-bindsym $super+Return           exec --no-startup-id  $i3p switch-project
-bindsym $super+Control+Return   exec --no-startup-id  $i3p switch-project
-bindsym $super+space            exec --no-startup-id  $i3p recent-project
-bindsym $super+Left             exec --no-startup-id  $i3p prev-project
-bindsym $super+Right            exec --no-startup-id  $i3p next-project
-bindsym $super+n                exec --no-startup-id  $i3p create-project
-bindsym $super+d                exec --no-startup-id  $i3p delete-project
-bindsym $super+x                exec --no-startup-id  $i3p transfer-project
-bindsym $super+Control+x        exec --no-startup-id  $i3p transfer-project
-bindsym $super+l                exec --no-startup-id  $i3p set-ws-label
-bindsym $super+Control+l        exec --no-startup-id  $i3p set-ws-label
+bindsym $S+Return             exec --no-startup-id  $i3p switch-project
+bindsym $S+Control+Return     exec --no-startup-id  $i3p switch-project
+bindsym $S+space              exec --no-startup-id  $i3p recent-project
+bindsym $S+Left               exec --no-startup-id  $i3p prev-project
+bindsym $S+Right              exec --no-startup-id  $i3p next-project
+bindsym $S+n                  exec --no-startup-id  $i3p create-project
+bindsym $S+d                  exec --no-startup-id  $i3p delete-project
+bindsym $S+x                  exec --no-startup-id  $i3p transfer-project
+bindsym $CS+x                 exec --no-startup-id  $i3p transfer-project
+bindsym $S+l                  exec --no-startup-id  $i3p set-ws-label
+bindsym $CS+l                 exec --no-startup-id  $i3p set-ws-label
 
 # reload the configuration file
-bindsym $mod+Shift+c            reload
+bindsym $M+Shift+c            reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r            restart
-bindsym $mod+Shift+Control+r    exec --no-startup-id  restart-desktop.sh
-bindsym $mod+Shift+Control+n    exec --no-startup-id  restart-notify.sh
+bindsym $M+Shift+r            restart
+# bindsym $M+Shift+Control+r    exec --no-startup-id  restart-desktop.sh
+bindsym $CM+Return            exec --no-startup-id  restart-desktop.sh
+bindsym $M+Shift+Control+n    exec --no-startup-id  restart-notify.sh
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+Control+e    exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $CM+Shift+e           exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 set $resize "resize: +Width[Right] -Width[Left] +Height[Up] -Height[Down]"
@@ -190,35 +149,35 @@ set $ddc         sudo ddcutil --nousb --noverify --sleep-multiplier=0.1
 # set $dp2         'DELL P2715Q'
 # set $dp1_set     -l 'PA32U' setvcp
 # set $dp2_set     -l 'DELL P2715Q' setvcp
-set $dp1         6
-set $dp2         3
-set $dp1_set     -b 6 setvcp
-set $dp2_set     -b 3 setvcp
+set $dp1         3
+set $dp2         5
+set $dp1_set     -b 3 setvcp
+set $dp2_set     -b 5 setvcp
 
-bindsym $S+equal          exec --no-startup-id   change-brightness $dp1 + 4
-bindsym $S+minus          exec --no-startup-id   change-brightness $dp1 - 4
-# bindsym $S+backslash      exec --no-startup-id   $ddc $dp1_set $ddc_bright 92
-bindsym $S+backslash      exec --no-startup-id   change-brightness $dp1 92
-bindsym $S+0              exec --no-startup-id   change-brightness $dp1 72
+bindsym $S+equal              exec --no-startup-id   change-brightness $dp1 + 2
+bindsym $S+minus              exec --no-startup-id   change-brightness $dp1 - 2
+#bindsym $S+backslash          exec --no-startup-id   $ddc $dp1_set $ddc_bright 92
+bindsym $S+backslash          exec --no-startup-id   change-brightness $dp1 96
+bindsym $S+0                  exec --no-startup-id   change-brightness $dp1 80
 
-bindsym $C+$S+equal       exec --no-startup-id   change-brightness $dp2 + 2
-bindsym $C+$S+minus       exec --no-startup-id   change-brightness $dp2 - 2
-bindsym $C+$S+backslash   exec --no-startup-id   change-brightness $dp2 96
-bindsym $C+$S+0           exec --no-startup-id   change-brightness $dp2 86
+bindsym $C+$S+equal           exec --no-startup-id   change-brightness $dp2 + 2
+bindsym $C+$S+minus           exec --no-startup-id   change-brightness $dp2 - 2
+bindsym $C+$S+backslash       exec --no-startup-id   change-brightness $dp2 96
+bindsym $C+$S+0               exec --no-startup-id   change-brightness $dp2 88
 
-# ddcutil -l 'PA32U' setvcp 60 0x14
-bindsym $S+1              exec --no-startup-id   $ddc $dp1_set $ddc_input 0x14
-bindsym $S+2              exec --no-startup-id   $ddc $dp1_set $ddc_input 0x0f
-bindsym $S+3              exec --no-startup-id   $ddc $dp2_set $ddc_input 0x10
-bindsym $S+4              exec --no-startup-id   $ddc $dp2_set $ddc_input 0x11
+#ddcutil -l 'PA32U' setvcp 60 0x14
+bindsym $S+1                  exec --no-startup-id   $ddc $dp1_set $ddc_input 0x14
+bindsym $S+2                  exec --no-startup-id   $ddc $dp1_set $ddc_input 0x0f
+bindsym $S+3                  exec --no-startup-id   $ddc $dp2_set $ddc_input 0x10
+bindsym $S+4                  exec --no-startup-id   $ddc $dp2_set $ddc_input 0x11
 
-bindsym $C+$M+Up          exec --no-startup-id   ~/bin/volume-up.sh
-bindsym $C+$M+Down        exec --no-startup-id   ~/bin/volume-down.sh
-bindsym $C+$M+m           exec --no-startup-id   pamixer -t
+bindsym $C+$M+Up              exec --no-startup-id   ~/bin/volume-up.sh
+bindsym $C+$M+Down            exec --no-startup-id   ~/bin/volume-down.sh
+bindsym $C+$M+m               exec --no-startup-id   ~/bin/toggle-mute.sh
 
 bindsym XF86AudioRaiseVolume  exec --no-startup-id   ~/bin/volume-up.sh
 bindsym XF86AudioLowerVolume  exec --no-startup-id   ~/bin/volume-down.sh
-bindsym XF86AudioMute         exec --no-startup-id   pamixer -t
+bindsym XF86AudioMute         exec --no-startup-id   ~/bin/toggle-mute.sh
 
 bindsym XF86AudioPlay         exec --no-startup-id   playerctl play-pause
 bindsym XF86AudioPrev         exec --no-startup-id   playerctl previous
@@ -230,63 +189,52 @@ bindsym $mod+Control+l        exec --no-startup-id   trigger-xautolock
 bindsym $mod+Shift+Control+q  exec --no-startup-id   toggle-qemu win10
 bindsym $mod+Shift+Control+s  exec --no-startup-id   toggle-user-service synergys
 
+# start external programs
 exec --no-startup-id xrandr --output "HDMI-A-0" --primary --auto --output "DisplayPort-1" --auto --right-of "HDMI-A-0" --dpi 162
 exec --no-startup-id xmodmap ~/.Xmodmap
 exec --no-startup-id cat ~/.Xresources ~/.Xdefaults | xrdb -merge > /dev/null 2>&1
 exec --no-startup-id urxvtd -q -f -o
-
-# exec --no-startup-id 'echo 200 | sudo tee /sys/devices/platform/i8042/serio1/serio2/speed'
-# exec --no-startup-id 'echo 150 | sudo tee /sys/devices/platform/i8042/serio1/serio2/sensitivity'
-
 exec --no-startup-id xset dpms 1230 0 0 s 1230
-# exec --no-startup-id xset s 230 -dpms
-
 exec --no-startup-id xset r rate 225 33
-
-exec --no-startup-id hsetroot -solid '#9a9895'
-
+# exec --no-startup-id hsetroot -solid '#9a9895'
+# exec --no-startup-id hsetroot -solid '#cac0a4'
+# exec --no-startup-id hsetroot -solid '#ccc5a8'
+# exec --no-startup-id hsetroot -solid '#0e0e0e'
+exec --no-startup-id hsetroot -solid '#1a1a1a'
 exec --no-startup-id picom -b --experimental-backends
-
 exec --no-startup-id start-xautolock
-## restart emacs daemons to connect with X for clipboard operations
 exec --no-startup-id reload-emacs
 exec --no-startup-id sudo systemctl restart colord
 exec --no-startup-id bash -c 'sleep 2 && xiccd'
 exec --no-startup-id SVPManager
 exec --no-startup-ip bash -c 'sleep 2 && start-twmnd.sh'
-
 exec --no-startup-id mount /mnt/huge
-
 exec --no-startup-id python3 ~/bin/i3proj.py run > ~/i3proj.out 2> ~/i3proj.err
-
 exec --no-startup-id stalonetray
-
 # exec --no-startup-id systemctl --user restart auto-rotate
-
 # exec --no-startup-id sudo virsh start win10
 
-# sets border colors
-client.focused #b0b0b0 #b0b0b0 #000000 #aaaaaa
+# border colors
+client.focused #c0c0c0 #c0c0c0 #000000 #aaaaaa
 client.focused_inactive #909090 #666666 #cccccc #aaaaaa
 client.unfocused #909090 #666666 #cccccc #aaaaaa
-
-# sets border width
-new_window pixel 0
-# for_window [class="^.*"] border pixel 0
-border_radius 23
-
-set $default_gaps_inner 11
-set $default_gaps_outer 0
-
+# border width
+## new_window pixel 0
+new_window pixel 2
+for_window [class="^.*"] border pixel 2
+## border_radius 23
+## border_radius 0
+# window gaps
+set $default_gaps_inner 13
+set $default_gaps_outer -2
 gaps inner $default_gaps_inner
 gaps outer $default_gaps_outer
 
+# gaps edit modes
 set $mode_gaps gaps (default[d] | zero[0] | inner[i] | outer[o] | quit[esc])
 set $mode_gaps_outer gaps outer (default[d] | zero[0] | increase[+] | decrease[-] | quit[esc])
 set $mode_gaps_inner gaps inner (default[d] | zero[0] | increase[+] | decrease[-] | quit[esc])
-
 bindsym $mod+Control+g mode "$mode_gaps"
-
 mode "$mode_gaps" {
     bindsym o      mode "$mode_gaps_outer"
     bindsym i      mode "$mode_gaps_inner"
@@ -297,7 +245,6 @@ mode "$mode_gaps" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-
 mode "$mode_gaps_inner" {
     bindsym plus  gaps inner current plus 5
     bindsym minus gaps inner current minus 5
@@ -312,7 +259,6 @@ mode "$mode_gaps_inner" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-
 mode "$mode_gaps_outer" {
     bindsym plus  gaps outer current plus 5
     bindsym minus gaps outer current minus 5
@@ -328,9 +274,20 @@ mode "$mode_gaps_outer" {
     bindsym Escape mode "default"
 }
 
+# focus_on_window_activation none
+
+# window configurations
 for_window [class="mpv"] floating enable
 for_window [class="Eog"] floating enable
 for_window [class="Nvidia-settings"] floating enable
 for_window [class="Gnome-control-center"] floating enable
 for_window [class="Gnome-tweak-tool"] floating enable
-# for_window [class="Nautilus"] floating enable
+for_window [class="Pavucontrol"] floating enable
+#for_window [class="Nautilus"] floating enable
+no_focus [class="stalonetray"]
+no_focus [class="trayer"]
+no_focus [class="Deadd-notification-center"]
+assign [class="stalonetray"] output primary
+for_window [class="stalonetray"] border pixel 0
+# assign [class="Deadd-notification-center"] output primary
+# for_window [class="Deadd-notification-center"] output primary
